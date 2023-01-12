@@ -16,6 +16,10 @@ public:
     ~MainWindow();
 
 private:
+
+    QMenu* sharpenmenu;
+
+
     Ui::MainWindow *ui;
 };
 #endif // MAINWINDOW_H

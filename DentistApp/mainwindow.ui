@@ -136,7 +136,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="page">
      <property name="geometry">
@@ -193,7 +193,7 @@
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>220</y>
+        <y>210</y>
         <width>131</width>
         <height>31</height>
        </rect>
@@ -220,7 +220,7 @@
       </property>
       <property name="icon">
        <iconset>
-        <normaloff>../build-DentistApp-Desktop_Qt_6_4_1_MSVC2019_64bit-Debug/draw.png</normaloff>../build-DentistApp-Desktop_Qt_6_4_1_MSVC2019_64bit-Debug/draw.png</iconset>
+        <normaloff>../build-DentistApp-Desktop_Qt_6_4_1_MSVC2019_64bit-Debug/draw2.png</normaloff>../build-DentistApp-Desktop_Qt_6_4_1_MSVC2019_64bit-Debug/draw2.png</iconset>
       </property>
      </widget>
      <widget class="QSpinBox" name="spinBox">
@@ -233,7 +233,7 @@
        </rect>
       </property>
      </widget>
-     <widget class="QToolButton" name="ColortoolButton_5">
+     <widget class="QToolButton" name="ArrowtoolButton">
       <property name="geometry">
        <rect>
         <x>120</x>
@@ -247,10 +247,10 @@
       </property>
       <property name="icon">
        <iconset>
-        <normaloff>../build-DentistApp-Desktop_Qt_6_4_1_MSVC2019_64bit-Debug/arrow2.png</normaloff>../build-DentistApp-Desktop_Qt_6_4_1_MSVC2019_64bit-Debug/arrow2.png</iconset>
+        <normaloff>../build-DentistApp-Desktop_Qt_6_4_1_MSVC2019_64bit-Debug/arrow3.png</normaloff>../build-DentistApp-Desktop_Qt_6_4_1_MSVC2019_64bit-Debug/arrow3.png</iconset>
       </property>
      </widget>
-     <widget class="QToolButton" name="ColortoolButton_3">
+     <widget class="QToolButton" name="RectangletoolButton">
       <property name="geometry">
        <rect>
         <x>40</x>
@@ -267,7 +267,7 @@
         <normaloff>../build-DentistApp-Desktop_Qt_6_4_1_MSVC2019_64bit-Debug/triangle2.png</normaloff>../build-DentistApp-Desktop_Qt_6_4_1_MSVC2019_64bit-Debug/triangle2.png</iconset>
       </property>
      </widget>
-     <widget class="QToolButton" name="ColortoolButton_2">
+     <widget class="QToolButton" name="CircletoolButton">
       <property name="geometry">
        <rect>
         <x>0</x>
@@ -284,7 +284,7 @@
         <normaloff>../build-DentistApp-Desktop_Qt_6_4_1_MSVC2019_64bit-Debug/circle2.png</normaloff>../build-DentistApp-Desktop_Qt_6_4_1_MSVC2019_64bit-Debug/circle2.png</iconset>
       </property>
      </widget>
-     <widget class="QToolButton" name="ColortoolButton_4">
+     <widget class="QToolButton" name="TriangletoolButton">
       <property name="geometry">
        <rect>
         <x>80</x>
@@ -301,7 +301,7 @@
         <normaloff>../build-DentistApp-Desktop_Qt_6_4_1_MSVC2019_64bit-Debug/rectangle2.png</normaloff>../build-DentistApp-Desktop_Qt_6_4_1_MSVC2019_64bit-Debug/rectangle2.png</iconset>
       </property>
      </widget>
-     <widget class="QToolButton" name="ColortoolButton_10">
+     <widget class="QToolButton" name="RulertoolButton">
       <property name="geometry">
        <rect>
         <x>10</x>
@@ -315,10 +315,10 @@
       </property>
       <property name="icon">
        <iconset>
-        <normaloff>../build-DentistApp-Desktop_Qt_6_4_1_MSVC2019_64bit-Debug/group-14-copy-2@2x.png</normaloff>../build-DentistApp-Desktop_Qt_6_4_1_MSVC2019_64bit-Debug/group-14-copy-2@2x.png</iconset>
+        <normaloff>../build-DentistApp-Desktop_Qt_6_4_1_MSVC2019_64bit-Debug/ruler.png</normaloff>../build-DentistApp-Desktop_Qt_6_4_1_MSVC2019_64bit-Debug/ruler.png</iconset>
       </property>
      </widget>
-     <widget class="QToolButton" name="ColortoolButton_11">
+     <widget class="QToolButton" name="MeasuretoolButton">
       <property name="geometry">
        <rect>
         <x>60</x>
@@ -332,10 +332,10 @@
       </property>
       <property name="icon">
        <iconset>
-        <normaloff>../build-DentistApp-Desktop_Qt_6_4_1_MSVC2019_64bit-Debug/group-15-copy@2x.png</normaloff>../build-DentistApp-Desktop_Qt_6_4_1_MSVC2019_64bit-Debug/group-15-copy@2x.png</iconset>
+        <normaloff>../build-DentistApp-Desktop_Qt_6_4_1_MSVC2019_64bit-Debug/measure.png</normaloff>../build-DentistApp-Desktop_Qt_6_4_1_MSVC2019_64bit-Debug/measure.png</iconset>
       </property>
      </widget>
-     <widget class="QToolButton" name="ColortoolButton_12">
+     <widget class="QToolButton" name="ProtractortoolButton">
       <property name="geometry">
        <rect>
         <x>110</x>
@@ -349,7 +349,7 @@
       </property>
       <property name="icon">
        <iconset>
-        <normaloff>../build-DentistApp-Desktop_Qt_6_4_1_MSVC2019_64bit-Debug/triangle2.png</normaloff>../build-DentistApp-Desktop_Qt_6_4_1_MSVC2019_64bit-Debug/triangle2.png</iconset>
+        <normaloff>../build-DentistApp-Desktop_Qt_6_4_1_MSVC2019_64bit-Debug/progtractor.png</normaloff>../build-DentistApp-Desktop_Qt_6_4_1_MSVC2019_64bit-Debug/progtractor.png</iconset>
       </property>
      </widget>
     </widget>
@@ -365,6 +365,194 @@
      <attribute name="label">
       <string>Image Processing</string>
      </attribute>
+     <widget class="QToolButton" name="ColortoolButton_6">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>130</y>
+        <width>31</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>...</string>
+      </property>
+      <property name="icon">
+       <iconset>
+        <normaloff>../build-DentistApp-Desktop_Qt_6_4_1_MSVC2019_64bit-Debug/rotate.png</normaloff>../build-DentistApp-Desktop_Qt_6_4_1_MSVC2019_64bit-Debug/rotate.png</iconset>
+      </property>
+     </widget>
+     <widget class="QToolButton" name="ColortoolButton_7">
+      <property name="geometry">
+       <rect>
+        <x>60</x>
+        <y>30</y>
+        <width>31</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>...</string>
+      </property>
+      <property name="icon">
+       <iconset>
+        <normaloff>../build-DentistApp-Desktop_Qt_6_4_1_MSVC2019_64bit-Debug/colorreversal.png</normaloff>../build-DentistApp-Desktop_Qt_6_4_1_MSVC2019_64bit-Debug/colorreversal.png</iconset>
+      </property>
+     </widget>
+     <widget class="QToolButton" name="ColortoolButton_8">
+      <property name="geometry">
+       <rect>
+        <x>110</x>
+        <y>30</y>
+        <width>31</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>...</string>
+      </property>
+      <property name="icon">
+       <iconset>
+        <normaloff>../build-DentistApp-Desktop_Qt_6_4_1_MSVC2019_64bit-Debug/reversal.png</normaloff>../build-DentistApp-Desktop_Qt_6_4_1_MSVC2019_64bit-Debug/reversal.png</iconset>
+      </property>
+     </widget>
+     <widget class="QToolButton" name="ColortoolButton_10">
+      <property name="geometry">
+       <rect>
+        <x>60</x>
+        <y>80</y>
+        <width>31</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>...</string>
+      </property>
+      <property name="icon">
+       <iconset>
+        <normaloff>../build-DentistApp-Desktop_Qt_6_4_1_MSVC2019_64bit-Debug/bright.png</normaloff>../build-DentistApp-Desktop_Qt_6_4_1_MSVC2019_64bit-Debug/bright.png</iconset>
+      </property>
+     </widget>
+     <widget class="QToolButton" name="ColortoolButton_11">
+      <property name="geometry">
+       <rect>
+        <x>90</x>
+        <y>130</y>
+        <width>31</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>...</string>
+      </property>
+      <property name="icon">
+       <iconset>
+        <normaloff>../build-DentistApp-Desktop_Qt_6_4_1_MSVC2019_64bit-Debug/zoom.png</normaloff>../build-DentistApp-Desktop_Qt_6_4_1_MSVC2019_64bit-Debug/zoom.png</iconset>
+      </property>
+     </widget>
+     <widget class="QToolButton" name="ColortoolButton_12">
+      <property name="geometry">
+       <rect>
+        <x>110</x>
+        <y>80</y>
+        <width>31</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>...</string>
+      </property>
+      <property name="icon">
+       <iconset>
+        <normaloff>../build-DentistApp-Desktop_Qt_6_4_1_MSVC2019_64bit-Debug/panning.png</normaloff>../build-DentistApp-Desktop_Qt_6_4_1_MSVC2019_64bit-Debug/panning.png</iconset>
+      </property>
+     </widget>
+     <widget class="QToolButton" name="SharpentoolButton">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>80</y>
+        <width>31</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>...</string>
+      </property>
+      <property name="icon">
+       <iconset>
+        <normaloff>../build-DentistApp-Desktop_Qt_6_4_1_MSVC2019_64bit-Debug/sharpen.png</normaloff>../build-DentistApp-Desktop_Qt_6_4_1_MSVC2019_64bit-Debug/sharpen.png</iconset>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_4">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>0</y>
+        <width>51</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Image</string>
+      </property>
+     </widget>
+     <widget class="QToolButton" name="ColortoolButton_9">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>30</y>
+        <width>31</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>...</string>
+      </property>
+      <property name="icon">
+       <iconset>
+        <normaloff>../build-DentistApp-Desktop_Qt_6_4_1_MSVC2019_64bit-Debug/colorreversal.png</normaloff>../build-DentistApp-Desktop_Qt_6_4_1_MSVC2019_64bit-Debug/colorreversal.png</iconset>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_5">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>180</y>
+        <width>51</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Initialize</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_3">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>210</y>
+        <width>71</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Draw</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_4">
+      <property name="geometry">
+       <rect>
+        <x>80</x>
+        <y>210</y>
+        <width>71</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Image</string>
+      </property>
+     </widget>
     </widget>
    </widget>
    <widget class="QLineEdit" name="lineEdit">

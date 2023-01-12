@@ -1,7 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-//#include<QToolButton>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -9,9 +8,9 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    ui->BrushtoolButton->setIcon(QIcon("draw.png"));
+    ui->BrushtoolButton->setIcon(QIcon("draw2.png"));
     ui->BrushtoolButton->setIconSize(QSize(30,100));
-    ui->BrushtoolButton->setText("Draw Nerve");
+    ui->BrushtoolButton->setText("Brush");
     ui->BrushtoolButton->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
 
 
@@ -19,6 +18,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->ColortoolButton->setIconSize(QSize(30,100));
     ui->ColortoolButton->setText("Color");
     ui->ColortoolButton->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+
 
 }
 
