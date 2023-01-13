@@ -3,6 +3,12 @@
 
 #include <QMainWindow>
 
+class Layout;
+class FMX;
+
+class QSqlQuery;
+class QSqlTableModel;
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -17,5 +23,17 @@ public:
 
 private:
     Ui::MainWindow *ui;
+
+    Layout *gridLayout;
+    FMX *fmx;
+
+
+
+    /* 환자 정보 DB */
+    void patientLoad();
+
+    QSqlQuery *patientQuery;
+    QSqlTableModel *patientQueryModel;
+
 };
 #endif // MAINWINDOW_H
