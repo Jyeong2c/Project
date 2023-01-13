@@ -6,6 +6,7 @@ var fs = require('fs');
 const app = express();
 
 app.get('/', (request, response) => {
+    //response.send('This is main page');
     fs.readFile('a.html', 'utf-8', (err, data) => { 
         if(err){response.send('No Such File of Directory')}
         response.send(data);
@@ -27,19 +28,34 @@ app.get('/patient', (req, res) => {
 });
 
 app.get('/patient/osstem', (req, res) => {
-    fs.readFile('./images/osstem.png', (err, data) => {
+    fs.readFile('./images/panorama1.png', (err, data) => {
         if(err){res.send()}
         res.send(data);
     })
 });
 
+app.get('/patient/1', (req, res) => {
+    fs.readFile('c.html', 'utf-8', (err, data) => { 
+        if(err){res.send('No Such File of Directory')}
+        res.send(data);
+    });
+});
+
+app.get('/patient/1/panorama1', (req, res) => {
+    fs.readFile('./images/system.png', (err, data) => {
+        if(err){res.send()}
+        res.send(data);
+    })
+});
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
 
 var http = require('http'),
     Stream = require('stream').Transform;
 
 var url1 = 'http://127.0.0.1:3000/google';
 var url2 = 'http://127.0.0.1:3000/patient/osstem';
-
+var url3 = 'http://127.0.0.1:3000/patient/1/panorama1';
 
 
 //다운받는 이미지 경로 설정
@@ -67,6 +83,19 @@ http.request(url2, function(response){
     response.on('end', function(){
         //fs.writeFileSync('./downloaded/image2.png', data.read());
         fs.writeFileSync('D:/GitDesktop/Project/Downloaded/image2.png', data.read());
+    });
+}).end();
+
+http.request(url3, function(response){
+    var data = new Stream();
+
+    response.on('data', function(chunk){
+        data.push(chunk);
+    });
+
+    response.on('end', function(){
+        //fs.writeFileSync('./downloaded/image2.png', data.read());
+        fs.writeFileSync('D:/GitDesktop/Project/Downloaded/image3.png', data.read());
     });
 }).end();
 
