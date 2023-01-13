@@ -28,7 +28,7 @@ app.get('/patient', (req, res) => {
 });
 
 app.get('/patient/osstem', (req, res) => {
-    fs.readFile('./images/panorama1.png', (err, data) => {
+    fs.readFile('./images/osstem.png', (err, data) => {
         if(err){res.send()}
         res.send(data);
     })
@@ -42,7 +42,7 @@ app.get('/patient/1', (req, res) => {
 });
 
 app.get('/patient/1/panorama1', (req, res) => {
-    fs.readFile('./images/system.png', (err, data) => {
+    fs.readFile('./images/panorama1.png', (err, data) => {
         if(err){res.send()}
         res.send(data);
     })
