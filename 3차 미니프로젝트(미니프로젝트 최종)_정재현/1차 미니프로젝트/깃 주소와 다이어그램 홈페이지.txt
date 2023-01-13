@@ -1,0 +1,7 @@
+구글->https://app.diagrams.net/->파일->사용자 기기에서 불러오기
+
+
+깃주소 : https://github.com/jaehyeonjeong/MINITEST_8.git
+강사님 바쁘신데 죄송합니다. 주석다는 동안 궁금한게 있습니다.
+logthread.cpp 파일 안에 Q_FOREVER의 역할과 itemlist.count() > 0인 경우
+라는건 로그 창에 데이터의 길이를 입력하는 경우라고 생각하는데 맞는지 알고싶습니다.

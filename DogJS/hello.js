@@ -57,7 +57,7 @@ app.get('/patient/1/info', (req, res) => {
             id : 1,
             name : 'jae hyeon',
             age : 27,
-            local : 'D:/GitDesktop/Project/Downloaded/image1.png'    
+            local : 'D:/GitDesktop/Project/Downloaded/panorama1.png'    
         }
     )
 });
@@ -147,7 +147,7 @@ app.get('/patient/4/info', (req, res) => {
         {
             id : 4,
             name : 'en ji',
-            age : 28,
+            age : 29,
             local : 'D:/GitDesktop/Project/Downloaded/panorama4.png'    
         }
     )

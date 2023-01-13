@@ -58,6 +58,8 @@ void MainWindow::patientLoad()                                   //파일 저장
 
     if(DB.open()){                                                 //조건문
         patientQuery = new QSqlQuery(DB);
+        //데이터 초기화
+        patientQuery->exec("DELETE FROM patient");
         //query 문을 이용하여 테이블 생성 및 PK 키 설정
         patientQuery->exec("CREATE TABLE IF NOT EXISTS patient(chartNum INTEGER Primary Key,"
                            "name VARCHAR(20) NOT NULL, age INTEGER,imagePath VARCHAR(20));");
@@ -88,7 +90,7 @@ void MainWindow::patientLoad()                                   //파일 저장
 
         /*HTTP 요청(1-2)*/
         for(int patientNum = 1; patientNum <= 2; patientNum++){
-            QNetworkRequest req(QUrl(QString("http://127.0.0.1:3000/patient/%1/").arg(patientNum)));
+            QNetworkRequest req(QUrl(QString("http://127.0.0.1:3000/patient/%1/info").arg(patientNum)));
             QNetworkReply *reply = mgr.get(req);
             eventLoop.exec();       //"finished()" 가 호출 될 때까지 블록
 
@@ -105,7 +107,7 @@ void MainWindow::patientLoad()                                   //파일 저장
                 qDebug() << "name : " << jsonObj["name"].toString();
                 qDebug() << "age : " << jsonObj["age"].toInt();
                 qDebug() << "localimage : " << jsonObj["localimage"].toString();
-                patientQuery->exec(QString::fromStdString("INSERT INTO patient VALUES (%1,'%2','%3','%4')")
+                patientQuery->exec(QString::fromStdString("INSERT INTO patient VALUES (%1, '%2', %3, '%4')")
                                    .arg(jsonObj["id"].toInt()).arg(jsonObj["name"].toString())
                                    .arg(jsonObj["age"].toInt()).arg(jsonObj["localimage"].toString()));
                 delete reply;

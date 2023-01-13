@@ -42,12 +42,12 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->verticalSpacer->changeSize(20, 25);
 
-    ui->BrushtoolButton->setIcon(QIcon("draw2.png"));
+
     ui->BrushtoolButton->setIconSize(QSize(50,40));
     ui->BrushtoolButton->setText("Brush");
     ui->BrushtoolButton->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
 
-    ui->ColortoolButton->setIcon(QIcon("color.png"));
+
     ui->ColortoolButton->setIconSize(QSize(100,30));
     ui->ColortoolButton->setText("Color");
     ui->ColortoolButton->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
@@ -70,6 +70,8 @@ MainWindow::MainWindow(QWidget *parent)
     ui->mdiArea->setActiveSubWindow(cw);
 
 
+    //리스트 뷰에 이미지를 업로드 하는걸 먼저 해보기
+    //ui->listWidget->add
 }
 
 MainWindow::~MainWindow()
@@ -91,6 +93,8 @@ void MainWindow::patientLoad()
 
     if(DB.open()){                                                 //조건문
         patientQuery = new QSqlQuery(DB);
+        //DB 데이터를 업데이트 하기 위한 테이블 삭제
+        patientQuery->exec("DELETE FROM patient");
         //query 문을 이용하여 테이블 생성 및 PK 키 설정
         patientQuery->exec("CREATE TABLE IF NOT EXISTS patient(chartNum INTEGER Primary Key,"
                            "name VARCHAR(20) NOT NULL, age INTEGER,imagePath VARCHAR(20));");
@@ -147,6 +151,7 @@ void MainWindow::patientLoad()
                 delete reply;
             }
         }
+        qDebug() << "Number of Rows : " << patientQuery->size();
 
         patientQuery->exec("INSERT INTO patient VALUES (1000,'JaeYeong','28','..')");
         patientQuery->exec("INSERT INTO patient VALUES (1001,'Yuna','26','..')");
@@ -156,9 +161,17 @@ void MainWindow::patientLoad()
         patientQuery->exec("INSERT INTO patient VALUES (1005,'brian','26','..')");
         patientQuery->exec("INSERT INTO patient VALUES (1006,'dessery','27','..')");
         patientQuery->exec("INSERT INTO patient VALUES (1007,'eclipse','29','..')");
-        patientQueryModel->select();
-        ui->patientTableView->resizeColumnsToContents();
 
+
+        patientQueryModel->select();
+
+        QSqlQuery q;
+        q.exec("SELECT Count(*) FROM patient WHERE age");
+        q.next();
+        int numRows = q.value(0).toInt();
+        qDebug() << numRows;
+
+        ui->patientTableView->resizeColumnsToContents();
     }
 }
 
