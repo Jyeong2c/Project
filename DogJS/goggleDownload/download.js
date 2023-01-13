@@ -4,7 +4,8 @@ var http = require('http'),
     Stream = require('stream').Transform,
     fs = require('fs');
 
-var url = 'http://127.0.0.1:3000/google';
+//var url = 'http://127.0.0.1:3000/google';
+var url = 'http://127.0.0.1:3000/patient/osstem';
 
 http.request(url, function(response){
     var data = new Stream();

@@ -105,7 +105,6 @@ void MainWindow::patientLoad()                                   //파일 저장
                 qDebug() << "name : " << jsonObj["name"].toString();
                 qDebug() << "age : " << jsonObj["age"].toInt();
                 qDebug() << "localimage : " << jsonObj["localimage"].toString();
-                qDebug() << "Failure" << reply->errorString();
                 patientQuery->exec(QString::fromStdString("INSERT INTO patient VALUES (%1,'%2','%3','%4')")
                                    .arg(jsonObj["id"].toInt()).arg(jsonObj["name"].toString())
                                    .arg(jsonObj["age"].toInt()).arg(jsonObj["localimage"].toString()));
