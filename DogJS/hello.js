@@ -147,7 +147,7 @@ app.get('/patient/4/info', (req, res) => {
         {
             id : 4,
             name : 'en ji',
-            age : 29,
+            age : 28,
             local : 'D:/GitDesktop/Project/Downloaded/panorama4.png'    
         }
     )

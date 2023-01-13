@@ -10,6 +10,17 @@
 #include <QSqlQueryModel>
 #include <QTableView>
 
+/*서버를 연동하기 위한 Qt 헤더*/
+#include <QCoreApplication>
+#include <QDebug>
+#include <QNetworkAccessManager>
+#include <QNetworkRequest>
+#include <QNetworkReply>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonArray>
+#include <QJsonValue>
+
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -97,6 +108,45 @@ void MainWindow::patientLoad()
         ui->patientTableView->setModel(patientQueryModel);
 
         ui->patientTableView->hideColumn(3);
+
+        /*요청한 HTTP 경로에 JSON 데이터 파싱*/
+
+        /*스택 위의 임시 이벤트 루프(event loop)*/
+        QEventLoop eventLoop;
+
+        /*"finished()"가 불려지면 이벤트 루프를 종료*/
+        QNetworkAccessManager mgr;
+        QObject::connect(&mgr, SIGNAL(finished(QNetworkReply*)),
+                         &eventLoop, SLOT(quit()));
+
+        /*HTTP 요청(1-4)*/
+        for(int patientNum = 1; patientNum <= 4; patientNum++){
+            QNetworkRequest req(QUrl(QString("http://127.0.0.1:3000/patient/%1/info").arg(patientNum)));
+            QNetworkReply *reply = mgr.get(req);
+            eventLoop.exec();       //"finished()" 가 호출 될 때까지 블록
+
+            /*요청에 이상이 없는 경우*/
+            if(reply->error() == QNetworkReply::NoError){
+                QString strReply = (QString)reply->readAll();
+
+                //JSON 파싱
+                qDebug() << "Response:" << strReply;
+                QJsonDocument jsonResponse = QJsonDocument::fromJson(strReply.toUtf8());
+                QJsonObject jsonObj = jsonResponse.object();
+
+                qDebug() << "id : " << jsonObj["id"].toInt();
+                qDebug() << "name : " << jsonObj["name"].toString();
+                qDebug() << "age : " << jsonObj["age"].toInt();
+                qDebug() << "local : " << jsonObj["local"].toString();
+                patientQuery->exec(QString::fromStdString("INSERT INTO patient VALUES (%1,'%2',%3,'%4')")
+                                   .arg(jsonObj["id"].toInt()).arg(jsonObj["name"].toString())
+                                   .arg(jsonObj["age"].toInt()).arg(jsonObj["local"].toString()));
+                delete reply;
+            }else{  //오류시
+                qDebug() << "Failure" << reply->errorString();
+                delete reply;
+            }
+        }
 
         patientQuery->exec("INSERT INTO patient VALUES (1000,'JaeYeong','28','..')");
         patientQuery->exec("INSERT INTO patient VALUES (1001,'Yuna','26','..')");
