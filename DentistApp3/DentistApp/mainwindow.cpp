@@ -84,7 +84,7 @@ MainWindow::~MainWindow()
         clDB.close();
     }
 
-    //저장된 png 전체 삭제
+    //빌드 폴더 내에 png 데이터 전체 삭제
     for(int i = 0; i < 1000; i++){
         QFile::remove(QString("./copy%1.png").arg(i));
     }
@@ -182,6 +182,7 @@ void MainWindow::createToolButton()
     ui->ColortoolButton->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
 }
 
+/*복사된 이미지를 만들때 1로 초기화 하여 copy(1~N).png를 생성*/
 int num = 1;
 void MainWindow::on_selectButton_clicked()
 {
@@ -190,19 +191,21 @@ void MainWindow::on_selectButton_clicked()
     int row =  ui->patientTableView->currentIndex().row();
     int column = ui->patientTableView->currentIndex().column();
 
-    //데이터 베이스 모델의 1~4 column Data
+    /*데이터 베이스 모델의 1~4 row Data*/
     for(int i = 0; i < patientQueryModel->rowCount(); i++){
-        int n1 = patientQueryModel->data(patientQueryModel->index(i, 0)).toInt();
-        QString n2 = patientQueryModel->data(patientQueryModel->index(i, 1)).toString();
-        int n3 = patientQueryModel->data(patientQueryModel->index(i, 2)).toInt();
-        QString n4 = patientQueryModel->data(patientQueryModel->index(i, 3)).toString();
+        /*선택된 데이터 베이스 모델 row 테이블의 데이터를 추출*/
+        int n1 = patientQueryModel->data(patientQueryModel->index(i, 0)).toInt();               //ID
+        QString n2 = patientQueryModel->data(patientQueryModel->index(i, 1)).toString();        //이름
+        int n3 = patientQueryModel->data(patientQueryModel->index(i, 2)).toInt();               //나이
+        QString n4 = patientQueryModel->data(patientQueryModel->index(i, 3)).toString();        //서버에서 다운받은 이미지 폴더 경로
 
-        //선택된 row + 1과 DB ID로 저장된 번호가 일치하면 (row + 1 = ID)
-        //서버에서 다운로드 받은 이미지 폴더를 빌드폴더로 이동
+        /*선택된 row + 1과 DB ID로 저장된 번호가 일치하면 (row + 1 = ID)*/
+        /*서버에서 다운로드 받은 이미지 폴더를 빌드폴더로 이동*/
         if(n1 == row + 1){
             qDebug() << n1 << " " << n2 << " " << n3 << " " << n4;
-            //선택된 ID의 다운로드 경로에서 이미지를 Qt클라이언트 build 파일로 업로드
+            /*선택된 ID의 다운로드 경로에서 이미지를 Qt클라이언트 build 파일로 업로드*/
 
+            /*서버에서 다운로드된 이미지의 경로에서 빌드폴더로 copy(1~4).png 명으로 복사*/
             QFile::copy(n4, QString("./copy%1.png").arg(num));
             qDebug("[%s] %s : %d", __FILE__, __FUNCTION__, __LINE__);
             album->loadImages();
