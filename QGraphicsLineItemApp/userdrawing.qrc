@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/new/prefix1">
+        <file>line.png</file>
+        <file>select.png</file>
+    </qresource>
+</RCC>
