@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include <QtMath>
+#include <QMessageBox>
 
 MainWindow::MainWindow()
 {
@@ -7,6 +8,8 @@ MainWindow::MainWindow()
     scene->setSceneRect(0,0,200,200);
     view = new QGraphicsView(scene);
     view->setRenderHints(QPainter::Antialiasing);
+    text = new QGraphicsTextItem();
+    text->setDefaultTextColor(Qt::black);
     setCentralWidget(view);
 
     createActions();
@@ -59,6 +62,7 @@ int y_1 = 0;
 int x_2 = 0;
 int y_2 = 0;
 void MainWindow::OrthoReceive(int _x, int _y){
+    update();
     if(!selectAction->isChecked()){
 
 //        text = new QGraphicsTextItem();
@@ -77,11 +81,15 @@ void MainWindow::OrthoReceive(int _x, int _y){
                         "y1 = " << y_1 <<
                         "x2 = " << x_2 <<
                         "y2 = " << y_2;
+
+            //삼각함수 기법을 활용한 line의 길이 측정
             int z = qSqrt(qPow((x_2 - x_1), 2) + qPow((y_2 - y_1), 2));
             qDebug() << "z : " << z;
-            //text = new QGraphicsTextItem();
-            text = scene->addText(QString("%1").arg(z));
-            text->setPos(x_2, y_2);
+            //text = scene->addText(QString("%1").arg(z));
+            //text->setPos(x_2, y_2);
+            QMessageBox::information(this,"length",
+                                    QString("length info : %1").arg(z / 20));
+            //사진의 축적 비율 정보만 알면 실제 길이를 측정 할 수 있을 것 같음
         }
 
         num++;
@@ -91,7 +99,7 @@ void MainWindow::OrthoReceive(int _x, int _y){
             lineAction->setChecked(false);
             scene->setMode(Scene::SelectObject);
             //text->setEnabled(false);
-            delete text;
+            //delete text;
             num = 0;
         }
     }else{
