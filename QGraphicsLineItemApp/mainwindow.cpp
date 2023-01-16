@@ -65,9 +65,9 @@ void MainWindow::OrthoReceive(int _x, int _y){
     update();
     if(!selectAction->isChecked()){
 
-//        text = new QGraphicsTextItem();
-//        text = scene->addText(QString("%1, %2").arg(_x).arg(_y));
-//        text->setPos(_x, _y);
+        text = new QGraphicsTextItem();
+        text = scene->addText(QString("%1, %2").arg(_x).arg(_y));
+        text->setPos(_x, _y);
         qDebug() << "OrthoReceive : " << _x << ", " << _y;
         qDebug() << "check : " << num;
         if(num == 0){

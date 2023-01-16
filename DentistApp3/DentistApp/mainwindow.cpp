@@ -186,7 +186,7 @@ void MainWindow::createToolButton()
 int num = 1;
 void MainWindow::on_selectButton_clicked()
 {
-    qDebug() << "selectButton clicked!";
+    qDebug() << "selectDB Data Double clicked!";
 
     int row =  ui->patientTableView->currentIndex().row();
     int column = ui->patientTableView->currentIndex().column();

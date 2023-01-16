@@ -170,10 +170,15 @@ void MainWindow::wheelEvent(QWheelEvent *ev)
     if(rotate < 0){
         ui->rotateEdit->setText(QString("%1").arg(-1 * rotate));
         qDebug() << -1 * rotate;
+        /*각도 측정시 360이상은 측정할 필요가 없으므로 측정값이 360인 경우 rotate를 0으로 초기화*/
+        if(rotate == 360)
+            rotate = 0;
     }
     else{
         ui->rotateEdit->setText(QString("%1").arg(rotate));
         qDebug() << rotate;
+        if(rotate == 360)
+            rotate = 0;
     }
 
 }

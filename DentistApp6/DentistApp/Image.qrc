@@ -1,0 +1,21 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Image/arrow3.png</file>
+        <file>Image/bright.png</file>
+        <file>Image/circle2.png</file>
+        <file>Image/color.png</file>
+        <file>Image/colorreversal.png</file>
+        <file>Image/draw.png</file>
+        <file>Image/draw2.png</file>
+        <file>Image/measure.png</file>
+        <file>Image/panning.png</file>
+        <file>Image/progtractor.png</file>
+        <file>Image/rectangle2.png</file>
+        <file>Image/reversal.png</file>
+        <file>Image/rotate.png</file>
+        <file>Image/ruler.png</file>
+        <file>Image/sharpen.png</file>
+        <file>Image/triangle2.png</file>
+        <file>Image/zoom.png</file>
+    </qresource>
+</RCC>
