@@ -29,11 +29,11 @@ MainWindow::MainWindow(QWidget *parent)
 
     QPen mPen; //펜의 변수 선언
     mPen.setWidth(5); //펜의 굵기 5
-    mPen.setColor(Qt::red); //펜의 색상 붉은색
+    mPen.setColor(Qt::yellow); //펜의 색상 노란색
 
     /* 선 만들기 */
     lineItem = new QGraphicsLineItem(); //QLineItem 변수 지정(선 만들기)
-    lineItem->setLine(0, 0, 200, 200);        //선 의 좌표 설정
+    lineItem->setLine(0, 0, 200, 0);        //선 의 좌표 설정
     lineItem->setFlag(QGraphicsItem::ItemIsFocusable);  //focus 설정, 고정
     //lineItem->setFlag(QGraphicsItem::ItemIsMovable);    //고정해제
     //lineItem->setFlag(QGraphicsItem::ItemIsSelectable); //선택 레이어 표출
@@ -62,7 +62,7 @@ MainWindow::MainWindow(QWidget *parent)
     scene->addItem(lineItem);   //lineItem 추가
     scene->addItem(rectItem);   //rectItem 추가
     scene->addItem(ellipseItem);//ellipseItem 추가
-    scene->addLine(-250, 0, 250, 0, mPen); // x 좌표 선 추가
+    scene->addLine(-250, 0, 250, 0); // x 좌표 선 추가
     scene->addLine(0, -250, 0, 250); // y 좌표 선 추가
 
     //ui->loadButton = new QPushButton(this);          /*이미지 버튼 생성*/
@@ -154,6 +154,28 @@ void MainWindow::recreateRect()
     rectItem->setFlag(QGraphicsItem::ItemIsMovable);    //고정해제
     rectItem->setFlag(QGraphicsItem::ItemIsSelectable); //선택 레이어 표출
     //scene->addItem(rectItem);   //rectItem 추가
+}
+
+/*휠 이벤트를 부여하여 휠을 위/아래로 돌렸을 때 기준점, 기준선에 맞춰 벌어진 각도를 계산*/
+void MainWindow::wheelEvent(QWheelEvent *ev)
+{
+    /*주의 사항은 후치연산(rotate++)을 하는 경우 휠을 반대로 동작할 때 한번 딜레이되어 이상한 결과를 만듦*/
+    if(ev->angleDelta().y() > 0) // up Wheel
+        lineItem->setRotation(--rotate);
+
+    else if(ev->angleDelta().y() < 0) //down Wheel
+        lineItem->setRotation(++rotate);
+
+    /*휠의 동작에 따른 각도 움직임을 라인에디터에 출력*/
+    if(rotate < 0){
+        ui->rotateEdit->setText(QString("%1").arg(-1 * rotate));
+        qDebug() << -1 * rotate;
+    }
+    else{
+        ui->rotateEdit->setText(QString("%1").arg(rotate));
+        qDebug() << rotate;
+    }
+
 }
 
 

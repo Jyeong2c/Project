@@ -31,6 +31,8 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+    void wheelEvent(QWheelEvent *ev);
+
 protected:
     void keyPressEvent(QKeyEvent *);    //키보드 키 이벤트 핸들러 함수
 
