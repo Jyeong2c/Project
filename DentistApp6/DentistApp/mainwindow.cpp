@@ -32,6 +32,9 @@
 #include <QJsonValue>
 #include <QFileDialog>
 
+/*QMessageBox 호출*/
+#include <QMessageBox>
+
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -228,14 +231,6 @@ void MainWindow::patientLoad()
             }
         }
 
-        patientQuery->exec("INSERT INTO patient VALUES (1000,'JaeYeong','28','..')");
-        patientQuery->exec("INSERT INTO patient VALUES (1001,'Yuna','26','..')");
-        patientQuery->exec("INSERT INTO patient VALUES (1002,'Jaehyun','27','..')");
-        patientQuery->exec("INSERT INTO patient VALUES (1003,'eunji','29','..')");
-        patientQuery->exec("INSERT INTO patient VALUES (1004,'chelly','28','..')");
-        patientQuery->exec("INSERT INTO patient VALUES (1005,'brian','26','..')");
-        patientQuery->exec("INSERT INTO patient VALUES (1006,'dessery','27','..')");
-        patientQuery->exec("INSERT INTO patient VALUES (1007,'eclipse','29','..')");
         patientQueryModel->select();
         ui->patientTableView->resizeColumnsToContents();
     }
@@ -285,4 +280,57 @@ void MainWindow::on_patientTableView_doubleClicked(const QModelIndex &index)
 
     qDebug() << row << " " << column;
 }
+
+
+//int orthoNum = 0;
+//int xPos1 = 0;
+//int yPos1 = 0;
+//int xPos2 = 0;
+//int yPos2 = 0;
+//void MainWindow::OrthoReceive(int _x, int _y){
+//    update();
+//    if(!selectAction->isChecked()){
+//        qDebug() << "OrthoReceive : " << _x << ", " << _y;
+//        qDebug() << "check : " << orthoNum;
+//        if(num == 0){
+//            xPos1 = _x;
+//            yPos1 = _y;
+//        }
+//        if(num == 1){
+//            xPos2 = _x;
+//            yPos2 = _y;
+//            qDebug() << "x1 = " << xPos1 <<
+//                        "y1 = " << yPos1 <<
+//                        "x2 = " << xPos2 <<
+//                        "y2 = " << yPos2;
+
+//            //삼각함수 기법을 활용한 line의 길이 측정
+//            int z = qSqrt(qPow((xPos2 - xPos1), 2) + qPow((yPos2 - yPos1), 2));
+//            qDebug() << "z : " << z;
+//            //text = scene->addText(QString("%1").arg(z));
+//            //text->setPos(x_2, y_2);
+//            QMessageBox::information(this,"length",
+//                                    QString("length info : %1").arg(z / 20));
+//            //사진의 축적 비율 정보만 알면 실제 길이를 측정 할 수 있을 것 같음
+//        }
+
+//        orthoNum++;
+//        if(orthoNum > 1){
+//            selectAction->setCheckable(true);
+//            selectAction->setChecked(true);
+//            lineAction->setChecked(false);
+//            scene->setMode(Scene::SelectObject);
+//            //text->setEnabled(false);
+//            //delete text;
+//            orthoNum = 0;
+//        }
+//    }else{
+//        return;
+//    }
+//}
+
+//void MainWindow::on_RulertoolButton_triggered(QAction *arg1)
+//{
+//    scene->setMode(Scene::Mode(arg1->data().toInt()));
+//}
 

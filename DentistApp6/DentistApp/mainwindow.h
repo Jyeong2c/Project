@@ -3,6 +3,7 @@
 
 
 #include <QMainWindow>
+#include "scene.h"          //길이 측정 기능을 구현할 헤더 추가
 
 class Layout;
 class FMX;
@@ -33,9 +34,12 @@ public:
 
 public slots:
     void selectItem(QListWidgetItem*);
+    void OrthoReceive(int x, int y);    //좌표 시그널을 받는 슬롯 함수
 
 private slots:
     void on_patientTableView_doubleClicked(const QModelIndex &index);
+
+    void on_RulertoolButton_triggered(QAction *arg1);
 
 private:
     Ui::MainWindow *ui;
@@ -54,6 +58,13 @@ private:
     QSqlTableModel *patientQueryModel;
 
     QListWidget *listWidget;
+
+    //Scene 클래스
+    Scene* scene;
+
+    //선그리기와 선택 액션 지정
+    QAction* lineAction;
+    QAction* selectAction;
 
 };
 #endif // MAINWINDOW_H

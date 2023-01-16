@@ -13,13 +13,15 @@ SOURCES += \
     layout.cpp \
     #listalbum.cpp \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    scene.cpp
 
 HEADERS += \
     fmx.h \
     layout.h \
     #listalbum.h \
-    mainwindow.h
+    mainwindow.h \
+    scene.h
 
 FORMS += \
     mainwindow.ui

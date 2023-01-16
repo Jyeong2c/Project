@@ -70,9 +70,9 @@ MainWindow::MainWindow(QWidget *parent)
             [=]{
         /*현재 이미지르 받은 슬옷은 파일 경로를 받고 클라이언트 채팅창에 이미지로 출력하는 기능을 구현*/
         QString filename = QFileDialog::getOpenFileName(this, "file select",
-       /*현 경로는 개발자의 디바이스에서만 연결 가능하오니 다른 디바이스를 사용하는 경우에는 경로를 필히 바꿔주기 바람*/
-            "C:\\QtHardWork\\samQtProject-master\\build-Miniproject-Desktop_Qt_6_3_1_MSVC2019_64bit-Debug",
-            "image file(*.png *.jpg)");                         /*jpg, png를 부르는 경로 작성*/
+                                                        /*현 경로는 개발자의 디바이스에서만 연결 가능하오니 다른 디바이스를 사용하는 경우에는 경로를 필히 바꿔주기 바람*/
+                                                        "C:\\QtHardWork\\samQtProject-master\\build-Miniproject-Desktop_Qt_6_3_1_MSVC2019_64bit-Debug",
+                                                        "image file(*.png *.jpg)");                         /*jpg, png를 부르는 경로 작성*/
         QImage Img;                        /*이미지 변수 생성*/
         QPixmap buffer;                    /*픽스맵 변수 생성*/
 
@@ -103,6 +103,8 @@ MainWindow::MainWindow(QWidget *parent)
             this, &::MainWindow::recreateRect); //버튼을 클릭시 현재 위치한 사각형의 크기 및 위치를 재조정
 
     ui->graphicsView->setScene(scene); //scene에 add한 속성들 전부 set
+
+
 }
 
 /*실선의 대칭이동 및 사각형 회전*/
@@ -181,6 +183,31 @@ void MainWindow::wheelEvent(QWheelEvent *ev)
             rotate = 0;
     }
 
+}
+
+void MainWindow::mousePressEvent(QMouseEvent *ev){
+//    double rad = 1;
+//    QPointF pt = ui->graphicsView->mapToScene(ev->pos());
+//    scene->addLine(pt.x()-rad, pt.y()-rad, rad*2.0, rad*2.0,
+//                      QPen(), QBrush(Qt::SolidPattern));
+    origPoint = ui->graphicsView->mapToScene(ev->pos());
+}
+void MainWindow::mouseMoveEvent(QMouseEvent *ev){
+    scene = new QGraphicsScene(this);   //Scene 변수 명
+    origPoint = ui->graphicsView->mapToScene(ev->pos());
+
+    if(!itemToDraw){
+        itemToDraw = new QGraphicsLineItem;
+        scene->addItem(itemToDraw);
+        itemToDraw->setPen(QPen(Qt::black, 3, Qt::SolidLine));
+        itemToDraw->setPos(origPoint);
+    }
+    itemToDraw->setLine(0,0,
+                        ev->pos().x() - origPoint.x(),
+                        ev->pos().y() - origPoint.y());
+}
+void MainWindow::mouseReleaseEvent(QMouseEvent *ev){
+    itemToDraw = 0;
 }
 
 

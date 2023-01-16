@@ -33,6 +33,10 @@ public:
 
     void wheelEvent(QWheelEvent *ev);
 
+    void mousePressEvent(QMouseEvent *ev);
+    void mouseMoveEvent(QMouseEvent *ev);
+    void mouseReleaseEvent(QMouseEvent *ev);
+
 protected:
     void keyPressEvent(QKeyEvent *);    //키보드 키 이벤트 핸들러 함수
 
@@ -52,5 +56,9 @@ private:
 
     qreal move = 10.0;     //x, y방향으로 10만큼 이동시킬 수 있는 변수
     int rotate = 0;            //시계방향으로 회전하는 각도 변수
+
+    /*길이 측정용 변수*/
+    QPointF origPoint;
+    QGraphicsLineItem* itemToDraw;
 };
 #endif // MAINWINDOW_H
