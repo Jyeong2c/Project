@@ -18,6 +18,8 @@ class QMessageBox;              //시스템의 상태를 출력할 메세지박�
 class QMouseEvent;              //마우스 핸들러를 갖기 위한 클래스
 class QKeyEvent;                //키보드 핸들러를 갖기 위한 클래스
 
+class Scene;
+
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -33,10 +35,6 @@ public:
 
     void wheelEvent(QWheelEvent *ev);
 
-    void mousePressEvent(QMouseEvent *ev);
-    void mouseMoveEvent(QMouseEvent *ev);
-    void mouseReleaseEvent(QMouseEvent *ev);
-
 protected:
     void keyPressEvent(QKeyEvent *);    //키보드 키 이벤트 핸들러 함수
 
@@ -49,7 +47,7 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-    QGraphicsScene *scene;
+    Scene *scene;
     QGraphicsLineItem *lineItem;
     QGraphicsRectItem *rectItem;
     QGraphicsEllipseItem *ellipseItem;

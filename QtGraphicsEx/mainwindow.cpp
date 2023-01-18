@@ -1,4 +1,5 @@
 #include "mainwindow.h"
+#include "scene.h"
 
 #include <QMainWindow>
 #include <QGraphicsView>
@@ -23,7 +24,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    scene = new QGraphicsScene(this);   //Scene 변수 명
+    //Scene 변수 명
     scene->setBackgroundBrush(QBrush(QColor(Qt::cyan))); //Scene의 배경
     scene->setSceneRect(-300, -300, 600, 600); //(-300, -300) 좌표 부터 (600, 600) 크기 까지 배경 지정
 
@@ -183,31 +184,6 @@ void MainWindow::wheelEvent(QWheelEvent *ev)
             rotate = 0;
     }
 
-}
-
-void MainWindow::mousePressEvent(QMouseEvent *ev){
-//    double rad = 1;
-//    QPointF pt = ui->graphicsView->mapToScene(ev->pos());
-//    scene->addLine(pt.x()-rad, pt.y()-rad, rad*2.0, rad*2.0,
-//                      QPen(), QBrush(Qt::SolidPattern));
-    origPoint = ui->graphicsView->mapToScene(ev->pos());
-}
-void MainWindow::mouseMoveEvent(QMouseEvent *ev){
-    scene = new QGraphicsScene(this);   //Scene 변수 명
-    origPoint = ui->graphicsView->mapToScene(ev->pos());
-
-    if(!itemToDraw){
-        itemToDraw = new QGraphicsLineItem;
-        scene->addItem(itemToDraw);
-        itemToDraw->setPen(QPen(Qt::black, 3, Qt::SolidLine));
-        itemToDraw->setPos(origPoint);
-    }
-    itemToDraw->setLine(0,0,
-                        ev->pos().x() - origPoint.x(),
-                        ev->pos().y() - origPoint.y());
-}
-void MainWindow::mouseReleaseEvent(QMouseEvent *ev){
-    itemToDraw = 0;
 }
 
 
