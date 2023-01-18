@@ -32,6 +32,11 @@
 #include <QJsonValue>
 #include <QFileDialog>
 
+#include <iostream>
+#include <windows.h>
+#include <vector>
+
+using namespace std;
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -48,6 +53,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     loadImages();
 
+    manager = new QNetworkAccessManager;
 
     QList<int> sizes;
     sizes << 700 << 70;
@@ -89,6 +95,7 @@ MainWindow::MainWindow(QWidget *parent)
     QMdiSubWindow *cw = ui->mdiArea->addSubWindow(customLayout);
     ui->mdiArea->addSubWindow(fmx);
     ui->mdiArea->setActiveSubWindow(cw);
+
 }
 
 MainWindow::~MainWindow()
@@ -109,6 +116,8 @@ MainWindow::~MainWindow()
 
 void MainWindow::loadImages()
 {
+    qDebug("[%s] %s : %d", __FILE__, __FUNCTION__, __LINE__);
+    update();
     QDir dir(".");
     QStringList filters;
     filters << "*.png" << "*.jpg" << "*.bmp";
@@ -121,7 +130,68 @@ void MainWindow::loadImages()
         item->setStatusTip(fileInfoList.at(i).fileName());
         ui->listWidget->addItem(item);
     };
+    update();
 }
+
+void MainWindow::setFile(QString fileURL){
+    /*파일 경로 찾기 후 지정된 파일 경로에 이미지를 다운로드*/
+    QString filePath = fileURL;
+    QString saveFilePath;
+    QStringList filePathList = filePath.split('/');
+    QString fileName = filePathList.at(filePathList.count() - 1);
+    saveFilePath = QString("./" + fileName);
+
+    /*받아오는 이미지(파일)을 네트워크상에 요구*/
+    QNetworkRequest request;
+    request.setUrl(QUrl(fileURL));
+    nrePly = manager->get(request);
+
+    file = new QFile;
+    file->setFileName(saveFilePath);
+    file->open(QIODevice::WriteOnly);
+
+    connect(nrePly, SIGNAL(downloadProgress(qint64, qint64)), this, SLOT(onDownloadProgress(qint64,qint64)));
+    connect(manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(onFinished(QNetworkReply*)));
+    connect(nrePly, SIGNAL(readyRead()), this, SLOT(onReadyRead()));
+    connect(nrePly, SIGNAL(finished()), this, SLOT(onReplyFinished()));
+}      // 파일 설정 함수
+
+void MainWindow::onDownloadProgress(qint64 bytesRead, qint64 bytesTotal)
+{
+    qDebug(QString::number(bytesRead).toLatin1() + " - " + QString::number(bytesTotal).toLatin1());
+}
+void MainWindow::onFinished(QNetworkReply* _reply)
+{
+    switch(_reply->error())
+    {
+    case QNetworkReply::NoError:
+    {
+        qDebug("file is download successfully.");
+    }break;
+    default:
+    {
+        qDebug(_reply->errorString().toLatin1());
+    }
+    }
+    if(file->isOpen())
+    {
+        file->close();
+        file->deleteLater();
+    }
+}
+void MainWindow::onReadyRead()
+{
+    file->write(nrePly->readAll());
+}
+void MainWindow::onReplyFinished()
+{
+    if(file->isOpen())
+    {
+        file->close();
+        file->deleteLater();
+    }
+}
+
 
 void MainWindow::selectItem(QListWidgetItem *item){
     static QGraphicsScene *beforeScene = NULL;              // static이 붙으면 지역변수여도 클래스 안에서 모두 쓸 수 있음.
@@ -150,7 +220,7 @@ void MainWindow::patientLoad()
         patientQuery->exec("DROP TABLE patient");
         patientQuery->exec("CREATE TABLE IF NOT EXISTS patient(ID INTEGER Primary Key,"
                            "Name VARCHAR(20) NOT NULL, Age INTEGER, DoctorID VARCHAR(20),"
-                           "PhotoDate VARCHAR(20));");
+                           "PhotoDate VARCHAR(20), ImageListURL VARCHAR(100));");
 
         patientQueryModel = new QSqlTableModel(this, DB);
         patientQueryModel->setTable("patient");
@@ -162,8 +232,10 @@ void MainWindow::patientLoad()
         patientQueryModel->setHeaderData(2, Qt::Horizontal, QObject::tr("Age"));
         patientQueryModel->setHeaderData(3, Qt::Horizontal, QObject::tr("DoctorID"));
         patientQueryModel->setHeaderData(4, Qt::Horizontal, QObject::tr("PhotoDate"));
+        patientQueryModel->setHeaderData(5, Qt::Horizontal, QObject::tr("ImageListURL"));
 
         ui->patientTableView->setModel(patientQueryModel);
+        ui->patientTableView->hideColumn(5);
 
         //ui->patientTableView->hideColumn(3);
 
@@ -177,46 +249,50 @@ void MainWindow::patientLoad()
         QObject::connect(&mgr, SIGNAL(finished(QNetworkReply*)),
                          &eventLoop, SLOT(quit()));
 
-        /*의사 ID종류에 따른 환자 정보 나열*/
-        QString osstemID = "osstem2";
-
-        /*HTTP 요청(1-4)*/
-
-        QNetworkRequest req(QUrl(QString("http://" + hostName +  ':' + portNum + "/patient/")));
+        QNetworkRequest req( QUrl( QString("http://" + hostName +  ':' + portNum + "/patient/") ) );
         QNetworkReply *reply = mgr.get(req);
-        eventLoop.exec();       //"finished()" 가 호출 될 때까지 블록
+        eventLoop.exec( );           // "finished( )" 가 호출 될때까지 블록
 
-        /*요청에 이상이 없는 경우*/
-        if(reply->error() == QNetworkReply::NoError){
-            QString strReply = (QString)reply->readAll();
+        if (reply->error( ) == QNetworkReply::NoError) {
+            QString strReply = (QString)reply->readAll( );
+            // Json 파싱
+            qDebug( ) << "Response:" << strReply;
 
-            //JSON 파싱(환자 정보는 ID(int), Name(QString), Age(int), DoctorID(QString), PhotoDate(QString))
-            qDebug() << "Response:" << strReply;
-            QJsonDocument jsonResponse = QJsonDocument::fromJson(strReply.toUtf8());
-            QJsonObject jsonObj = jsonResponse.object();
+            /*strReply변수로 모든 Json 데이터를 받으후 Json형태로 포멧팅 */
+            QJsonDocument jsonResponse = QJsonDocument::fromJson(strReply.toUtf8( ));
+            /*Json Object 변수명 설정*/
+            QJsonObject jsonObject = jsonResponse.object();
+            /*Json 형태의 데이터중 "patients"라는 구분자를 찾고 재배열*/
+            QJsonArray jsonArr = jsonObject["patients"].toArray();
 
-            qDebug() << "ID : " << jsonObj["ID"].toString();
-            qDebug() << "Name : " << jsonObj["Name"].toString();
-            qDebug() << "Age : " << jsonObj["Age"].toInt();
-            qDebug() << "DoctorID : " << jsonObj["DoctorID"].toString();
-            qDebug() << "PhotoDate : " << jsonObj["PhotoDate"].toString();
-            if(osstemID == jsonObj["DoctorID"].toString())
-            {
-                patientQuery->exec(QString::fromStdString("INSERT INTO patient VALUES ('%1','%2',%3,'%4','%5')")
-                                   .arg(jsonObj["ID"].toInt()).arg(jsonObj["Name"].toString())
+            /*"patient"구분자의 사이즈 만큼 jsonObj롤 구분*/
+            for(int i = 0; i < jsonArr.size(); i++) {
+                QJsonObject jsonObj = jsonArr.at(i).toObject();    //jsonResponse.object();
+#if 0
+                foreach(const QString& key, jsonObj.keys()) {
+                    QJsonValue value = jsonObj.value(key);
+                    qDebug() << "Key = " << key << ", Value = " << value.toString();
+                }
+#else
+                //JSON 파싱(환자 정보는 ID(int), Name(QString), Age(int), DoctorID(QString), PhotoDate(QString))
+                qDebug( ) << "ID:" << jsonObj["ID"].toString( );
+                qDebug( ) << "Name:" << jsonObj["Name"].toString( );
+                qDebug( ) << "Age:" << jsonObj["Age"].toInt( );
+                qDebug( ) << "DoctorID:" << jsonObj["DoctorID"].toString( );
+                qDebug( ) << "PhotoDate:" << jsonObj["PhotoDate"].toString( );
+                qDebug( ) << "ImageListURL:" << jsonObj["ImageListURL"].toString();
+
+                /*구분된 JsonArr.size() 내부의 Json데이터를 QtDB Table에 Insert*/
+                patientQuery->exec(QString::fromStdString("INSERT INTO patient VALUES ('%1','%2',%3,'%4','%5','%6')")
+                                   .arg(jsonObj["ID"].toString()).arg(jsonObj["Name"].toString())
                         .arg(jsonObj["Age"].toInt()).arg(jsonObj["DoctorID"].toString())
-                        .arg(jsonObj["PhotoDate"].toString()));
-            }else{
-
+                        .arg(jsonObj["PhotoDate"].toString())
+                        .arg(jsonObj["ImageListURL"].toString()));
+#endif
             }
 
             delete reply;
-        }else{  //오류시
-            qDebug() << "Failure" << reply->errorString();
-            delete reply;
-
         }
-
         patientQueryModel->select();
         ui->patientTableView->resizeColumnsToContents();
     }
@@ -234,74 +310,98 @@ void MainWindow::createToolButton()
 }
 
 /*복사된 이미지를 만들때 1로 초기화 하여 copy(1~N).png를 생성*/
-int num = 1;
+//int num = 1;
 void MainWindow::on_patientTableView_doubleClicked(const QModelIndex &index)
 {
+    update();
+    qDebug("[%s] %s : %d", __FILE__, __FUNCTION__, __LINE__);
+    loadImages();
+    QFile::remove(QString("*.png"));
     qDebug() << "selectDB Data Double clicked!";
     //qDebug() << "clicked index : " << ui->patientTableView->doubleClicked(index);
 
     int row =  ui->patientTableView->currentIndex().row();
     int column = ui->patientTableView->currentIndex().column();
 
-    /*데이터 베이스 모델의 1~4 row Data*/
-    for(int i = 0; i < patientQueryModel->rowCount(); i++){
-        /*선택된 데이터 베이스 모델 row 테이블의 데이터를 추출*/
-        int n1 = patientQueryModel->data(patientQueryModel->index(i, 0)).toInt();               //ID
-        QString n2 = patientQueryModel->data(patientQueryModel->index(i, 1)).toString();        //이름
-        int n3 = patientQueryModel->data(patientQueryModel->index(i, 2)).toInt();               //나이
-        QString n4 = patientQueryModel->data(patientQueryModel->index(i, 3)).toString();        //서버에서 다운받은 이미지 폴더 경로
-
-        /*선택된 row + 1과 DB ID로 저장된 번호가 일치하면 (row + 1 = ID)*/
-        /*서버에서 다운로드 받은 이미지 폴더를 빌드폴더로 이동*/
-        //        if(n1 == ui->patientTableView->clicked(index)){
-        //            qDebug() << n1 << " " << n2 << " " << n3 << " " << n4;
-        //            /*선택된 ID의 다운로드 경로에서 이미지를 Qt클라이언트 build 파일로 업로드*/
-
-        //            /*서버에서 다운로드된 이미지의 경로에서 빌드폴더로 copy(1~4).png 명으로 복사*/
-        //            QFile::copy(n4, QString("./copy%1.png").arg(num));
-        //            qDebug("[%s] %s : %d", __FILE__, __FUNCTION__, __LINE__);
-        //            loadImages();
-        //        }
-    }
-    num++;
-
     qDebug() << row << " " << column;
-    //    /*스택 위의 임시 이벤트 루프(event loop)*/
-    //    QEventLoop eventLoop;
+    /*이미지 리스트 명을 변수로 선언 table(row, 5)에 위치한 데이터가 이미지 리스트 URL*/
+    QString ImageListURLName = patientQueryModel->data(patientQueryModel->index(row, 5)).toString();
+    qDebug() << ImageListURLName;
 
-    //    /*"finished()"가 불려지면 이벤트 루프를 종료*/
-    //    QNetworkAccessManager mgr;
-    //    QObject::connect(&mgr, SIGNAL(finished(QNetworkReply*)),
-    //                     &eventLoop, SLOT(quit()));
+    /*스택 위의 임시 이벤트 루프(event loop)*/
+    QEventLoop eventLoop;
 
-    //    /*의사 ID종류에 따른 환자 정보 나열*/
-    //    QString osstemID = "osstem2";
+    /*"finished()"가 불려지면 이벤트 루프를 종료*/
+    QNetworkAccessManager mgr;
+    QObject::connect(&mgr, SIGNAL(finished(QNetworkReply*)),
+                     &eventLoop, SLOT(quit()));
+    /*URL 접속 여부 확인*/
 
-    //    /*HTTP 요청(1-4)*/
-    //    for(int patientNum = 1; patientNum <= 8; patientNum++){
-    //        QNetworkRequest req(QUrl(QString("http://127.0.0.1:3000/patient/%1/").arg(patientNum)));
-    //        QNetworkReply *reply = mgr.get(req);
-    //        eventLoop.exec();       //"finished()" 가 호출 될 때까지 블록
+    /*더블클릭된 이미지 리스트 URL안의 이미지 Json 데이터 호출*/
+    QNetworkRequest req(QString("%1").arg(ImageListURLName));
+    QNetworkReply *reply = mgr.get(req);
+    eventLoop.exec( );           // "finished( )" 가 호출 될때까지 블록
 
-    //        /*요청에 이상이 없는 경우*/
-    //        if(reply->error() == QNetworkReply::NoError){
-    //            QString strReply = (QString)reply->readAll();
+    /*이미지 URL을 저장하기 위한 vector*/
+    QStringList files;
+    QString saveFilePath;
 
-    //            //JSON 파싱(환자 정보는 ID(int), Name(QString), Age(int), DoctorID(QString), PhotoDate(QString))
-    //            qDebug() << "Response:" << strReply;
-    //            QJsonDocument jsonResponse = QJsonDocument::fromJson(strReply.toUtf8());
-    //            QJsonObject jsonObj = jsonResponse.object();
+    if (reply->error( ) == QNetworkReply::NoError) {
+        QString strReply = (QString)reply->readAll( );
+        // Json 파싱
+        qDebug( ) << "Response:" << strReply;
 
-    //            qDebug() << "ID : " << jsonObj["ID"].toInt();
-    //            qDebug() << "Name : " << jsonObj["Name"].toString();
-    //            qDebug() << "Age : " << jsonObj["Age"].toInt();
-    //            qDebug() << "DoctorID : " << jsonObj["DoctorID"].toString();
-    //            qDebug() << "PhotoDate : " << jsonObj["PhotoDate"].toString();
-    //            delete reply;
-    //        }else{  //오류시
-    //            qDebug() << "Failure" << reply->errorString();
-    //            delete reply;
-    //        }
-    //    }
+        QJsonDocument jsonResponse = QJsonDocument::fromJson(strReply.toUtf8( ));
+        /*위에서 적었던 patients와 같은 구분이 없어 전체데이터를 Array화*/
+        QJsonArray jsonArr = jsonResponse.array();
+        for(int i = 0; i < jsonArr.size(); i++) {
+            QJsonObject jsonObj = jsonArr.at(i).toObject();    //jsonResponse.object();
+#if 0
+            foreach(const QString& key, jsonObj.keys()) {
+                QJsonValue value = jsonObj.value(key);
+                qDebug() << "Key = " << key << ", Value = " << value.toString();
+            }
+#else
+            /*Json 파싱 데이터 ID(QString), ImageName(QString), PixelLength(double), ImageKinds(QString), ImagePathURL(QString)*/
+            //qDebug( ) << "ID:" << jsonObj["ID"].toString( );
+            //qDebug( ) << "ImageName:" << jsonObj["ImageName"].toString( );
+            //qDebug( ) << "PixelLength:" << jsonObj["PixelLength"].toDouble( );
+            //qDebug( ) << "ImageKinds:" << jsonObj["ImageKinds"].toString();
+            /*이게 제일 중요 해당 이미지를 이 URL에서 호출하도록 해야함*/
+            qDebug( ) << "ImagePathURL:" << jsonObj["ImagePathURL"].toString(); //이미지 URL 호출
+
+            qDebug("[%s] %s : %d", __FILE__, __FUNCTION__, __LINE__);
+
+            files << jsonObj["ImagePathURL"].toString();
+            doDownload(files);
+
+#endif
+        }
+
+        delete reply;
+    }
+}
+
+void MainWindow::doDownload(const QVariant& v)
+{
+    if(v.type() == QVariant::StringList){
+        foreach(QString url, v.toStringList()){
+            QNetworkReply *reply = manager->get(QNetworkRequest(QUrl(url)));
+            connect(reply, SIGNAL(downloadProgress(qint64, qint64)), this, SLOT(onDownloadProgress(qint64,qint64)));
+            qDebug() << "url:" << url;
+            //QString saveFilePath = QString("./" + url);
+            currentDownloads.append(reply);
+
+            setFile(url);
+
+            loadImages();
+        }
+    }
+}
+
+void MainWindow::downloadFinished(QNetworkReply *reply)
+{
+    currentDownloads.removeAll(reply);
+    reply->deleteLater();
 }
 

@@ -242,11 +242,11 @@ void MainWindow::on_patientTableView_doubleClicked(const QModelIndex &index)
             /*서버에서 다운로드된 이미지의 경로에서 빌드폴더로 copy(1~4).png 명으로 복사*/
             QFile::copy(n4, QString("./copy%1.png").arg(num));
             //qDebug("[%s] %s : %d", __FILE__, __FUNCTION__, __LINE__);
-            loadImages();
+
         }
     }
-    num++;
 
+    loadImages();   //이미지로드가 뒤는게 나오는데 이유가 뭔지 모르겠음
     qDebug() << row << " " << column;
 }
 

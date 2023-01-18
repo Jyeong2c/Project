@@ -13,13 +13,15 @@ SOURCES += \
     layout.cpp \
     #listalbum.cpp \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    #qdownloader.cpp
 
 HEADERS += \
     fmx.h \
     layout.h \
     #listalbum.h \
-    mainwindow.h
+    mainwindow.h \
+    #qdownloader.h
 
 FORMS += \
     mainwindow.ui
