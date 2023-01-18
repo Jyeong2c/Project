@@ -110,8 +110,10 @@ MainWindow::~MainWindow()
 
     //빌드 폴더 내에 png 데이터 전체 삭제
     for(int i = 0; i < 1000; i++){
-        QFile::remove(QString("./copy%1.png").arg(i));
+        //QFile::remove(QString("./copy%1.png").arg(i));
     }
+
+    manager->deleteLater();
 }
 
 void MainWindow::loadImages()
@@ -144,16 +146,16 @@ void MainWindow::setFile(QString fileURL){
     /*받아오는 이미지(파일)을 네트워크상에 요구*/
     QNetworkRequest request;
     request.setUrl(QUrl(fileURL));
-    nrePly = manager->get(request);
+    reply = manager->get(request);
 
     file = new QFile;
     file->setFileName(saveFilePath);
     file->open(QIODevice::WriteOnly);
 
-    connect(nrePly, SIGNAL(downloadProgress(qint64, qint64)), this, SLOT(onDownloadProgress(qint64,qint64)));
+    connect(reply, SIGNAL(downloadProgress(qint64, qint64)), this, SLOT(onDownloadProgress(qint64,qint64)));
     connect(manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(onFinished(QNetworkReply*)));
-    connect(nrePly, SIGNAL(readyRead()), this, SLOT(onReadyRead()));
-    connect(nrePly, SIGNAL(finished()), this, SLOT(onReplyFinished()));
+    connect(reply, SIGNAL(readyRead()), this, SLOT(onReadyRead()));
+    connect(reply, SIGNAL(finished()), this, SLOT(onReplyFinished()));
 }      // 파일 설정 함수
 
 void MainWindow::onDownloadProgress(qint64 bytesRead, qint64 bytesTotal)
@@ -176,12 +178,12 @@ void MainWindow::onFinished(QNetworkReply* _reply)
     if(file->isOpen())
     {
         file->close();
-        file->deleteLater();
+        //file->deleteLater();
     }
 }
 void MainWindow::onReadyRead()
 {
-    file->write(nrePly->readAll());
+    file->write(reply->readAll());
 }
 void MainWindow::onReplyFinished()
 {
@@ -316,7 +318,6 @@ void MainWindow::on_patientTableView_doubleClicked(const QModelIndex &index)
     update();
     qDebug("[%s] %s : %d", __FILE__, __FUNCTION__, __LINE__);
     loadImages();
-    QFile::remove(QString("*.png"));
     qDebug() << "selectDB Data Double clicked!";
     //qDebug() << "clicked index : " << ui->patientTableView->doubleClicked(index);
 
@@ -341,10 +342,6 @@ void MainWindow::on_patientTableView_doubleClicked(const QModelIndex &index)
     QNetworkRequest req(QString("%1").arg(ImageListURLName));
     QNetworkReply *reply = mgr.get(req);
     eventLoop.exec( );           // "finished( )" 가 호출 될때까지 블록
-
-    /*이미지 URL을 저장하기 위한 vector*/
-    QStringList files;
-    QString saveFilePath;
 
     if (reply->error( ) == QNetworkReply::NoError) {
         QString strReply = (QString)reply->readAll( );
@@ -372,36 +369,11 @@ void MainWindow::on_patientTableView_doubleClicked(const QModelIndex &index)
 
             qDebug("[%s] %s : %d", __FILE__, __FUNCTION__, __LINE__);
 
-            files << jsonObj["ImagePathURL"].toString();
-            doDownload(files);
-
+            setFile(jsonObj["ImagePathURL"].toString());
+            loadImages();
 #endif
         }
 
         delete reply;
     }
 }
-
-void MainWindow::doDownload(const QVariant& v)
-{
-    if(v.type() == QVariant::StringList){
-        foreach(QString url, v.toStringList()){
-            QNetworkReply *reply = manager->get(QNetworkRequest(QUrl(url)));
-            connect(reply, SIGNAL(downloadProgress(qint64, qint64)), this, SLOT(onDownloadProgress(qint64,qint64)));
-            qDebug() << "url:" << url;
-            //QString saveFilePath = QString("./" + url);
-            currentDownloads.append(reply);
-
-            setFile(url);
-
-            loadImages();
-        }
-    }
-}
-
-void MainWindow::downloadFinished(QNetworkReply *reply)
-{
-    currentDownloads.removeAll(reply);
-    reply->deleteLater();
-}
-

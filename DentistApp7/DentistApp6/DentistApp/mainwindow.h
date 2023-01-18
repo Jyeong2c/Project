@@ -40,8 +40,8 @@ public:
     void createToolButton();            // 버튼 크기 조절
     void loadImages();
 
-    void doDownload(const QVariant& v);
-    void downloadFinished(QNetworkReply *reply);
+//    void doDownload(const QVariant& v);
+//    void downloadFinished(QNetworkReply *reply);
 
 public slots:
     void selectItem(QListWidgetItem*);
@@ -79,7 +79,7 @@ private:
     /*네트워크 연동 변수*/
     QNetworkAccessManager *manager;
     QList<QNetworkReply *> currentDownloads;
-    QNetworkReply *nrePly;
+    QNetworkReply *reply;
     QFile *file;
 };
 #endif // MAINWINDOW_H
