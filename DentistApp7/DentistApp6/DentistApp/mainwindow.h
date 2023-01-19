@@ -24,7 +24,7 @@ class QListWidgetItem;
 
 class QProgressDialog;
 class QWebSocketServer;
-class QDownloader;
+class Downloader;
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; class QDownloader;}
@@ -71,18 +71,19 @@ private:
 
    ////////////////////////////////////////////////
 private:
-   QDownloader* downLoader;
+   Downloader* downLoader;
 
 public slots:
    void receiveupload();
+   void onFinished(QNetworkReply*);
 };
 
-class QDownloader : public QObject
+class Downloader : public QObject
 {
     Q_OBJECT
 public:
-    explicit QDownloader(QObject *parent = 0);
-    virtual ~QDownloader();
+    explicit Downloader(QObject *parent = 0);
+    virtual ~Downloader();
     void setFile(QString fileURL, QString folderName, QString fileName);
 
 private:

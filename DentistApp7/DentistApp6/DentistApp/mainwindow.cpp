@@ -114,16 +114,15 @@ void MainWindow::loadImages()
 {
     qDebug("[%s] %s : %d", __FILE__, __FUNCTION__, __LINE__);
     update();
-    QDir dir("./");
+    QDir dir("./Images/");
     QStringList filters;
     filters << "*.png" << "*.jpg" << "*.bmp";
     QFileInfoList fileInfoList = dir.entryInfoList(filters, QDir::Files | QDir::NoDotAndDotDot);
-    //gridLayout->scene->clear();
 
     ui->listWidget->clear();
     for(int i=0; i<fileInfoList.count(); i++){
-        QListWidgetItem* item = new QListWidgetItem(QIcon(fileInfoList.at(i).fileName()), NULL, ui->listWidget);
-        item->setStatusTip(fileInfoList.at(i).fileName());
+        QListWidgetItem* item = new QListWidgetItem(QIcon("./Images/" + fileInfoList.at(i).fileName()), NULL, ui->listWidget);
+        item->setStatusTip("./Images/" + fileInfoList.at(i).fileName());
         ui->listWidget->addItem(item);
     };
     update();
@@ -139,9 +138,15 @@ void MainWindow::selectItem(QListWidgetItem *item){
     beforeScene = newScene;
     newScene->setBackgroundBrush(Qt::black);
 
-    customLayout->grid1->setScene(newScene);
-    newScene->addPixmap(QPixmap(item->statusTip()).scaledToHeight(customLayout->grid1->height()-2));
+    //    customLayout->grid1->setScene(newScene);
+    //    newScene->addPixmap(QPixmap(item->statusTip()).scaledToHeight(customLayout->grid1->height()-2));
 
+    //    customLayout->grid1->setAlignment(Qt::AlignCenter);
+
+    customLayout->scene1->clear();
+    customLayout->grid1->setScene(customLayout->scene1);
+    QSize size = customLayout->grid1->viewport()->size();
+    customLayout->scene1->addPixmap(QPixmap(item->statusTip()).scaled(size, Qt::KeepAspectRatio));
     customLayout->grid1->setAlignment(Qt::AlignCenter);
 }
 
@@ -246,11 +251,11 @@ void MainWindow::createToolButton()
     ui->ColortoolButton->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
 }
 
-/*복사된 이미지를 만들때 1로 초기화 하여 copy(1~N).png를 생성*/
-//int num = 1;
 void MainWindow::on_patientTableView_doubleClicked(const QModelIndex &index)
 {
     update();
+    QDir dir("./Images/");
+    dir.removeRecursively();
     qDebug("[%s] %s : %d", __FILE__, __FUNCTION__, __LINE__);
     //loadImages();
     qDebug() << "selectDB Data Double clicked!";
@@ -264,20 +269,23 @@ void MainWindow::on_patientTableView_doubleClicked(const QModelIndex &index)
     QString ImageListURLName = patientQueryModel->data(patientQueryModel->index(row, 5)).toString();
     qDebug() << ImageListURLName;
 
-    /*스택 위의 임시 이벤트 루프(event loop)*/
-    QEventLoop eventLoop;
-
     /*"finished()"가 불려지면 이벤트 루프를 종료*/
-    QNetworkAccessManager mgr;
-    QObject::connect(&mgr, SIGNAL(finished(QNetworkReply*)),
-                     &eventLoop, SLOT(quit()));
+    QNetworkAccessManager *manager = new QNetworkAccessManager(this);
+    connect(manager, &QNetworkAccessManager::finished,
+            this, &MainWindow::onFinished);
+
     /*URL 접속 여부 확인*/
 
+    qDebug("URL 접속 여부 확인");
     /*더블클릭된 이미지 리스트 URL안의 이미지 Json 데이터 호출*/
     QNetworkRequest req(QString("%1").arg(ImageListURLName));
-    QNetworkReply *reply = mgr.get(req);
-    eventLoop.exec( );           // "finished( )" 가 호출 될때까지 블록
+    //    QNetworkReply *reply =
+    manager->get(req);
+}
 
+void MainWindow::onFinished(QNetworkReply* reply)
+{
+    qDebug("MainWindow::onFinished");
     if (reply->error( ) == QNetworkReply::NoError) {
         QString strReply = (QString)reply->readAll( );
         // Json 파싱
@@ -310,36 +318,37 @@ void MainWindow::on_patientTableView_doubleClicked(const QModelIndex &index)
             qDebug("[%s] %s : %d", __FILE__, __FUNCTION__, __LINE__);
 #endif
             /*이미지를 다운로드 받을 수 있는 변수 재할당*/
-            downLoader = new QDownloader(this);
+            downLoader = new Downloader(this);
             /*이미지 URL, 다운로드 받을 폴더 명, 이미지 파일 이름*/
-            downLoader->setFile(ImageURL, "./", ImageName);
+            downLoader->setFile(ImageURL, "./Images/", ImageName);
 
-            connect(downLoader, &QDownloader::sendUpload, this, &MainWindow::receiveupload);
+            connect(downLoader, &Downloader::sendUpload, this, &MainWindow::receiveupload);
             qDebug("[%s] %s : %d", __FILE__, __FUNCTION__, __LINE__);
 
         }
 
-        delete reply;
+        reply->deleteLater();
     }
 }
 
 void MainWindow::receiveupload()
 {
+    qDebug("[%s] %s : %d", __FILE__, __FUNCTION__, __LINE__);
     loadImages();
 }
 
-QDownloader::QDownloader(QObject *parent) :
+Downloader::Downloader(QObject *parent) :
     QObject(parent)
 {
     manager = new QNetworkAccessManager;
 }
 
-QDownloader::~QDownloader()
+Downloader::~Downloader()
 {
     manager->deleteLater();
 }
 
-void QDownloader::setFile(QString fileURL, QString folderName, QString fileName)
+void Downloader::setFile(QString fileURL, QString folderName, QString fileName)
 {
 
     QDir dir;
@@ -357,17 +366,12 @@ void QDownloader::setFile(QString fileURL, QString folderName, QString fileName)
     QString saveFilePath;
     saveFilePath = QString(folderName + "/" + fileName + "." + fileExt );
 
-
-
     QNetworkRequest request;
     request.setUrl(QUrl(fileURL));
     reply = manager->get(request);
 
-
-
     file = new QFile;
     file->setFileName(saveFilePath);
-
 
     connect(reply,SIGNAL(downloadProgress(qint64,qint64)),this,SLOT(onDownloadProgress(qint64,qint64)));
     connect(manager,SIGNAL(finished(QNetworkReply*)),this,SLOT(onFinished(QNetworkReply*)));
@@ -375,13 +379,22 @@ void QDownloader::setFile(QString fileURL, QString folderName, QString fileName)
     connect(reply,SIGNAL(finished()),this,SLOT(onReplyFinished()));
 }
 
-void QDownloader::onDownloadProgress(qint64 bytesRead,qint64 bytesTotal)
+void Downloader::onDownloadProgress(qint64 bytesRead,qint64 bytesTotal)
 {
     qDebug(QString::number(bytesRead).toLatin1() +" - "+ QString::number(bytesTotal).toLatin1());
 }
 
-void QDownloader::onFinished(QNetworkReply * reply)
+void Downloader::onFinished(QNetworkReply * reply)
 {
+    /*파일을 먼저 닫은 다음에 emit신호를 보내야 온전히 이미지 리스트들을 부를 수 있음*/
+    qDebug("[%s] %s : %d", __FILE__, __FUNCTION__, __LINE__);
+    if(file->isOpen())
+    {
+        file->close();
+        file->deleteLater();
+    }
+
+    qDebug("[%s] %s : %d", __FILE__, __FUNCTION__, __LINE__);
     switch(reply->error())
     {
     case QNetworkReply::NoError:
@@ -395,22 +408,17 @@ void QDownloader::onFinished(QNetworkReply * reply)
         qDebug(reply->errorString().toLatin1());
     };
     }
-
-    if(file->isOpen())
-    {
-        file->close();
-        file->deleteLater();
-    }
+    qDebug("[%s] %s : %d", __FILE__, __FUNCTION__, __LINE__);
 }
 
-void QDownloader::onReadyRead()
+void Downloader::onReadyRead()
 {
     qDebug() << "Ready";
     file->open(QIODevice::WriteOnly);
     file->write(reply->readAll());
 }
 
-void QDownloader::onReplyFinished()
+void Downloader::onReplyFinished()
 {
     if(file->isOpen())
     {
