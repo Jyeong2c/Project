@@ -57,8 +57,6 @@ MainWindow::MainWindow(QWidget *parent)
     ui->listWidget->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     connect(ui->listWidget, SIGNAL(itemClicked(QListWidgetItem*)), SLOT(selectItem(QListWidgetItem*)));
 
-    loadImages();
-
     QList<int> sizes;
     sizes << 700 << 70;
     ui->splitter->setSizes(sizes);
@@ -116,7 +114,7 @@ void MainWindow::loadImages()
 {
     qDebug("[%s] %s : %d", __FILE__, __FUNCTION__, __LINE__);
     update();
-    QDir dir(".");
+    QDir dir("./");
     QStringList filters;
     filters << "*.png" << "*.jpg" << "*.bmp";
     QFileInfoList fileInfoList = dir.entryInfoList(filters, QDir::Files | QDir::NoDotAndDotDot);
@@ -254,7 +252,7 @@ void MainWindow::on_patientTableView_doubleClicked(const QModelIndex &index)
 {
     update();
     qDebug("[%s] %s : %d", __FILE__, __FUNCTION__, __LINE__);
-    loadImages();
+    //loadImages();
     qDebug() << "selectDB Data Double clicked!";
     //qDebug() << "clicked index : " << ui->patientTableView->doubleClicked(index);
 
@@ -288,6 +286,7 @@ void MainWindow::on_patientTableView_doubleClicked(const QModelIndex &index)
         QJsonDocument jsonResponse = QJsonDocument::fromJson(strReply.toUtf8( ));
         /*위에서 적었던 patients와 같은 구분이 없어 전체데이터를 Array화*/
         QJsonArray jsonArr = jsonResponse.array();
+
         for(int i = 0; i < jsonArr.size(); i++) {
             QJsonObject jsonObj = jsonArr.at(i).toObject();    //jsonResponse.object();
 #if 0
@@ -298,7 +297,6 @@ void MainWindow::on_patientTableView_doubleClicked(const QModelIndex &index)
 #else
             /*Json 파싱 데이터 ID(QString), ImageName(QString), PixelLength(double), ImageKinds(QString), ImagePathURL(QString)*/
             //qDebug( ) << "ID:" << jsonObj["ID"].toString( );
-            //qDebug( ) << "ImageName:" << jsonObj["ImageName"].toString( );
             //qDebug( ) << "PixelLength:" << jsonObj["PixelLength"].toDouble( );
             //qDebug( ) << "ImageKinds:" << jsonObj["ImageKinds"].toString();
             /*이게 제일 중요 해당 이미지를 이 URL에서 호출하도록 해야함*/
@@ -311,36 +309,23 @@ void MainWindow::on_patientTableView_doubleClicked(const QModelIndex &index)
 
             qDebug("[%s] %s : %d", __FILE__, __FUNCTION__, __LINE__);
 #endif
+            /*이미지를 다운로드 받을 수 있는 변수 재할당*/
+            downLoader = new QDownloader(this);
+            /*이미지 URL, 다운로드 받을 폴더 명, 이미지 파일 이름*/
+            downLoader->setFile(ImageURL, "./", ImageName);
 
-#if 1
-            downloader = new QDownloader(this);
-            downloader->setFile(ImageURL, "./", ImageName);
-#else
+            connect(downLoader, &QDownloader::sendUpload, this, &MainWindow::receiveupload);
+            qDebug("[%s] %s : %d", __FILE__, __FUNCTION__, __LINE__);
 
-            /*웹 파일 수신을 위한 서버 연동*/
-            webServer = new QWebSocketServer( ImageURL
-                                              ,QWebSocketServer::NonSecureMode
-                                              ,this);
-            qDebug("[%s] %s : %d", __FILE__, __FUNCTION__, __LINE__);
-            connect(webServer, &QWebSocketServer::newConnection, this ,&MainWindow::acceptConnection);
-            qDebug("[%s] %s : %d", __FILE__, __FUNCTION__, __LINE__);
-            if(!webServer->listen(QHostAddress::Any)){
-                QMessageBox::critical(this, tr("Server Warining"),
-                                      tr("Unable to start the server : %1.")
-                                      .arg(webServer->errorString()));
-                //close();
-                qDebug("[%s] %s : %d", __FILE__, __FUNCTION__, __LINE__);
-                return;
-            }
-            qDebug("[%s] %s : %d", __FILE__, __FUNCTION__, __LINE__);
-            //connect(webServer, SIGNAL(newConnection()), this ,SLOT(acceptConnection()));
-            //loadImages();
-#endif
         }
-        loadImages();
 
         delete reply;
     }
+}
+
+void MainWindow::receiveupload()
+{
+    loadImages();
 }
 
 QDownloader::QDownloader(QObject *parent) :
@@ -402,6 +387,9 @@ void QDownloader::onFinished(QNetworkReply * reply)
     case QNetworkReply::NoError:
     {
         qDebug("file is downloaded successfully.");
+
+        emit sendUpload();
+        qDebug("[%s] %s : %d", __FILE__, __FUNCTION__, __LINE__);
     }break;
     default:{
         qDebug(reply->errorString().toLatin1());

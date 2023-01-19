@@ -27,7 +27,7 @@ class QWebSocketServer;
 class QDownloader;
 
 QT_BEGIN_NAMESPACE
-namespace Ui { class MainWindow; }
+namespace Ui { class MainWindow; class QDownloader;}
 QT_END_NAMESPACE
 
 class MainWindow : public QMainWindow
@@ -69,29 +69,12 @@ private:
     QString portNum = "3000";
 
 
-    ///////////////////////////////////////////////
-
-#if 0
-public slots:
-    void acceptConnection();            /*파일 서버*/
-    void readClient();
-
+   ////////////////////////////////////////////////
 private:
-    /*웹 서버 변수 설정*/
-    QWebSocketServer* webServer;
-    /*프로그래스 다이얼로그 변수 설정*/
-    QProgressDialog* progressDialog;
-    /*데이터를 받는 변수*/
-    qint64 byteReceived;
-    /*데이터 전체 사이즈*/
-    qint64 totalSize;
-    /*파일 생성 변수*/
-    QFile* file;
-    /*바이트 데이터를 받기위한 변수*/
-    QByteArray inBlock;
-#else
-   QDownloader* downloader;
-#endif
+   QDownloader* downLoader;
+
+public slots:
+   void receiveupload();
 };
 
 class QDownloader : public QObject
@@ -107,11 +90,17 @@ private:
     QNetworkReply *reply;
     QFile *file;
 
+    //UI연동
+    Ui::MainWindow *ui;
+
 private slots:
     void onDownloadProgress(qint64,qint64);
     void onFinished(QNetworkReply*);
     void onReadyRead();
     void onReplyFinished();
+
+signals:
+    void sendUpload();
 };
 
 #endif // MAINWINDOW_H
