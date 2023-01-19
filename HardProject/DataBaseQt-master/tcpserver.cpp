@@ -352,6 +352,7 @@ void TCPServer::inviteClient()
     }
 }
 
+/* 강사님께서 가르쳐 주신 부분 */
 /* 파일 전송 */
 void TCPServer::acceptConnection()
 {
@@ -426,3 +427,4 @@ void TCPServer::readClient()    /*들어온 파일을 프로젝트가 읽을 수
         /*보내는 데이터를 초기화*/
     }
 }
+/* 강사님께서 가르쳐 주신 부분 */

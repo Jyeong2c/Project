@@ -32,15 +32,21 @@
 #include <QJsonValue>
 #include <QFileDialog>
 
+/*해당되는 URL로부터 이미지로드를 위한 헤더*/
 #include <iostream>
 #include <windows.h>
 #include <vector>
+#include <QProgressDialog>
+#include <QWebSocketServer>
+#include <QMessageBox>
+#include <QWebSocket>
+#include <QDataStream>
 
 using namespace std;
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
-    , ui(new Ui::MainWindow)
+    , ui(new Ui::MainWindow) /*, byteReceived(0), totalSize(0)*/
 {
     ui->setupUi(this);
 
@@ -52,8 +58,6 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->listWidget, SIGNAL(itemClicked(QListWidgetItem*)), SLOT(selectItem(QListWidgetItem*)));
 
     loadImages();
-
-    manager = new QNetworkAccessManager;
 
     QList<int> sizes;
     sizes << 700 << 70;
@@ -95,7 +99,6 @@ MainWindow::MainWindow(QWidget *parent)
     QMdiSubWindow *cw = ui->mdiArea->addSubWindow(customLayout);
     ui->mdiArea->addSubWindow(fmx);
     ui->mdiArea->setActiveSubWindow(cw);
-
 }
 
 MainWindow::~MainWindow()
@@ -107,13 +110,6 @@ MainWindow::~MainWindow()
         delete patientQueryModel;
         clDB.close();
     }
-
-    //빌드 폴더 내에 png 데이터 전체 삭제
-    for(int i = 0; i < 1000; i++){
-        //QFile::remove(QString("./copy%1.png").arg(i));
-    }
-
-    manager->deleteLater();
 }
 
 void MainWindow::loadImages()
@@ -133,65 +129,6 @@ void MainWindow::loadImages()
         ui->listWidget->addItem(item);
     };
     update();
-}
-
-void MainWindow::setFile(QString fileURL){
-    /*파일 경로 찾기 후 지정된 파일 경로에 이미지를 다운로드*/
-    QString filePath = fileURL;
-    QString saveFilePath;
-    QStringList filePathList = filePath.split('/');
-    QString fileName = filePathList.at(filePathList.count() - 1);
-    saveFilePath = QString("./" + fileName);
-
-    /*받아오는 이미지(파일)을 네트워크상에 요구*/
-    QNetworkRequest request;
-    request.setUrl(QUrl(fileURL));
-    reply = manager->get(request);
-
-    file = new QFile;
-    file->setFileName(saveFilePath);
-    file->open(QIODevice::WriteOnly);
-
-    connect(reply, SIGNAL(downloadProgress(qint64, qint64)), this, SLOT(onDownloadProgress(qint64,qint64)));
-    connect(manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(onFinished(QNetworkReply*)));
-    connect(reply, SIGNAL(readyRead()), this, SLOT(onReadyRead()));
-    connect(reply, SIGNAL(finished()), this, SLOT(onReplyFinished()));
-}      // 파일 설정 함수
-
-void MainWindow::onDownloadProgress(qint64 bytesRead, qint64 bytesTotal)
-{
-    qDebug(QString::number(bytesRead).toLatin1() + " - " + QString::number(bytesTotal).toLatin1());
-}
-void MainWindow::onFinished(QNetworkReply* _reply)
-{
-    switch(_reply->error())
-    {
-    case QNetworkReply::NoError:
-    {
-        qDebug("file is download successfully.");
-    }break;
-    default:
-    {
-        qDebug(_reply->errorString().toLatin1());
-    }
-    }
-    if(file->isOpen())
-    {
-        file->close();
-        //file->deleteLater();
-    }
-}
-void MainWindow::onReadyRead()
-{
-    file->write(reply->readAll());
-}
-void MainWindow::onReplyFinished()
-{
-    if(file->isOpen())
-    {
-        file->close();
-        file->deleteLater();
-    }
 }
 
 
@@ -365,15 +302,132 @@ void MainWindow::on_patientTableView_doubleClicked(const QModelIndex &index)
             //qDebug( ) << "PixelLength:" << jsonObj["PixelLength"].toDouble( );
             //qDebug( ) << "ImageKinds:" << jsonObj["ImageKinds"].toString();
             /*이게 제일 중요 해당 이미지를 이 URL에서 호출하도록 해야함*/
+            qDebug( ) << "Imagename: " << jsonObj["ImageName"].toString( );
             qDebug( ) << "ImagePathURL:" << jsonObj["ImagePathURL"].toString(); //이미지 URL 호출
 
-            qDebug("[%s] %s : %d", __FILE__, __FUNCTION__, __LINE__);
+            /* 데이터 베이스 테이블을 클릭시 해당하는 URL의 ImageURL */
+            QString ImageURL = jsonObj["ImagePathURL"].toString();
+            QString ImageName = jsonObj["ImageName"].toString( );
 
-            setFile(jsonObj["ImagePathURL"].toString());
-            loadImages();
+            qDebug("[%s] %s : %d", __FILE__, __FUNCTION__, __LINE__);
+#endif
+
+#if 1
+            downloader = new QDownloader(this);
+            downloader->setFile(ImageURL, "./", ImageName);
+#else
+
+            /*웹 파일 수신을 위한 서버 연동*/
+            webServer = new QWebSocketServer( ImageURL
+                                              ,QWebSocketServer::NonSecureMode
+                                              ,this);
+            qDebug("[%s] %s : %d", __FILE__, __FUNCTION__, __LINE__);
+            connect(webServer, &QWebSocketServer::newConnection, this ,&MainWindow::acceptConnection);
+            qDebug("[%s] %s : %d", __FILE__, __FUNCTION__, __LINE__);
+            if(!webServer->listen(QHostAddress::Any)){
+                QMessageBox::critical(this, tr("Server Warining"),
+                                      tr("Unable to start the server : %1.")
+                                      .arg(webServer->errorString()));
+                //close();
+                qDebug("[%s] %s : %d", __FILE__, __FUNCTION__, __LINE__);
+                return;
+            }
+            qDebug("[%s] %s : %d", __FILE__, __FUNCTION__, __LINE__);
+            //connect(webServer, SIGNAL(newConnection()), this ,SLOT(acceptConnection()));
+            //loadImages();
 #endif
         }
+        loadImages();
 
         delete reply;
     }
 }
+
+QDownloader::QDownloader(QObject *parent) :
+    QObject(parent)
+{
+    manager = new QNetworkAccessManager;
+}
+
+QDownloader::~QDownloader()
+{
+    manager->deleteLater();
+}
+
+void QDownloader::setFile(QString fileURL, QString folderName, QString fileName)
+{
+
+    QDir dir;
+    if(dir.exists(folderName)){
+        qDebug() << "Existis: " + folderName;
+    }else{
+        dir.mkdir(folderName);
+        qDebug() << "Created: " + folderName;
+    }
+
+    QString filePath = fileURL;
+    QStringList filePathList = filePath.split('/');
+    QString fileExt = filePathList.at(filePathList.count() - 1);
+    fileExt = "png";
+    QString saveFilePath;
+    saveFilePath = QString(folderName + "/" + fileName + "." + fileExt );
+
+
+
+    QNetworkRequest request;
+    request.setUrl(QUrl(fileURL));
+    reply = manager->get(request);
+
+
+
+    file = new QFile;
+    file->setFileName(saveFilePath);
+
+
+    connect(reply,SIGNAL(downloadProgress(qint64,qint64)),this,SLOT(onDownloadProgress(qint64,qint64)));
+    connect(manager,SIGNAL(finished(QNetworkReply*)),this,SLOT(onFinished(QNetworkReply*)));
+    connect(reply,SIGNAL(readyRead()),this,SLOT(onReadyRead()));
+    connect(reply,SIGNAL(finished()),this,SLOT(onReplyFinished()));
+}
+
+void QDownloader::onDownloadProgress(qint64 bytesRead,qint64 bytesTotal)
+{
+    qDebug(QString::number(bytesRead).toLatin1() +" - "+ QString::number(bytesTotal).toLatin1());
+}
+
+void QDownloader::onFinished(QNetworkReply * reply)
+{
+    switch(reply->error())
+    {
+    case QNetworkReply::NoError:
+    {
+        qDebug("file is downloaded successfully.");
+    }break;
+    default:{
+        qDebug(reply->errorString().toLatin1());
+    };
+    }
+
+    if(file->isOpen())
+    {
+        file->close();
+        file->deleteLater();
+    }
+}
+
+void QDownloader::onReadyRead()
+{
+    qDebug() << "Ready";
+    file->open(QIODevice::WriteOnly);
+    file->write(reply->readAll());
+}
+
+void QDownloader::onReplyFinished()
+{
+    if(file->isOpen())
+    {
+        file->close();
+        file->deleteLater();
+    }
+}
+
