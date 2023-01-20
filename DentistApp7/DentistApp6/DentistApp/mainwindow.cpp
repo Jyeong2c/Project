@@ -387,6 +387,7 @@ void Downloader::onDownloadProgress(qint64 bytesRead,qint64 bytesTotal)
 void Downloader::onFinished(QNetworkReply * reply)
 {
     /*파일을 먼저 닫은 다음에 emit신호를 보내야 온전히 이미지 리스트들을 부를 수 있음*/
+    /*close() -> relpy()*/
     qDebug("[%s] %s : %d", __FILE__, __FUNCTION__, __LINE__);
     if(file->isOpen())
     {

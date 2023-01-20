@@ -78,6 +78,7 @@ public slots:
    void onFinished(QNetworkReply*);
 };
 
+/*Qt에서 클래스를 정의 할 때 앞 클래스에 Q를 붙이지 말 것!*/
 class Downloader : public QObject
 {
     Q_OBJECT
@@ -90,9 +91,6 @@ private:
     QNetworkAccessManager *manager;
     QNetworkReply *reply;
     QFile *file;
-
-    //UI연동
-    Ui::MainWindow *ui;
 
 private slots:
     void onDownloadProgress(qint64,qint64);
