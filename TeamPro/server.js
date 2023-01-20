@@ -16,9 +16,9 @@ var portNum = 3000;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-//이미지 파일 서버 업로드 부분
+/*이미지 파일 서버 업로드 부분*/
 app.get('/Files/:id', (req, res) => {
-
+    /*파일 디렉토리 이미지 Content-Type : image/png로 설정(멘토님 께선 application/json로 설정 권장하였음.) */ 
     res.writeHead(200, {'Content-Type':'image/png'});
     fs.readFile(__dirname + '\\Files\\' + req.params.id, (err, data) => {
       if (err) {
