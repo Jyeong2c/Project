@@ -110,6 +110,7 @@ MainWindow::~MainWindow()
     }
 }
 
+/*서버의 환자를 클릭시 ./Images/ 에 위치한 이미지들을 listWidget에 불러오는 함수*/
 void MainWindow::loadImages()
 {
     qDebug("[%s] %s : %d", __FILE__, __FUNCTION__, __LINE__);
@@ -119,9 +120,12 @@ void MainWindow::loadImages()
     filters << "*.png" << "*.jpg" << "*.bmp";
     QFileInfoList fileInfoList = dir.entryInfoList(filters, QDir::Files | QDir::NoDotAndDotDot);
 
+    /*해당 리스트 위젯을 클리어 한 후 환자의 이미지 리스트를 listWidget에 사진아이콘을 첨부하면서 출력*/
     ui->listWidget->clear();
     for(int i=0; i<fileInfoList.count(); i++){
-        QListWidgetItem* item = new QListWidgetItem(QIcon("./Images/" + fileInfoList.at(i).fileName()), NULL, ui->listWidget);
+        QListWidgetItem* item = new QListWidgetItem(QIcon("./Images/" + fileInfoList.at(i).fileName())
+                                                    , NULL, ui->listWidget);
+        /*해당 아이콘 이미지를 클릭 시 트래킹으로 활성화하여 클릭시 해당 grid에 출력*/
         item->setStatusTip("./Images/" + fileInfoList.at(i).fileName());
         ui->listWidget->addItem(item);
     };
@@ -235,7 +239,9 @@ void MainWindow::patientLoad()
 
             delete reply;
         }
+        /*환자의 정보를 데이터 베이스 테이블에 출력*/
         patientQueryModel->select();
+        /*각 환자 정보 데이터의 Column 사이즈에 맞게 resize*/
         ui->patientTableView->resizeColumnsToContents();
     }
 }
@@ -251,16 +257,18 @@ void MainWindow::createToolButton()
     ui->ColortoolButton->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
 }
 
+/*테이블에 생성된 환자를 더블 클릭할 시 6번째(jsonObj["ImageListURL"].toString();) colum의 이미지 경로를 탐색*/
 void MainWindow::on_patientTableView_doubleClicked(const QModelIndex &index)
 {
     update();
+    /*더블 클릭된 환자의 이미지 리스트를 저장할 디렉터리 표시*/
     QDir dir("./Images/");
+    /*모든 내용(파일)을 포함하여 해당 디렉토리(./Images/)를 제거*/
     dir.removeRecursively();
     qDebug("[%s] %s : %d", __FILE__, __FUNCTION__, __LINE__);
-    //loadImages();
     qDebug() << "selectDB Data Double clicked!";
-    //qDebug() << "clicked index : " << ui->patientTableView->doubleClicked(index);
 
+    /*환자 정보 테이블 더블 클릭시 해당하는 row, column을 반환하는 변수 설정*/
     int row =  ui->patientTableView->currentIndex().row();
     int column = ui->patientTableView->currentIndex().column();
 
@@ -269,8 +277,8 @@ void MainWindow::on_patientTableView_doubleClicked(const QModelIndex &index)
     QString ImageListURLName = patientQueryModel->data(patientQueryModel->index(row, 5)).toString();
     qDebug() << ImageListURLName;
 
-    /*"finished()"가 불려지면 이벤트 루프를 종료*/
-    QNetworkAccessManager *manager = new QNetworkAccessManager(this);
+    /*네트워크를 통해 파일의 접근 매니저를 새로 부여 받음*/
+    manager = new QNetworkAccessManager(this);
     connect(manager, &QNetworkAccessManager::finished,
             this, &MainWindow::onFinished);
 
@@ -278,9 +286,9 @@ void MainWindow::on_patientTableView_doubleClicked(const QModelIndex &index)
 
     qDebug("URL 접속 여부 확인");
     /*더블클릭된 이미지 리스트 URL안의 이미지 Json 데이터 호출*/
-    QNetworkRequest req(QString("%1").arg(ImageListURLName));
+    request = new QNetworkRequest(QString("%1").arg(ImageListURLName));
     //    QNetworkReply *reply =
-    manager->get(req);
+    manager->get(*request);
 }
 
 void MainWindow::onFinished(QNetworkReply* reply)
@@ -322,6 +330,7 @@ void MainWindow::onFinished(QNetworkReply* reply)
             /*이미지 URL, 다운로드 받을 폴더 명, 이미지 파일 이름*/
             downLoader->setFile(ImageURL, "./Images/", ImageName);
 
+            /*업로드 완료 시그널후 메인 윈도우의 listWidget에서 이미지를 업로드 받는 슬롯*/
             connect(downLoader, &Downloader::sendUpload, this, &MainWindow::receiveupload);
             qDebug("[%s] %s : %d", __FILE__, __FUNCTION__, __LINE__);
 
@@ -331,6 +340,7 @@ void MainWindow::onFinished(QNetworkReply* reply)
     }
 }
 
+/*Downloader 클래스의 */
 void MainWindow::receiveupload()
 {
     qDebug("[%s] %s : %d", __FILE__, __FUNCTION__, __LINE__);
