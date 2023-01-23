@@ -77,8 +77,8 @@ private:
    /*서버로부터 이미지 파일을 받을 변수들을 설정*/
    QNetworkAccessManager *manager; //네트워크를 통해 요청/응답을 시행하는 메니저 변수
    QNetworkRequest *request;       //네트워크를 통해 데이터를 요청하는 변수
-   QNetworkReply *reply;           //요청에 반환된 개체(파일)들을 저장하는 변수
-   QFile *file;                    //서버로부터 받는 데이터를 파일 형태로 받는 변수
+//   QNetworkReply *reply;           //요청에 반환된 개체(파일)들을 저장하는 변수
+//   QFile *file;                    //서버로부터 받는 데이터를 파일 형태로 받는 변수
 
 public slots:
    /*Download클래스에서 보낸 이미지 다운로드 완효 신호를 받는 슬롯*/
