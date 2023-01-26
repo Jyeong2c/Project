@@ -5,7 +5,9 @@
 #include <QGraphicsSceneMouseEvent>
 #include <QGraphicsPathItem>
 #include <QPainterPath>
+#include <QGraphicsItem>
 #include <QKeyEvent>
+#include <QTextCursor>
 #include <QtMath>
 
 Scene::Scene(QObject *parent)
@@ -13,6 +15,8 @@ Scene::Scene(QObject *parent)
 {
 
     m_currentItem = nullptr;
+    /*텍스트 관련 변수 초기화*/
+    textItem = nullptr;
 
     /*connect 모음 (각도를 측정하기 위한 세점의 좌표를 보내는 신호와 슬롯을 연결*/
     connect(this, &Scene::firstAnglePoint, &Scene::reFirstAnglePoint);
@@ -57,6 +61,35 @@ void Scene::mousePressEvent(QGraphicsSceneMouseEvent *event)    // 마우스 클
             m_sedAnglePos = QPointF(sedPosX, sedPosY);
             break;
         }
+    } else if(m_currentShape == Text){
+
+#if 1
+        textItem = new TextItem();
+        QFont myFont("font", 10);
+        textItem->setPlainText("텍스트를 넣으면 그리기 기능이 이상하게 됨");
+        textItem->setFont(myFont);
+        textItem->setTextInteractionFlags(Qt::TextEditorInteraction);
+        textItem->setZValue(1000.0);
+        connect(textItem, &TextItem::lostFocus,
+                this, &Scene::editorLostFocus);
+        connect(textItem, &TextItem::selectedChange,
+                this, &Scene::itemSelected);
+        addItem(textItem);
+        textItem->setDefaultTextColor(Qt::black);
+        textItem->setPos(event->scenePos());
+        emit textInserted(textItem);
+#else
+        QGraphicsTextItem testText("안녕");
+        QFont myFont("font", 10);
+        testText.setFont(myFont);
+        testText.setTextInteractionFlags(Qt::TextEditorInteraction);
+        testText.setZValue(1000.0);
+        addItem(&testText);
+        testText.setPos(event->scenePos());
+
+
+#endif
+
     } else{
         /*enum Path 이외의 상수들은 m_startPos변수로 시작점을 잡음*/
         m_startPos = event->scenePos();
@@ -133,6 +166,7 @@ void Scene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
         itemToDraw = new QGraphicsLineItem(lengthLine);
         itemToDraw->setPen(QPen(QColor(Qt::black), 1));
         addItem(itemToDraw);
+
         m_currentItem = itemToDraw;
 
     } else if(m_currentShape == Angle){
@@ -153,9 +187,11 @@ void Scene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
             addItem(itemToDraw);
             m_currentItem = itemToDraw;
         }
-    }
-
-    else{
+    } else if(m_currentShape == Text){
+        if(m_currentItem != nullptr){
+            delete m_currentItem;
+        }
+    } else{
 
         if(m_currentItem != nullptr)
             delete m_currentItem;
@@ -221,6 +257,9 @@ void Scene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
         emit sendLastOrtho(event->scenePos().x(), event->scenePos().y());
         break;
 
+    case Text:
+        break;
+
     case Angle:
         switch(pointCount)
         {
@@ -268,7 +307,6 @@ void Scene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
     QGraphicsScene::mouseReleaseEvent(event);
 }
 
-
 Scene::Shape Scene::getCurrentShape() const
 {
     return m_currentShape;
@@ -290,6 +328,52 @@ void Scene::setCurrentColor(const QColor& color)
 {
 
     m_currentColor = color;
+}
+
+/*텍스트 모드 기반 변경 필요 함수*/
+//void Scene::setMode(Shape mode)
+//{
+//    m_currentShape = mode;
+//}
+
+
+//bool Scene::isItemChange(int type)const
+//{
+//    const QList<QGraphicsItem *> items = selectedItems();
+//    const auto cb = [type](const QGraphicsItem *item) {return item->type() == type;};
+//    return std::find_if(items.begin(), items.end(), cb) != items.end();
+//}
+
+//void Scene::setTextColor(const QColor &color)
+//{
+//    myTextColor = color;
+//    if(isItemChange(TextItem::Type)){
+//        TextItem *item = qgraphicsitem_cast<TextItem *>(selectedItems().first());
+//        item->setDefaultTextColor(myTextColor);
+//    }
+//}
+//void Scene::setFont(const QFont &font)
+//{
+//    myFont = font;
+
+//    if(isItemChange(TextItem::Type)){
+//        QGraphicsTextItem *item = qgraphicsitem_cast<TextItem*>(selectedItems().first());
+//        if(item)
+//            item->setFont(myFont);
+//    }
+//}
+
+/*text 아이템 포커싱을 위한 함수*/
+void Scene::editorLostFocus(TextItem* item)
+{
+    QTextCursor cursor = item->textCursor();
+    cursor.clearSelection();
+    item->setTextCursor(cursor);
+
+    if(item->toPlainText().isEmpty()){
+        removeItem(item);
+        item->deleteLater();
+    }
 }
 
 void Scene::addLineItem(QPointF stPos, QPointF edPos)

@@ -1,16 +1,13 @@
 var express = require('express')                            //express 패키지 사용
 var fs = require('fs');                                     //fs 패키지 사용
-// var http = require('http');
-// var url = require('url');
-
-// var mime = require('mime');
 const app = express();                                      //app express 함수 사용
 
-//Server 시작 및 메인 페이지
+/*Server 시작 및 메인 페이지*/
 app.get('/', (req, res) => {                       //express 패키지 형태로 간단한 웹 페이지 구현
     res.send('This is Server Main Page');
 });
 
+/*Server의 IP와 host를 지정하는 변수*/
 var hostName = '192.168.0.12'
 var portNum = 3000;
 
@@ -28,38 +25,9 @@ app.get('/Files/:id', (req, res) => {
     });
   });
 
-// var server = http.createServer(function(req, res){
-//     var parsedUrl = url.parse(req.url);
-//     var resource = parsedUrl.pathname;
-
-//     if(resource.indexOf('/Files/') == 0){
-//         var imgPath = resource.substring(1);
-//         console.log('imgPath='+imgPath);
-//         var imgMime = mime.getType(imgPath);
-//         console.log('mime='+imgMime);
-
-//         fs.readFile(imgPath, function(error, data){
-//             if(error){
-//                 res.writeHead(500, {'Content-Type' : 'application/json'});
-//                 res.end('500 Internal Server ' + error);
-//             }else{
-//                 res.writeHead(200, {'Content-Type' : imgMime});
-//                 res.end(data);
-//             }
-//         });
-//     }else{
-//         res.writeHead(404, {'Content-Type':'application/json'});
-//         res.end('404 Page Not Found');
-//     }
-// });
-
-// server.listen(3500, function(){
-//     console.log('File Server running port http://127.0.0.1:3500/Files/');
-// });
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-//환자 정보 리스트
+//환자 정보 리스트 (8명의 환자 정보 입력된 상태 / 의사의 아이디에 따라 환자 정보를 구분지음)
 var patients = [
     {ID : '001', Name : 'Jeong jae hyeon', Age : 27, DoctorID : 'osstem1', PhotoDate : '2023-01-07', ImageListURL : 'http://' + hostName + ':' + portNum + '/patient/001/image'},
     {ID : '002', Name : 'Jeong yu na', Age : 25, DoctorID : 'osstem1', PhotoDate : '2023-01-07', ImageListURL : 'http://' + hostName + ':' + portNum + '/patient/002/image'},
@@ -140,7 +108,7 @@ var p2Images = [
     {ID : '2012', ImageName : 'P2_14FMX1-2', PixelLength : 0.005, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P2_14FMX1-2.png'},
     {ID : '2013', ImageName : 'P2_14FMX1-3', PixelLength : 0.005, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P2_14FMX1-3.png'},
     {ID : '2014', ImageName : 'P2_14FMX1-4', PixelLength : 0.005, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P2_14FMX1-4.png'},
-    {ID : '2015', ImageName : 'panorama2.png', PixelLength : 0.005, ImageKinds : 'panorama', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/panorama2.png'}
+    {ID : '2015', ImageName : 'panorama2', PixelLength : 0.005, ImageKinds : 'panorama', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/panorama2.png'}
 ]
 
 app.get('/patient/002/image', (req, res) => {
@@ -174,7 +142,7 @@ var p3Images = [
     {ID : '3012', ImageName : 'P3_14FMX1-2', PixelLength : 0.005, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P3_14FMX1-2.png'},
     {ID : '3013', ImageName : 'P3_14FMX1-3', PixelLength : 0.005, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P3_14FMX1-3.png'},
     {ID : '3014', ImageName : 'P3_14FMX1-4', PixelLength : 0.005, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P3_14FMX1-4.png'},
-    {ID : '3015', ImageName : 'panorama3.png', PixelLength : 0.005, ImageKinds : 'panorama', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/panorama3.png'}
+    {ID : '3015', ImageName : 'panorama3', PixelLength : 0.005, ImageKinds : 'panorama', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/panorama3.png'}
 ]
 
 app.get('/patient/003/image', (req, res) => {
@@ -208,7 +176,7 @@ var p4Images = [
     {ID : '4012', ImageName : 'P4_14FMX1-2', PixelLength : 0.005, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P4_14FMX1-2.png'},
     {ID : '4013', ImageName : 'P4_14FMX1-3', PixelLength : 0.005, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P4_14FMX1-3.png'},
     {ID : '4014', ImageName : 'P4_14FMX1-4', PixelLength : 0.005, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P4_14FMX1-4.png'},
-    {ID : '4015', ImageName : 'panorama4.png', PixelLength : 0.005, ImageKinds : 'panorama', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/panorama4.png'}
+    {ID : '4015', ImageName : 'panorama4', PixelLength : 0.005, ImageKinds : 'panorama', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/panorama4.png'}
 ]
 
 app.get('/patient/004/image', (req, res) => {
@@ -242,7 +210,7 @@ var p5Images = [
     {ID : '5012', ImageName : 'P5_14FMX1-2', PixelLength : 0.005, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P5_14FMX1-2.png'},
     {ID : '5013', ImageName : 'P5_14FMX1-3', PixelLength : 0.005, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P5_14FMX1-3.png'},
     {ID : '5014', ImageName : 'P5_14FMX1-4', PixelLength : 0.005, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P5_14FMX1-4.png'},
-    {ID : '5015', ImageName : 'panorama5.png', PixelLength : 0.005, ImageKinds : 'panorama', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/panorama5.png'}
+    {ID : '5015', ImageName : 'panorama5', PixelLength : 0.005, ImageKinds : 'panorama', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/panorama5.png'}
 ]
 
 app.get('/patient/005/image', (req, res) => {
@@ -276,7 +244,7 @@ var p6Images = [
     {ID : '6012', ImageName : 'P6_14FMX1-2', PixelLength : 0.005, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P6_14FMX1-2.png'},
     {ID : '6013', ImageName : 'P6_14FMX1-3', PixelLength : 0.005, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P6_14FMX1-3.png'},
     {ID : '6014', ImageName : 'P6_14FMX1-4', PixelLength : 0.005, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P6_14FMX1-4.png'},
-    {ID : '6015', ImageName : 'panorama6.png', PixelLength : 0.005, ImageKinds : 'panorama', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/panorama6.png'}
+    {ID : '6015', ImageName : 'panorama6', PixelLength : 0.005, ImageKinds : 'panorama', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/panorama6.png'}
 ]
 
 app.get('/patient/006/image', (req, res) => {
@@ -310,7 +278,7 @@ var p7Images = [
     {ID : '7012', ImageName : 'P7_14FMX1-2', PixelLength : 0.005, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P7_14FMX1-2.png'},
     {ID : '7013', ImageName : 'P7_14FMX1-3', PixelLength : 0.005, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P7_14FMX1-3.png'},
     {ID : '7014', ImageName : 'P7_14FMX1-4', PixelLength : 0.005, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P7_14FMX1-4.png'},
-    {ID : '7015', ImageName : 'panorama7.png', PixelLength : 0.005, ImageKinds : 'panorama', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/panorama7.png'}
+    {ID : '7015', ImageName : 'panorama7', PixelLength : 0.005, ImageKinds : 'panorama', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/panorama7.png'}
 ]
 
 app.get('/patient/007/image', (req, res) => {
@@ -344,7 +312,7 @@ var p8Images = [
     {ID : '8012', ImageName : 'P8_14FMX1-2', PixelLength : 0.005, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P8_14FMX1-2.png'},
     {ID : '8013', ImageName : 'P8_14FMX1-3', PixelLength : 0.005, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P8_14FMX1-3.png'},
     {ID : '8014', ImageName : 'P8_14FMX1-4', PixelLength : 0.005, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P8_14FMX1-4.png'},
-    {ID : '8015', ImageName : 'panorama8.png', PixelLength : 0.005, ImageKinds : 'panorama', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/panorama8.png'}
+    {ID : '8015', ImageName : 'panorama8', PixelLength : 0.005, ImageKinds : 'panorama', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/panorama8.png'}
 ]
 
 app.get('/patient/008/image', (req, res) => {
@@ -359,9 +327,6 @@ app.get('/patient/008/image/:id', (req, res) => {
     res.json(Image);
     res.end();
 })
-
-
-
 
 /* 위에서 지정된 port 와 IPAddress를 연결후 서버 활성화 */
 app.listen(portNum, hostName, function() {

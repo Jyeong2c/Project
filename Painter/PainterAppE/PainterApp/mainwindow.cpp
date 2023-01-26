@@ -30,6 +30,11 @@ MainWindow::MainWindow(QWidget *parent)
 
     /*각도 측정 결과 signal과 결과값을 받는 슬롯*/
     connect(scene, &Scene::sendMeasureAngle, this, &MainWindow::receiveAngleMeasure);
+
+//    connect(scene, &Scene::itemSelected, this, &MainWindow::itemSelected);
+//    connect(scene, &Scene::textInserted, this, &MainWindow::textInserted);
+//    connect(ui->fontComboBox, &QFontComboBox::currentFontChanged,
+//            this, &MainWindow::currentFontChanged);
 }
 
 MainWindow::~MainWindow()
@@ -52,7 +57,6 @@ void MainWindow::on_actionImageLoad_triggered()
     scene->update();
 
 }
-
 
 void MainWindow::on_actionBrush_triggered()
 {
@@ -111,6 +115,13 @@ void MainWindow::on_actionAngle_triggered()
     qDebug() << "Action clicked Angle!";
 }
 
+
+void MainWindow::on_actionText_triggered()
+{
+    scene->setCurrentShape(Scene::Text);
+    qDebug() << "Action clicked Text!";
+}
+
 /*길이 측정 좌표의 처음 위치에서 마지막 위치까지 잡히는 계산*/
 
 void MainWindow::receiveFirstOrtho(int _x, int _y)
@@ -135,6 +146,41 @@ void MainWindow::setFirstY(int &y)
 {
     firstY = y;
 }
+
+/*텍스트 설정 관련 슬롯 함수*/
+//void MainWindow::textInserted(QGraphicsTextItem *)
+//{
+//    scene->setMode(Scene::Shape());
+//}
+//void MainWindow::currentFontChanged(const QFont &font)
+//{
+//    handleFontChange();
+//}
+//void MainWindow::fontSizeChangeed(const QString &size)
+//{
+//    handleFontChange();
+//}
+//void MainWindow::itemSelected(QGraphicsItem *item)
+//{
+//    TextItem *textItem =
+//            qgraphicsitem_cast<TextItem *>(item);
+
+//    QFont font = textItem->font();
+//    ui->fontComboBox->setCurrentFont(font);
+//    ui->comboBox->setEditText(QString().setNum(font.pointSize()));
+//}
+
+//void MainWindow::textButtonTriggered()
+//{
+//    scene->setTextColor(qvariant_cast<QColor>(textAction->data()));
+//}
+
+//void MainWindow::handleFontChange()
+//{
+//    QFont font = ui->fontComboBox->currentFont();
+//    font.setPointSize(ui->comboBox->currentText().toInt());
+//    scene->setFont(font);
+//}
 
 /*길이 측정 첫번째 좌표와 결과값을 출력하는 슬롯 함수 구현부*/
 void MainWindow::receiveLastOrtho(int _x, int _y)
@@ -169,4 +215,6 @@ void MainWindow::receiveAngleMeasure(double angle)
     QMessageBox::information(this, "Angle Result",
                              QString("Angle : %1").arg(angle));
 }
+
+
 

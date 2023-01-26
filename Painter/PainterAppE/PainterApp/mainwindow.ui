@@ -18,12 +18,45 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>10</y>
+      <y>40</y>
       <width>781</width>
-      <height>521</height>
+      <height>491</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout"/>
+   </widget>
+   <widget class="QFontComboBox" name="fontComboBox">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>10</y>
+      <width>267</width>
+      <height>26</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="colorfont">
+    <property name="geometry">
+     <rect>
+      <x>380</x>
+      <y>10</y>
+      <width>93</width>
+      <height>29</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>fontcolor</string>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="comboBox">
+    <property name="geometry">
+     <rect>
+      <x>290</x>
+      <y>10</y>
+      <width>80</width>
+      <height>26</height>
+     </rect>
+    </property>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -61,6 +94,8 @@
    <addaction name="separator"/>
    <addaction name="actionLength"/>
    <addaction name="actionAngle"/>
+   <addaction name="separator"/>
+   <addaction name="actionText"/>
   </widget>
   <action name="actionImageLoad">
    <property name="text">
@@ -113,6 +148,11 @@
   <action name="actionAngle">
    <property name="text">
     <string>Angle</string>
+   </property>
+  </action>
+  <action name="actionText">
+   <property name="text">
+    <string>Text</string>
    </property>
   </action>
  </widget>
