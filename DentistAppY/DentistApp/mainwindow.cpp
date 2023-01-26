@@ -577,8 +577,9 @@ void MainWindow::patientLoad()
                 qDebug( ) << "DoctorID:" << jsonObj["DoctorID"].toString( );
                 qDebug( ) << "PhotoDate:" << jsonObj["PhotoDate"].toString( );
                 qDebug( ) << "ImageListURL:" << jsonObj["ImageListURL"].toString();
-
-                QString DoctorID = "osstem1";
+#endif
+#if 0
+                QString DoctorID = "osstem2";
                 if(DoctorID == jsonObj["DoctorID"].toString()){
                     /*구분된 JsonArr.size() 내부의 Json데이터를 QtDB Table에 Insert*/
                     patientQuery->exec(QString::fromStdString("INSERT INTO patient VALUES ('%1','%2',%3,'%4','%5','%6')")
@@ -587,6 +588,14 @@ void MainWindow::patientLoad()
                             .arg(jsonObj["PhotoDate"].toString())
                             .arg(jsonObj["ImageListURL"].toString()));
                 }
+#else
+                /*구분된 JsonArr.size() 내부의 Json데이터를 QtDB Table에 Insert*/
+                patientQuery->exec(QString::fromStdString("INSERT INTO patient VALUES ('%1','%2',%3,'%4','%5','%6')")
+                                   .arg(jsonObj["ID"].toString()).arg(jsonObj["Name"].toString())
+                        .arg(jsonObj["Age"].toInt()).arg(jsonObj["DoctorID"].toString())
+                        .arg(jsonObj["PhotoDate"].toString())
+                        .arg(jsonObj["ImageListURL"].toString()));
+#
 #endif
             }
 
@@ -689,16 +698,11 @@ void MainWindow::onFinished(QNetworkReply* reply)
             /*이미지 URL, 다운로드 받을 폴더 명, 이미지 파일 이름*/
             /*환자 ID별로 이미지 디렉토리를 생성*/
             downLoader->setFile(ImageURL, "./Images/", ImageName);
-            //downLoader->setFile(ImageURL, QString("./SaveImage").arg(patientID), ImageName);
+            //downLoader->setFile(ImageURL, QString("./SaveImage%1").arg(patientID), ImageName);
 
             /*업로드 완료 시그널후 메인 윈도우의 listWidget에서 이미지를 업로드 받는 슬롯*/
             connect(downLoader, &Downloader::sendUpload, this, &MainWindow::receiveupload);
             qDebug("[%s] %s : %d", __FILE__, __FUNCTION__, __LINE__);
-
-            /*저장했던 이미지 폴더를 불러서 환자정보 이미지와 저장한 이미지를 동시에 출력할 수 있도록 조정*/
-            //QFile::copy("./SaveImage/lena.bmp", "./Images/lena.bmp");
-            copyPath("./SaveImage", "./Images");
-
         }
         reply->deleteLater();
     }
@@ -849,5 +853,13 @@ void MainWindow::on_blendingButton_clicked()
     blendDialog = new Blending(this);
     //blendDialog->setWindowFlag(WindowTitleHint | WindowMinimizeButtonHint | WindowType::WindowMaximizeButtonHint))
     blendDialog->exec();
+}
+
+/*Load 버튼 클릭시 해당환자의 저장 이미지와 서버이미지를 같이 업로드*/
+void MainWindow::on_actionload_triggered()
+{
+    /*저장했던 이미지 폴더를 불러서 환자정보 이미지와 저장한 이미지를 동시에 출력할 수 있도록 조정*/
+    copyPath(QString("./SaveImage%1").arg(patientID), "./Images");
+    loadImages();
 }
 

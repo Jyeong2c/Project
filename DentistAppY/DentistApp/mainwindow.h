@@ -73,6 +73,8 @@ private slots:
     void on_patientTableView_doubleClicked(const QModelIndex &index);
     void on_blendingButton_clicked();
 
+    void on_actionload_triggered();
+
 private:
     Ui::MainWindow *ui;
 

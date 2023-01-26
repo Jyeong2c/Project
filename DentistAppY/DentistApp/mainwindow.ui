@@ -1153,6 +1153,8 @@
    <addaction name="actionUndo"/>
    <addaction name="separator"/>
    <addaction name="actionRedo"/>
+   <addaction name="separator"/>
+   <addaction name="actionload"/>
   </widget>
   <action name="actionSave">
    <property name="text">
@@ -1167,6 +1169,11 @@
   <action name="actionUndo">
    <property name="text">
     <string>Undo</string>
+   </property>
+  </action>
+  <action name="actionload">
+   <property name="text">
+    <string>load</string>
    </property>
   </action>
  </widget>
