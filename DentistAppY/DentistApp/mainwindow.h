@@ -18,9 +18,9 @@ class QStackedWidget;
 class Maxlayout;
 
 /*서버의 데이터를 다운로드 받기 위한 클래스 선정*/
+class Downloader;
 class QProgressDialog;
 class QWebSocketServer;
-class Downloader;
 class QNetworkAccessManager;
 class QNetworkRequest;
 class QNetworkReply;
@@ -51,7 +51,9 @@ public:
 
     /*해당 디렉토리 내부의 파일과 디렉토리를 복사할 수 있는 함수*/
     void copyPath(QString, QString);
-
+    /*해당 프로그램의 INI파일을 생성하기 위한 함수*/
+    void writeSettings();
+    void readSettings();
 protected:
     void changeEvent(QEvent *event) override;                       // 윈도우 창 변경될 때
     void resizeEvent(QResizeEvent *event) override;                 // 위젯 창 변경될 때
@@ -80,7 +82,6 @@ private:
 
     /* 레이아웃 */
     Layout *customLayout;
-    FMX *fmx;
     Maxlayout *myMaxlayout;
 
     /* 이중 창 */

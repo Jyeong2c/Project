@@ -10,24 +10,26 @@ CONFIG += c++17
 
 SOURCES += \
     blending.cpp \
-    fmx.cpp \
+    #fmx.cpp \
     #item.cpp \
     layout.cpp \
     #listalbum.cpp \
     main.cpp \
     mainwindow.cpp \
  \    #newwindow.cpp
-    maxlayout.cpp
+    maxlayout.cpp \
+    scene.cpp
 
 HEADERS += \
     blending.h \
-    fmx.h \
+    #fmx.h \
     #item.h \
     layout.h \
     #listalbum.h \
     mainwindow.h \
  \    #newwindow.h
-    maxlayout.h
+    maxlayout.h \
+    scene.h
 
 FORMS += \
     blending.ui \

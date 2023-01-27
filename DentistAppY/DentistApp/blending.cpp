@@ -23,10 +23,24 @@ Blending::Blending(QWidget *parent) :
     QString firstImageFile;
     QString secondImageFile;
 
-    /*불러오는 이미지 파일의 경로가 한개라도 없을 경우*/
-    while(firstImageFile.isEmpty() || secondImageFile.isEmpty()){
+    /*불러오는 첫째 이미지 파일이 없을 경우*/
+    while(firstImageFile.isEmpty()){
+        /*./Images 디렉토리 내부의 첫번째 이미지를 불러오기 위한 다이얼로그 호출*/
         firstImageFile = QFileDialog::getOpenFileName(this, "open first Image File", "./Images", "File(*.*)");
-        secondImageFile = QFileDialog::getOpenFileName(this, "open Second Image File", "./Images", "File(*.*)");
+        /*./Images 내부에 첫번째 파일을 선택하지 않으면 메세지 박스 출력*/
+        if(firstImageFile.isEmpty()){
+            QMessageBox::information(this, "information", "Not Insert first Images");
+        }else{
+            /*불러오는 둘째 이미지 파일이 없을 경우*/
+            while(secondImageFile.isEmpty()){
+                /*./Images 디렉토리 내부의 두번째 이미지를 불러오기 위한 다이얼로그 호출*/
+                secondImageFile = QFileDialog::getOpenFileName(this, "open Second Image File", "./Images", "File(*.*)");
+                /*./Images 내부에 첫번째 파일을 선택하지 않으면 메세지 박스 출력*/
+                if(secondImageFile.isEmpty()){
+                    QMessageBox::information(this, "information", "Not Insert second Images");
+                }
+            }
+        }
     }
 
     /*opencv로 두장의 이미지 읽기*/
@@ -51,9 +65,9 @@ Blending::Blending(QWidget *parent) :
 
     /*다이얼로그 박스에 타이틀 버튼 활성화*/
     //setWindowFlag(Qt::CustomizeWindowHint);
-    setWindowFlag(Qt::WindowMaximizeButtonHint);
-    setWindowFlag(Qt::WindowMinimizeButtonHint);
-    setWindowFlag(Qt::WindowCloseButtonHint);
+    setWindowFlag(Qt::WindowMaximizeButtonHint);    //최소화 버튼
+    setWindowFlag(Qt::WindowMinimizeButtonHint);    //최대화 버튼
+    setWindowFlag(Qt::WindowCloseButtonHint);       //닫기 버튼
 
     /*다이얼로그 타이틀 선정*/
     setWindowTitle("Blend Result");
@@ -61,7 +75,6 @@ Blending::Blending(QWidget *parent) :
     /*sceneImage new 할당*/
     sceneImage = new QGraphicsScene();
     image = new QImage();
-
 
 }
 
@@ -73,29 +86,20 @@ Blending::~Blending()
 /*다이얼로그의 사이즈가 조정될 때마다 실시간으로 다이얼로그의 너비와 높이가 측정됨*/
 void Blending::resizeEvent(QResizeEvent *e)
 {
-    qDebug() << "Dialog::resizeEvent()" << e->size();
-    ui->pixelDataGraphics->resize(e->size());
-    sceneImage->setSceneRect(ui->pixelDataGraphics->viewport()->rect());
-
+    /*Blending 되는 아이템의 크기는 그래픽스의 viewport()->size의 크기로 바운드 랙팅 됨*/
     QSize itemSize = ui->pixelDataGraphics->viewport()->size();
-
-
+    /*pixmap정보는 Images directory의 result.png 데이터 로드(영상처리중 이미지를 그대로 로드)*/
     QPixmap pix("./Images/result.png");
 
+    /*해당 Scene의 아이템을 가져와서 pixItem변수에 QGraphicsPixmapItem을 동적 할당*/
     foreach(auto item, sceneImage->items()) {
         QGraphicsPixmapItem* pixItem = dynamic_cast<QGraphicsPixmapItem*>(item);
-        /**/
+        /*pixItem의 setPixmap함수를 사용하여 result.png를 itemSize만큼 scaling, 옵션은 Qt::IgnoreAspecRatio*/
         pixItem->setPixmap(pix.scaled(itemSize, Qt::IgnoreAspectRatio));
+        /*sceneImage의 바운딩 직선을 반환함 */
         sceneImage->setSceneRect(pixItem->sceneBoundingRect());
     }
 
-    qDebug() << "View: " << ui->pixelDataGraphics->width() << "," << ui->pixelDataGraphics->height();
-    qDebug() << "Viewport: " << ui->pixelDataGraphics->viewport()->width() << "," << ui->pixelDataGraphics->viewport()->height();
-    qDebug() << "Scene: " << sceneImage->sceneRect().width() << "," << sceneImage->sceneRect().height();
-
-    //sceneImage->clear();
-
-    //sceneImage->addRect(0, 0, sceneImage->sceneRect().width()-1, sceneImage->sceneRect().height()-1);
     QDialog::resizeEvent(e);
 }
 
@@ -120,16 +124,7 @@ void Blending::onBlending(int value)
     /*변경된 이미지 쓰기, 저장할 이미지도 PNG형식으로 저장하기 위해 ImwriteFlags 조정*/
     imwrite("./Images/result.png", result, vector<int>(ImwriteFlags::IMWRITE_PNG_BILEVEL));
 
-    /*현재 폴더에 위치한 result.bmp를 pix변수에 설정*/
-    //QPixmap pix("./Images/result.png");
-#if 0
-    /*form의 레이블 위젯에서 이미지를 출력*/
-    ui->imageLabel->setPixmap(pix);
-#else
     /*라벨의 가로 세로의 길이에 맞추어 resize*/
-    //    int w = ui->imageLabel->width();
-    //    int h = ui->imageLabel->height();
-    //    ui->imageLabel->setPixmap(pix.scaled(w, h, Qt::KeepAspectRatio));
     image->load("./Images/result.png");
 
     if(image->isNull())
@@ -138,7 +133,7 @@ void Blending::onBlending(int value)
         return;
     }
 
-    //sceneImage = new QGraphicsScene() ;
+    /*그래픽스 위의 Scene을 세팅*/
     ui->pixelDataGraphics->setScene(sceneImage);
     ui->pixelDataGraphics->fitInView(sceneImage->sceneRect(), Qt::IgnoreAspectRatio);
 
@@ -146,5 +141,4 @@ void Blending::onBlending(int value)
     QGraphicsPixmapItem* item = new QGraphicsPixmapItem(QPixmap::fromImage(*image));
     sceneImage->addItem(item);
     ui->pixelDataGraphics->show();
-#endif
 }

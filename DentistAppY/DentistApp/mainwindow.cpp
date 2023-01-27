@@ -1,9 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "layout.h"
-#include "fmx.h"
 #include "maxlayout.h"
-
 
 /* 환자 정보 DB */
 #include <QSqlDatabase>
@@ -11,7 +9,6 @@
 #include <QSqlTableModel>
 #include <QSqlQueryModel>
 #include <QTableView>
-
 
 #include <QSplitter>
 #include <QListWidget>
@@ -49,13 +46,15 @@
 #include <QMessageBox>
 #include <QWebSocket>
 #include <QDataStream>
+#include <QNetworkInformation>
+#include <QSettings>
+#include <QCollator>
 
 /*Blending Dialog를 호출하는 헤더*/
 #include "blending.h"
 
 #define sheetWhite "background:rgb(255, 255, 255)"
 #define sheetNavy "background:rgb(32, 56, 100)"
-
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -69,11 +68,6 @@ MainWindow::MainWindow(QWidget *parent)
     connect(stackWidget, SIGNAL(destroyed()), stackWidget, SLOT(deleteLater()));
 
     customLayout = new Layout(this);
-
-    fmx = new FMX(this);
-    fmx->setWindowTitle(tr("14 FMX"));
-    connect(fmx, SIGNAL(destroyed()), fmx, SLOT(deleteLater()));
-
 
     myMaxlayout = new Maxlayout(this);              // 최대창
 
@@ -93,8 +87,9 @@ MainWindow::MainWindow(QWidget *parent)
     ui->listWidget->setResizeMode(QListWidget::Adjust);
     ui->listWidget->setFlow(QListWidget::LeftToRight);
     ui->listWidget->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    ui->listWidget->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
+    /*Setting 정보 읽어오기*/
+    readSettings();
 
     /* 시그널 슬롯은 위치가 중요 동적할당(new)보다 밑에 있을 것 */
     connect(ui->listWidget, SIGNAL(itemClicked(QListWidgetItem*)), SLOT(selectItem(QListWidgetItem*)));
@@ -113,6 +108,39 @@ MainWindow::~MainWindow()
         delete patientQueryModel;
         clDB.close();
     }
+
+    QDir dir("./Images/");
+    /*모든 내용(파일)을 포함하여 해당 디렉토리(./Images/)를 제거*/
+    dir.removeRecursively();
+
+    /*Setting 정보 저장*/
+    writeSettings();
+}
+
+void MainWindow::writeSettings()
+{
+    QSettings settings("./Project.ini" , QSettings::IniFormat);
+
+    settings.beginGroup("Project");
+    settings.setValue("OS/os_name", GEO_NAME);
+    settings.setValue("NET_WORK/local_ip", hostName + ":" + portNum);
+    settings.setValue("size", size());
+    settings.setValue("pos", pos());
+    settings.setValue("INIT/init_settings","-1");
+    settings.setValue("ADMIN_CONF/site_cd","-1");
+    settings.setValue("ADMIN_CONF/str_cd","-1");
+    settings.setValue("ADMIN_CONF/process_type","-1");
+    settings.setValue("EQU_CONF/eq_type","-1");
+    settings.setValue("EQU_CONF/eq_nm","-1");
+    settings.endGroup();
+}
+
+void MainWindow::readSettings()
+{
+    QSettings settings("./Project.ini" , QSettings::IniFormat);
+
+    settings.beginGroup("Project");
+
 }
 
 void MainWindow::loadImages()
@@ -382,6 +410,14 @@ void MainWindow::styleColor()
     ui->listWidget->setStyleSheet("background:rgb(255, 255, 255)");
     ui->patientTableView->setStyleSheet("background:rgb(255, 255, 255)");
     ui->doctorNameLineEdit->setStyleSheet("background:rgb(180, 199, 231)");
+
+    /*길이 측정 및 각도 측정 레이블의 sheet색을 흰색으로 변경*/
+    ui->lengthLabel->setStyleSheet(sheetWhite);
+    ui->angleLabel->setStyleSheet(sheetWhite);
+
+    /*길이 측정과 각도 측정의 라인에디트의 sheet색을 흰색으로 변경*/
+    ui->lengthLineEdit->setStyleSheet(sheetWhite);
+    ui->angleLineEdit->setStyleSheet(sheetWhite);
     //ui->line->setStyleSheet("background:rgb(255, 255, 255)");
     ui->line->setStyleSheet(sheetWhite);
 
@@ -411,7 +447,7 @@ void MainWindow::styleColor()
 
     /* Measure */
     ui->rulerToolButton->setStyleSheet(sheetWhite);
-    ui->measureToolButton->setStyleSheet(sheetWhite);
+    //ui->measureToolButton->setStyleSheet(sheetWhite);
     ui->protractorToolButton->setStyleSheet(sheetWhite);
     ui->implantToolButton->setStyleSheet(sheetWhite);
     ui->implantToolButton_2->setStyleSheet(sheetWhite);
@@ -570,15 +606,16 @@ void MainWindow::patientLoad()
                     qDebug() << "Key = " << key << ", Value = " << value.toString();
                 }
 #else
-                //JSON 파싱(환자 정보는 ID(int), Name(QString), Age(int), DoctorID(QString), PhotoDate(QString))
-                qDebug( ) << "ID:" << jsonObj["ID"].toString( );
-                qDebug( ) << "Name:" << jsonObj["Name"].toString( );
-                qDebug( ) << "Age:" << jsonObj["Age"].toInt( );
-                qDebug( ) << "DoctorID:" << jsonObj["DoctorID"].toString( );
-                qDebug( ) << "PhotoDate:" << jsonObj["PhotoDate"].toString( );
-                qDebug( ) << "ImageListURL:" << jsonObj["ImageListURL"].toString();
+                /*JSON 파싱(환자 정보는 ID(int), Name(QString), Age(int), DoctorID(QString), PhotoDate(QString))*/
+//                qDebug( ) << "ID:" << jsonObj["ID"].toString( );
+//                qDebug( ) << "Name:" << jsonObj["Name"].toString( );
+//                qDebug( ) << "Age:" << jsonObj["Age"].toInt( );
+//                qDebug( ) << "DoctorID:" << jsonObj["DoctorID"].toString( );
+//                qDebug( ) << "PhotoDate:" << jsonObj["PhotoDate"].toString( );
+//                qDebug( ) << "ImageListURL:" << jsonObj["ImageListURL"].toString();
 #endif
 #if 0
+                /*의사의 아이디를 구분하여 해당하는 환자의 정보를 출력*/
                 QString DoctorID = "osstem2";
                 if(DoctorID == jsonObj["DoctorID"].toString()){
                     /*구분된 JsonArr.size() 내부의 Json데이터를 QtDB Table에 Insert*/
@@ -589,16 +626,21 @@ void MainWindow::patientLoad()
                             .arg(jsonObj["ImageListURL"].toString()));
                 }
 #else
-                /*구분된 JsonArr.size() 내부의 Json데이터를 QtDB Table에 Insert*/
-                patientQuery->exec(QString::fromStdString("INSERT INTO patient VALUES ('%1','%2',%3,'%4','%5','%6')")
-                                   .arg(jsonObj["ID"].toString()).arg(jsonObj["Name"].toString())
-                        .arg(jsonObj["Age"].toInt()).arg(jsonObj["DoctorID"].toString())
-                        .arg(jsonObj["PhotoDate"].toString())
-                        .arg(jsonObj["ImageListURL"].toString()));
+                /*의사의 아이디를 구분하여 해당하는 환자의 정보를 출력*/
+                QString DoctorID = jsonObj["DoctorID"].toString();
+                if(DoctorID == "osstem1")
+                {
+                    /*구분된 JsonArr.size() 내부의 Json데이터를 QtDB Table에 Insert*/
+                    patientQuery->exec(QString::fromStdString("INSERT INTO patient VALUES ('%1','%2',%3,'%4','%5','%6')")
+                                       .arg(jsonObj["ID"].toString()).arg(jsonObj["Name"].toString())
+                            .arg(jsonObj["Age"].toInt()).arg(jsonObj["DoctorID"].toString())
+                            .arg(jsonObj["PhotoDate"].toString())
+                            .arg(jsonObj["ImageListURL"].toString()));
+                }
+
 #
 #endif
             }
-
             delete reply;
         }
         /*환자의 정보를 데이터 베이스 테이블에 출력*/
@@ -612,14 +654,6 @@ void MainWindow::patientLoad()
 void MainWindow::on_patientTableView_doubleClicked(const QModelIndex &index)
 {
     on_imageClearPushButton_clicked();
-//    customLayout->grid1->scene()->clear();
-//    customLayout->grid2->scene()->clear();
-//    customLayout->grid3->scene()->clear();
-//    customLayout->grid4->scene()->clear();
-
-//    cnt = 0;
-
-//    customLayout->g = false;
 
     update();
     /*더블 클릭된 환자의 이미지 리스트를 저장할 디렉터리 표시*/
@@ -850,6 +884,12 @@ void Downloader::onReplyFinished()
 /*Blending Button 클릭시 해당 다이얼로그 호출*/
 void MainWindow::on_blendingButton_clicked()
 {
+    QDir dir("./Images/");
+    if(dir.isEmpty()){
+        QMessageBox::information(this, "Blending Dialog",
+                                 "Do Not any show listWidget");
+        return;
+    }
     blendDialog = new Blending(this);
     //blendDialog->setWindowFlag(WindowTitleHint | WindowMinimizeButtonHint | WindowType::WindowMaximizeButtonHint))
     blendDialog->exec();
@@ -860,6 +900,23 @@ void MainWindow::on_actionload_triggered()
 {
     /*저장했던 이미지 폴더를 불러서 환자정보 이미지와 저장한 이미지를 동시에 출력할 수 있도록 조정*/
     copyPath(QString("./SaveImage%1").arg(patientID), "./Images");
+    QDir dir("./Images");
+    dir.setFilter(QDir::Files | QDir::NoSymLinks);
+    dir.setSorting(QDir::NoSort);
+
+    auto entryList = dir.entryList();
+
+    QCollator collator;
+    collator.setNumericMode(true);
+
+    std::sort(
+        entryList.begin(),
+        entryList.end(),
+        [&](const QString &file1, const QString &file2)
+        {
+            return collator.compare(file1, file2) > 0;
+        });
+
     loadImages();
 }
 

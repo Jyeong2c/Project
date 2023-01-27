@@ -1,0 +1,29 @@
+<RCC>
+    <qresource prefix="/icon">
+        <file>Image/arrow3.png</file>
+        <file>Image/bright.png</file>
+        <file>Image/brightness.png</file>
+        <file>Image/circle2.png</file>
+        <file>Image/color.png</file>
+        <file>Image/Contrast.png</file>
+        <file>Image/draw.png</file>
+        <file>Image/draw2.png</file>
+        <file>Image/horizontal flip.png</file>
+        <file>Image/implant.png</file>
+        <file>Image/measure.png</file>
+        <file>Image/panning.png</file>
+        <file>Image/progtractor.png</file>
+        <file>Image/rectangle2.png</file>
+        <file>Image/rotate.png</file>
+        <file>Image/rotate_L.png</file>
+        <file>Image/rotate_R.png</file>
+        <file>Image/ruler.png</file>
+        <file>Image/sharpen.png</file>
+        <file>Image/triangle2.png</file>
+        <file>Image/vertical flip.png</file>
+        <file>Image/zoom.png</file>
+        <file>Image/zoomOut.png</file>
+        <file>Image/down7.png</file>
+        <file>Image/up7.png</file>
+    </qresource>
+</RCC>

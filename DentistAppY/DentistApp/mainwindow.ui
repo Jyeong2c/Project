@@ -508,8 +508,8 @@
                 <property name="title">
                  <string>Measure</string>
                 </property>
-                <layout class="QHBoxLayout" name="horizontalLayout_5">
-                 <item>
+                <layout class="QGridLayout" name="gridLayout_2">
+                 <item row="0" column="0">
                   <widget class="QToolButton" name="rulerToolButton">
                    <property name="minimumSize">
                     <size>
@@ -532,30 +532,17 @@
                    </property>
                   </widget>
                  </item>
-                 <item>
-                  <widget class="QToolButton" name="measureToolButton">
-                   <property name="minimumSize">
-                    <size>
-                     <width>0</width>
-                     <height>0</height>
-                    </size>
-                   </property>
+                 <item row="0" column="1">
+                  <widget class="QLabel" name="lengthLabel">
                    <property name="text">
-                    <string>...</string>
-                   </property>
-                   <property name="icon">
-                    <iconset resource="Image.qrc">
-                     <normaloff>:/icon/Image/measure.png</normaloff>:/icon/Image/measure.png</iconset>
-                   </property>
-                   <property name="iconSize">
-                    <size>
-                     <width>30</width>
-                     <height>30</height>
-                    </size>
+                    <string>lengthLabel:</string>
                    </property>
                   </widget>
                  </item>
-                 <item>
+                 <item row="0" column="2">
+                  <widget class="QLineEdit" name="lengthLineEdit"/>
+                 </item>
+                 <item row="1" column="0">
                   <widget class="QToolButton" name="protractorToolButton">
                    <property name="minimumSize">
                     <size>
@@ -578,6 +565,16 @@
                    </property>
                   </widget>
                  </item>
+                 <item row="1" column="1">
+                  <widget class="QLabel" name="angleLabel">
+                   <property name="text">
+                    <string>angleLabel:</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="1" column="2">
+                  <widget class="QLineEdit" name="angleLineEdit"/>
+                 </item>
                 </layout>
                </widget>
               </item>
@@ -590,15 +587,8 @@
                  <string>Implant</string>
                 </property>
                 <layout class="QGridLayout" name="gridLayout">
-                 <item row="0" column="0" colspan="2">
-                  <widget class="QPushButton" name="blendingButton">
-                   <property name="text">
-                    <string>Blending</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="1" column="0">
-                  <widget class="QToolButton" name="implantToolButton">
+                 <item row="1" column="1">
+                  <widget class="QToolButton" name="implantToolButton_2">
                    <property name="minimumSize">
                     <size>
                      <width>100</width>
@@ -626,8 +616,15 @@
                    </property>
                   </widget>
                  </item>
-                 <item row="1" column="1">
-                  <widget class="QToolButton" name="implantToolButton_2">
+                 <item row="0" column="0" colspan="2">
+                  <widget class="QPushButton" name="blendingButton">
+                   <property name="text">
+                    <string>Blending</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="1" column="0">
+                  <widget class="QToolButton" name="implantToolButton">
                    <property name="minimumSize">
                     <size>
                      <width>100</width>
