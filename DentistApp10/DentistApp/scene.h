@@ -15,7 +15,7 @@ class Scene : public QGraphicsScene
 {
     Q_OBJECT
 public:
-    explicit Scene(QMenu *itemMenu, QObject *parent = nullptr);
+    explicit Scene(QObject *parent = nullptr);
 
     /*툴바 액션을 구분하는 enum 클래스*/
     enum Shape {Line, Rect, Ellipse, Path, Image, Length, Angle };
@@ -102,8 +102,6 @@ private:
     QPointF m_sedAnglePos;
 
     QGraphicsLineItem *itemToDraw;
-
-    QMenu *myItemMenu;
     ///////////////////////////////////////////////////////
 
     int lengthFstX, lenghtFstY; //길이 측정 첫번째 x, y 좌표

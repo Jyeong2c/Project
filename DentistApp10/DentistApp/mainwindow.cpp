@@ -4,7 +4,6 @@
 #include "maxlayout.h"
 #include "keyfeaturesform.h"
 #include "scene.h"
-#include "downloader.h"
 
 /* 환자 정보 DB */
 #include <QSqlDatabase>
@@ -123,6 +122,13 @@ MainWindow::MainWindow(QWidget *parent)
     connect(scene, &Scene::sendMeasureAngle, this, &MainWindow::receiveAngleMeasure);
     /*각 Scene마다 픽셀당 실길이를 보내는 커넥트 함수*/
     connect(this, &MainWindow::sendImageInfo, scene, &Scene::reImageInfo);
+
+
+    /*이미지를 다운로드 받을 수 있는 변수 재할당*/
+    downLoader = new Downloader(this);
+
+    /*업로드 완료 시그널후 메인 윈도우의 listWidget에서 이미지를 업로드 받는 슬롯*/
+    connect(downLoader, &Downloader::sendUpload, this, &MainWindow::receiveupload);
 }
 
 MainWindow::~MainWindow()
@@ -552,16 +558,12 @@ void MainWindow::onFinished(QNetworkReply* reply)
 
             qDebug("[%s] %s : %d", __FILE__, __FUNCTION__, __LINE__);
             //patientID = jsonObj["ID"].toString();
-            /*이미지를 다운로드 받을 수 있는 변수 재할당*/
-            downLoader = new Downloader(this);
 
             /*이미지 URL, 다운로드 받을 폴더 명, 이미지 파일 이름*/
             /*환자 ID별로 이미지 디렉토리를 생성*/
             downLoader->setFile(ImageURL, "./Images/", ImageName);
             //downLoader->setFile(ImageURL, QString("./SaveImage%1").arg(patientID), ImageName);
 
-            /*업로드 완료 시그널후 메인 윈도우의 listWidget에서 이미지를 업로드 받는 슬롯*/
-            connect(downLoader, &Downloader::sendUpload, this, &MainWindow::receiveupload);
             qDebug("[%s] %s : %d", __FILE__, __FUNCTION__, __LINE__);
         }
         reply->deleteLater();

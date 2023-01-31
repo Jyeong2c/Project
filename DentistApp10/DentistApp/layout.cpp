@@ -67,7 +67,7 @@ void Layout::gridLayout()
 
 void Layout::sceneLayout()
 {
-    scene1 = new Scene(grid1, this);
+    scene1 = new Scene;
     scene1->setBackgroundBrush(Qt::black);
     scene2 = new Scene;
     scene2->setBackgroundBrush(Qt::black);

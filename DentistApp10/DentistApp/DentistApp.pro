@@ -11,7 +11,7 @@ CONFIG += c++17
 SOURCES += \
     #fmx.cpp \
     #item.cpp \
-    downloader.cpp \
+    #downloader.cpp \
     keyfeaturesform.cpp \
     layout.cpp \
     #listalbum.cpp \
@@ -28,7 +28,7 @@ SOURCES += \
 HEADERS += \
     #fmx.h \
     #item.h \
-    downloader.h \
+    #downloader.h \
     keyfeaturesform.h \
     layout.h \
     blending.h \
