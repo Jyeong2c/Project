@@ -768,7 +768,13 @@ void MainWindow::receiveLengthMeasure(double length)
 
 void MainWindow::on_actionload_triggered()
 {
+    /*저장했던 이미지 폴더를 불러서 환자정보 이미지와 저장한 이미지를 동시에 출력할 수 있도록 조정*/
+    copyPath(QString("./SaveImage%1").arg(patientID), "./Images");
+    QDir dir("./Images");
+    dir.setFilter(QDir::Files | QDir::NoSymLinks);
+    dir.setSorting(QDir::NoSort);
 
+    loadImages();
 }
 
 void MainWindow::on_rulerToolButton_clicked()
