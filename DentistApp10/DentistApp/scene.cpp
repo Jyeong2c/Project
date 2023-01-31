@@ -318,13 +318,13 @@ void Scene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 Scene::Shape Scene::getCurrentShape() const
 {
     return m_currentShape;
-
 }
 
 void Scene::setCurrentShape(const Shape &value)
 {
     m_currentShape = value;
     qDebug("[%s] %s : %d", __FILE__, __FUNCTION__, __LINE__);
+    /*길이, 각도 측정을 하였을 때 5, 6으로 표시되는 것을 확인*/
     qDebug() << "value : " << m_currentShape;
 }
 

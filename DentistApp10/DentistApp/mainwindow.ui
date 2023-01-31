@@ -522,86 +522,97 @@ Size</string>
                 <property name="title">
                  <string>Measure</string>
                 </property>
-                <layout class="QVBoxLayout" name="verticalLayout_12">
+                <layout class="QVBoxLayout" name="verticalLayout_13">
                  <item>
-                  <layout class="QFormLayout" name="formLayout">
-                   <item row="0" column="0">
-                    <widget class="QToolButton" name="rulerToolButton">
-                     <property name="minimumSize">
-                      <size>
-                       <width>0</width>
-                       <height>0</height>
-                      </size>
-                     </property>
-                     <property name="text">
-                      <string>...</string>
-                     </property>
-                     <property name="icon">
-                      <iconset resource="Image.qrc">
-                       <normaloff>:/icon/Image/ruler.png</normaloff>:/icon/Image/ruler.png</iconset>
-                     </property>
-                     <property name="iconSize">
-                      <size>
-                       <width>30</width>
-                       <height>30</height>
-                      </size>
-                     </property>
-                    </widget>
-                   </item>
-                   <item row="0" column="1">
-                    <layout class="QVBoxLayout" name="verticalLayout_9">
-                     <item>
-                      <widget class="QLabel" name="lengthLabel">
+                  <layout class="QVBoxLayout" name="verticalLayout_12">
+                   <item>
+                    <layout class="QFormLayout" name="formLayout">
+                     <item row="0" column="0">
+                      <widget class="QToolButton" name="rulerToolButton">
+                       <property name="minimumSize">
+                        <size>
+                         <width>0</width>
+                         <height>0</height>
+                        </size>
+                       </property>
                        <property name="text">
-                        <string>lengthLabel:</string>
+                        <string>...</string>
+                       </property>
+                       <property name="icon">
+                        <iconset resource="Image.qrc">
+                         <normaloff>:/icon/Image/ruler.png</normaloff>:/icon/Image/ruler.png</iconset>
+                       </property>
+                       <property name="iconSize">
+                        <size>
+                         <width>30</width>
+                         <height>30</height>
+                        </size>
                        </property>
                       </widget>
                      </item>
-                     <item>
-                      <widget class="QLineEdit" name="lengthLineEdit"/>
+                     <item row="0" column="1">
+                      <layout class="QVBoxLayout" name="verticalLayout_9">
+                       <item>
+                        <widget class="QLabel" name="lengthLabel">
+                         <property name="text">
+                          <string>lengthLabel:</string>
+                         </property>
+                        </widget>
+                       </item>
+                       <item>
+                        <widget class="QLineEdit" name="lengthLineEdit"/>
+                       </item>
+                      </layout>
                      </item>
                     </layout>
                    </item>
-                  </layout>
-                 </item>
-                 <item>
-                  <layout class="QFormLayout" name="formLayout_2">
-                   <item row="0" column="0">
-                    <widget class="QToolButton" name="protractorToolButton">
-                     <property name="minimumSize">
-                      <size>
-                       <width>0</width>
-                       <height>0</height>
-                      </size>
-                     </property>
-                     <property name="text">
-                      <string>...</string>
-                     </property>
-                     <property name="icon">
-                      <iconset resource="Image.qrc">
-                       <normaloff>:/icon/Image/progtractor.png</normaloff>:/icon/Image/progtractor.png</iconset>
-                     </property>
-                     <property name="iconSize">
-                      <size>
-                       <width>30</width>
-                       <height>30</height>
-                      </size>
-                     </property>
-                    </widget>
-                   </item>
-                   <item row="0" column="1">
-                    <layout class="QVBoxLayout" name="verticalLayout_10">
-                     <item>
-                      <widget class="QLabel" name="angleLabel">
+                   <item>
+                    <layout class="QFormLayout" name="formLayout_2">
+                     <item row="0" column="0">
+                      <widget class="QToolButton" name="protractorToolButton">
+                       <property name="minimumSize">
+                        <size>
+                         <width>0</width>
+                         <height>0</height>
+                        </size>
+                       </property>
                        <property name="text">
-                        <string>angleLabel:</string>
+                        <string>...</string>
+                       </property>
+                       <property name="icon">
+                        <iconset resource="Image.qrc">
+                         <normaloff>:/icon/Image/progtractor.png</normaloff>:/icon/Image/progtractor.png</iconset>
+                       </property>
+                       <property name="iconSize">
+                        <size>
+                         <width>30</width>
+                         <height>30</height>
+                        </size>
                        </property>
                       </widget>
                      </item>
-                     <item>
-                      <widget class="QLineEdit" name="angleLineEdit"/>
+                     <item row="0" column="1">
+                      <layout class="QVBoxLayout" name="verticalLayout_10">
+                       <item>
+                        <widget class="QLabel" name="angleLabel">
+                         <property name="text">
+                          <string>angleLabel:</string>
+                         </property>
+                        </widget>
+                       </item>
+                       <item>
+                        <widget class="QLineEdit" name="angleLineEdit"/>
+                       </item>
+                      </layout>
                      </item>
                     </layout>
+                   </item>
+                   <item>
+                    <widget class="QPushButton" name="measureClear">
+                     <property name="text">
+                      <string>measure Clear</string>
+                     </property>
+                    </widget>
                    </item>
                   </layout>
                  </item>
