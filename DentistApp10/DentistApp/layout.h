@@ -8,7 +8,7 @@ class QGraphicsScene;
 class QPushButton;
 //class QHoverEvent;
 class QEvent;
-
+class Scene;
 
 
 class Layout : public QWidget
@@ -22,13 +22,13 @@ public:
     QGraphicsView *grid3;
     QGraphicsView *grid4;
 
-    QGraphicsScene *scene1;
-    QGraphicsScene *scene2;
-    QGraphicsScene *scene3;
-    QGraphicsScene *scene4;
+    Scene *scene1;
+    Scene *scene2;
+    Scene *scene3;
+    Scene *scene4;
 
     QGraphicsView *grid;
-    QGraphicsScene *scene;
+    Scene *scene;
 
 
     QPointF clickPoint;

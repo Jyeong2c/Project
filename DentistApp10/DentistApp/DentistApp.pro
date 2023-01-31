@@ -11,6 +11,7 @@ CONFIG += c++17
 SOURCES += \
     #fmx.cpp \
     #item.cpp \
+    downloader.cpp \
     keyfeaturesform.cpp \
     layout.cpp \
     #listalbum.cpp \
@@ -21,12 +22,13 @@ SOURCES += \
     mainwindow.cpp \
     #newwindow.cpp \
     maxlayout.cpp \
-    #scene.cpp \
+    scene.cpp \
     view.cpp
 
 HEADERS += \
     #fmx.h \
     #item.h \
+    downloader.h \
     keyfeaturesform.h \
     layout.h \
     blending.h \
@@ -36,7 +38,7 @@ HEADERS += \
     mainwindow.h \
     #newwindow.h \
     maxlayout.h \
-    #scene.h \
+    scene.h \
     view.h
 
 FORMS += \

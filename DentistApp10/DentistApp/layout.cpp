@@ -1,7 +1,7 @@
 #include "layout.h"
 #include "view.h"
 //#include <opencv2/opencv.hpp>
-
+#include "scene.h"
 
 #include <QGridLayout>
 #include <QGraphicsView>
@@ -21,13 +21,13 @@ Layout::Layout(QWidget *parent)
 {
     gridLayout();
 
-    scene1 = new QGraphicsScene;
+    scene1 = new Scene;
     scene1->setBackgroundBrush(Qt::black);
-    scene2 = new QGraphicsScene;
+    scene2 = new Scene;
     scene2->setBackgroundBrush(Qt::black);
-    scene3 = new QGraphicsScene;
+    scene3 = new Scene;
     scene3->setBackgroundBrush(Qt::black);
-    scene4 = new QGraphicsScene;
+    scene4 = new Scene;
     scene4->setBackgroundBrush(Qt::black);
 
     grid1->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
