@@ -97,11 +97,6 @@ void Scene::setAngThirdXY(int &x, int &y)
 {
     trdPosX = x; trdPosY = y;
 }
-/*픽셀당 길이를 받는 set함수*/
-void Scene::setPixelLength(double &pixel)
-{
-    imagePixel = pixel;
-}
 
 //////////////////////////////////////////////////////
 
@@ -130,12 +125,6 @@ void Scene::reSecondAnglePoint(int _x, int _y)
 void Scene::reThirdAnglePoint(int _x, int _y)
 {
     setAngThirdXY(_x, _y);
-}
-
-/*픽셀당 측정된 실 길이를 받는 함수*/
-void Scene::reImagePixel(double pixel)
-{
-    setPixelLength(pixel);
 }
 /////////////////////////////////////////////////////
 
@@ -265,8 +254,8 @@ void Scene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
         qDebug() << "sceneHeight : " << sceneHeight;
         emit sendLastOrtho(event->scenePos().x(), event->scenePos().y());
         /*서버의 이미지 크기도 여기에서 수정되어야 함.*/
-        double avgWidth = (double)400 / sceneWidth;
-        double avgHeight = (double)250 / sceneHeight;
+        double avgWidth = (double)imageWidth / sceneWidth;
+        double avgHeight = (double)imageHeight / sceneHeight;
 
         double leng = qSqrt(qPow((lengthLastX - lengthFstX) * avgWidth, 2) +
                             qPow((lengthLastY - lenghtFstY) * avgHeight, 2));
@@ -335,7 +324,8 @@ Scene::Shape Scene::getCurrentShape() const
 void Scene::setCurrentShape(const Shape &value)
 {
     m_currentShape = value;
-
+    qDebug("[%s] %s : %d", __FILE__, __FUNCTION__, __LINE__);
+    qDebug() << "value : " << m_currentShape;
 }
 
 QColor Scene::getCurrentColor() const
@@ -457,4 +447,14 @@ void Scene::keyPressEvent(QKeyEvent *event)
 
         }
     }
+}
+
+/*4개의 Scene중 택 1을 하였을 때 해당되는 Scene에 픽셀 당 길이, 크기정보를 Scene마다 받음*/
+void Scene::reImageInfo(double _pixel, int _width, int _height)
+{
+    imagePixel = _pixel; imageWidth = _width; imageHeight = _height;
+    qDebug("[%s] %s : %d", __FILE__, __FUNCTION__, __LINE__);
+    qDebug() << "imagePixel : " << imagePixel;
+    qDebug() << "imageWidth : " << imageWidth;
+    qDebug() << "imageHeight : " << imageHeight;
 }

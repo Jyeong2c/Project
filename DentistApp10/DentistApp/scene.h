@@ -50,7 +50,6 @@ signals:
 
     /*메인 윈도우에 보낼 각도 측정 결과 시그널*/
     void sendMeasureAngle(double _angle);
-
 public slots:
     /*Scene클래스 내에 2점의 좌표를 받는 슬롯 함수*/
     void reFirstOrtho(int _x, int _y);
@@ -61,9 +60,11 @@ public slots:
     void reSecondAnglePoint(int _x, int _y);
     void reThirdAnglePoint(int _x, int _y);
 
-    /*픽셀당 측정된 실 길이를 받는 함수*/
-    void reImagePixel(double pixel);
+    /*4개의 Scene중 택 1을 하였을 때 해당되는 Scene에 픽셀 당 길이, 크기정보를 Scene마다 받음*/
+    void reImageInfo(double pixel, int width, int height);
 
+//    /*픽셀당 측정된 실 길이를 받는 함수*/
+//    void reImagePixel(double pixel);
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event) override;
@@ -81,7 +82,6 @@ protected:
 
     /*각도 측정 아이템 출력후 moveable 지정*/
     void addAngleItem(QPointF stPos, QPointF edPos);
-
 private:
     bool drawing;
     // List
@@ -112,6 +112,6 @@ private:
     int trdPosX, trdPosY;       //각도 측정 세번째 x,y 좌표
 
     double imagePixel;          //1픽셀 당 실제길이를 입력 받는 값
+    int imageWidth, imageHeight;//이미지의 크기 정보 width, height
 };
-
 #endif // SCENE_H

@@ -58,8 +58,6 @@
 #include <QImage>
 #include <QMenu>
 
-
-
 #define sheetWhite "background:rgb(255, 255, 255)"
 #define sheetNavy "background:rgb(32, 56, 100)"
 
@@ -77,6 +75,8 @@ MainWindow::MainWindow(QWidget *parent)
 
     keyFeatures = new KeyFeaturesForm();                                              // 주요 기능 클래스
     connect(keyFeatures, SIGNAL(destroyed()), keyFeatures, SLOT(deleteLater()));
+
+    scene = new Scene;
 
 
     customLayout = new Layout(this);                                                // 레이아웃 화면
@@ -116,6 +116,13 @@ MainWindow::MainWindow(QWidget *parent)
     connect(myMaxlayout, SIGNAL(max_sig_size(QGraphicsView*)), SLOT(DoubleWidget(QGraphicsView*)));
     connect(customLayout, SIGNAL(sig_widgetbyDClick(QGraphicsView*)), SLOT(DoubleWidget(QGraphicsView*)));
     connect(myMaxlayout->viewQuit, SIGNAL(clicked()), SLOT(previousScreen()));
+
+    /*길이 측정 좌표 signal과 좌표값을 받는 슬롯*/
+    connect(scene, &Scene::sendMeasureLength, this, &MainWindow::receiveLengthMeasure);
+    /*각도 측정 결과 signal과 결과값을 받는 슬롯*/
+    connect(scene, &Scene::sendMeasureAngle, this, &MainWindow::receiveAngleMeasure);
+    /*각 Scene마다 픽셀당 실길이를 보내는 커넥트 함수*/
+    connect(this, &MainWindow::sendImageInfo, scene, &Scene::reImageInfo);
 }
 
 MainWindow::~MainWindow()
@@ -340,12 +347,6 @@ void MainWindow::resizeEvent(QResizeEvent* event)
 void MainWindow::changeEvent(QEvent *event)
 {
     Q_UNUSED(event);
-    //    QMainWindow::changeEvent(event);
-    //    if(event->type() == QEvent::WindowStateChange) {                 // 윈도우 창 변경 (최소화, 최대화)
-    ////        customLayout->grid1->viewport()->size();
-    ////        qDebug("window Changed");
-    ////        qDebug("윈도우 사이즈 변화에 따른 viewport : %d", customLayout->grid1->viewport()->size());
-    //    }
 }
 
 void MainWindow::on_layoutClearPushButton_clicked()                    // scene 이미지 초기화
@@ -356,16 +357,6 @@ void MainWindow::on_layoutClearPushButton_clicked()                    // scene 
     customLayout->grid4->scene()->clear();
 
     cnt = 0;
-
-    //    customLayout->grid1->setStyleSheet("border: 0.5px solid rgb(129, 134, 143)");
-    //    customLayout->grid2->setStyleSheet("border: 0.5px solid rgb(129, 134, 143)");
-    //    customLayout->grid3->setStyleSheet("border: 0.5px solid rgb(129, 134, 143)");
-    //    customLayout->grid4->setStyleSheet("border: 0.5px solid rgb(129, 134, 143)");
-
-    //    customLayout->scene1->setBackgroundBrush(Qt::black);
-    //    customLayout->scene2->setBackgroundBrush(Qt::black);
-    //    customLayout->scene3->setBackgroundBrush(Qt::black);
-    //    customLayout->scene4->setBackgroundBrush(Qt::black);
 
     customLayout->g = false;
 }
@@ -433,16 +424,11 @@ void MainWindow::patientLoad()
             for(int i = 0; i < jsonArr.size(); i++) {
                 QJsonObject jsonObj = jsonArr.at(i).toObject();    //jsonResponse.object();
                 /*JSON 파싱(환자 정보는 ID(int), Name(QString), Age(int), DoctorID(QString), PhotoDate(QString))*/
-                //                qDebug( ) << "ID:" << jsonObj["ID"].toString( );
-                //                qDebug( ) << "Name:" << jsonObj["Name"].toString( );
-                //                qDebug( ) << "Age:" << jsonObj["Age"].toInt( );
-                //                qDebug( ) << "DoctorID:" << jsonObj["DoctorID"].toString( );
-                //                qDebug( ) << "PhotoDate:" << jsonObj["PhotoDate"].toString( );
-                //                qDebug( ) << "ImageListURL:" << jsonObj["ImageListURL"].toString();
 
                 /*의사의 아이디를 구분하여 해당하는 환자의 정보를 출력*/
                 qDebug() << ui->doctorNameLineEdit->text();
                 QString DoctorID = jsonObj["DoctorID"].toString();
+                /*로그인 아이디와 doctorNameLineEdit의 데이터가 일치하는 경우*/
                 if(DoctorID == ui->doctorNameLineEdit->text())
                 {
                     /*구분된 JsonArr.size() 내부의 Json데이터를 QtDB Table에 Insert*/
@@ -539,6 +525,8 @@ void MainWindow::onFinished(QNetworkReply* reply)
             /* 데이터 베이스 테이블을 클릭시 해당하는 URL의 ImageURL */
             QString ImageURL = jsonObj["ImagePathURL"].toString();
             QString ImageName = jsonObj["ImageName"].toString( );
+            int ImageWidth = jsonObj["ImageWidth"].toInt();
+            int ImageHeight = jsonObj["ImageHeight"].toInt();
 
             /*ini파일을 생성하기 위한 ImageInfo 디렉토리가 없으면 현재 디렉토리에 ImageInfo 디렉토리 생성*/
             if(!dir.exists()) dir.mkdir("./ImageInfo/");
@@ -557,6 +545,8 @@ void MainWindow::onFinished(QNetworkReply* reply)
             ImageInfo.setValue("Image_Kinds", ImageKinds);
             ImageInfo.setValue("Image_URL", ImageURL);
             ImageInfo.setValue("Image_Name", ImageName);
+            ImageInfo.setValue("Image_Width", ImageWidth);
+            ImageInfo.setValue("Image_Height", ImageHeight);
             /*ini파일의 정보를 다 받으면 endGroup하여 이미지 정보를 ini파일 형태로 저장*/
             ImageInfo.endGroup();
 
@@ -673,20 +663,16 @@ void MainWindow::on_actionload_triggered()
     loadImages();
 }
 
+/*길이 측정 버튼을 클릭 시 길이 측정 기능 활성화*/
 void MainWindow::on_rulerToolButton_clicked()
 {
-    customLayout->scene1->setCurrentShape(Scene::Length);
-    customLayout->scene2->setCurrentShape(Scene::Length);
-    customLayout->scene3->setCurrentShape(Scene::Length);
-    customLayout->scene4->setCurrentShape(Scene::Length);
+    scene->setCurrentShape(Scene::Length);
 }
 
+/*각도 측정 버튼을 클릭 시 각도 측정 기능 활성화*/
 void MainWindow::on_protractorToolButton_clicked()
 {
-    customLayout->scene1->setCurrentShape(Scene::Angle);
-    customLayout->scene2->setCurrentShape(Scene::Angle);
-    customLayout->scene3->setCurrentShape(Scene::Angle);
-    customLayout->scene4->setCurrentShape(Scene::Angle);
+    scene->setCurrentShape(Scene::Angle);
 }
 
 /*환자 정보를 클릭 시 해당 이미지와 맞는 png파일이 있는지를 확인후 해당 png파일을 ini파일과 싱크*/
@@ -710,12 +696,18 @@ void MainWindow::on_listWidget_clicked(const QModelIndex &index)
         QSettings ImageInfo(QString("./ImageInfo/%1").arg(iniInfo), QSettings::IniFormat);
         /*double 값이 나오기 위해 beginGroup을 설정해야 함..(setvalue할 때도 group으로 시작하고 group으로 끝냄)*/
         ImageInfo.beginGroup("ImageInfo");
+        /*픽셀당 이미지의 길이, 크기 정보 변수 설정*/
         double imagePixelLength = ImageInfo.value("Image_Pixel_Length").toDouble();
+        int imageWidth = ImageInfo.value("Image_Width").toInt();
+        int imageHeight = ImageInfo.value("Image_Height").toInt();
         ImageInfo.endGroup();
         qDebug() << "image pixel : " << imagePixelLength;
         QMessageBox::information(this, "Exist", "exist : " + iniInfo + "\n"
-                                 + QString("and PixelData : %1").arg(imagePixelLength));
-        emit sendImagePixel(imagePixelLength);
+                                 + QString("and PixelData : %1").arg(imagePixelLength) + "\n"
+                                 + QString("ImageWidth : %1").arg(imageWidth) + "\n"
+                                 + QString("ImageHeight : %1").arg(imageHeight));
+        /*ini파일에서 저장된 정보(픽셀당 이미지 길이, 크기 정보)를 추출후 signal 설정*/
+        emit sendImageInfo(imagePixelLength, imageWidth, imageHeight);
     } else {
         QMessageBox::information(this, "Not Exist", "not exist : " + iniInfo);
     }
@@ -891,8 +883,3 @@ void MainWindow::showContextMenu(const QPoint &pos)
     QPoint globalPos = ui->mdiArea->mapToGlobal(pos);
     //    menu->exec(globalPos);
 }
-
-
-
-
-

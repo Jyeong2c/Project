@@ -20,15 +20,7 @@ Layout::Layout(QWidget *parent)
     : QWidget{parent}
 {
     gridLayout();
-
-    scene1 = new Scene;
-    scene1->setBackgroundBrush(Qt::black);
-    scene2 = new Scene;
-    scene2->setBackgroundBrush(Qt::black);
-    scene3 = new Scene;
-    scene3->setBackgroundBrush(Qt::black);
-    scene4 = new Scene;
-    scene4->setBackgroundBrush(Qt::black);
+    sceneLayout();
 
     grid1->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     grid1->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -78,6 +70,21 @@ void Layout::gridLayout()
     layout->addLayout(lay2);
 }
 
+void Layout::sceneLayout()
+{
+    scene1 = new Scene;
+    scene1->setBackgroundBrush(Qt::black);
+    scene2 = new Scene;
+    scene2->setBackgroundBrush(Qt::black);
+    scene3 = new Scene;
+    scene3->setBackgroundBrush(Qt::black);
+    scene4 = new Scene;
+    scene4->setBackgroundBrush(Qt::black);
+    scene = new Scene;
+    scene->setBackgroundBrush(Qt::black);
+}
+
+
 void Layout::mousePressEvent(QMouseEvent *event)
 {
     qDebug() << "Mouse Pressed" << event->pos();
@@ -113,12 +120,6 @@ void Layout::mousePressEvent(QMouseEvent *event)
             g = true;
             grid = grid1;
             scene = scene1;
-
-//            grid1->setStyleSheet("border: 0.5px solid rgb(0,255,0)");
-//            grid2->setStyleSheet("border: 0.5px solid rgb(129, 134, 143)");
-//            grid3->setStyleSheet("border: 0.5px solid rgb(129, 134, 143)");
-//            grid4->setStyleSheet("border: 0.5px solid rgb(129, 134, 143)");
-
             qDebug("scene1 clicked 1");
         }
 
@@ -127,11 +128,6 @@ void Layout::mousePressEvent(QMouseEvent *event)
             g = true;
             grid = grid2;
             scene = scene2;
-
-//            grid2->setStyleSheet("border: 0.5px solid rgb(0,255,0)");
-//            grid1->setStyleSheet("border: 0.5px solid rgb(129, 134, 143)");
-//            grid3->setStyleSheet("border: 0.5px solid rgb(129, 134, 143)");
-//            grid4->setStyleSheet("border: 0.5px solid rgb(129, 134, 143)");
 
             qDebug("scene2 clicked 2");
         }
@@ -142,11 +138,6 @@ void Layout::mousePressEvent(QMouseEvent *event)
             grid = grid3;
             scene = scene3;
 
-//            grid3->setStyleSheet("border: 0.5px solid rgb(0,255,0)");
-//            grid1->setStyleSheet("border: 0.5px solid rgb(129, 134, 143)");
-//            grid2->setStyleSheet("border: 0.5px solid rgb(129, 134, 143)");
-//            grid4->setStyleSheet("border: 0.5px solid rgb(129, 134, 143)");
-
             qDebug("scene3 clicked 3");
         }
 
@@ -156,11 +147,6 @@ void Layout::mousePressEvent(QMouseEvent *event)
             g = true;
             grid = grid4;
             scene = scene4;
-
-//            grid4->setStyleSheet("border: 0.5px solid rgb(0,255,0)");
-//            grid1->setStyleSheet("border: 0.5px solid rgb(129, 134, 143)");
-//            grid2->setStyleSheet("border: 0.5px solid rgb(129, 134, 143)");
-//            grid3->setStyleSheet("border: 0.5px solid rgb(129, 134, 143)");
 
             qDebug("scene4 clicked 4");
         }
@@ -216,5 +202,3 @@ void Layout::resizeEvent(QResizeEvent* event)
     Q_UNUSED(event);
     emit sig_size(grid);
 }
-
-

@@ -22,20 +22,16 @@ public:
     QGraphicsView *grid3;
     QGraphicsView *grid4;
 
-    Scene *scene1;
-    Scene *scene2;
-    Scene *scene3;
-    Scene *scene4;
+    QGraphicsScene *scene1;
+    QGraphicsScene *scene2;
+    QGraphicsScene *scene3;
+    QGraphicsScene *scene4;
 
     QGraphicsView *grid;
-    Scene *scene;
-
+    QGraphicsScene *scene;
 
     QPointF clickPoint;
     bool g = false;
-
-
-
 
 protected:
     void mousePressEvent(QMouseEvent *event) override;              // 왼쪽 마우스를 눌렀을 때 좌표 위치
@@ -46,12 +42,16 @@ protected:
 
 private:
     void gridLayout();
-
+    void sceneLayout();
 
 signals:
     void sig_size(QGraphicsView *grid);
     void sig_widgetbyDClick(QGraphicsView *grid);
 
+    /*4개의 Scene중 택 1을 하였을 때 해당되는 Scene에 픽셀 당 길이, 크기정보를 시그널로 재전송*/
+    void reSendImageInfo(double pixel, int width, int height);
+    /*해당되는 Scene의 정보를 시그널로 확인*/
+    void sendSceneInfo(const QString& scene);
 
 public slots:
 };

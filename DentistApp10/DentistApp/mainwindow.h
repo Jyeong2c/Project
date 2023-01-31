@@ -26,6 +26,7 @@ class QNetworkAccessManager;
 class QNetworkRequest;
 class QNetworkReply;
 class QFile;
+class Scene;
 
 /*blening class 설정*/
 class Blending;
@@ -110,7 +111,6 @@ private:
     /* 이중 창 */
     QStackedWidget *stackWidget;
 
-
     int cnt = 0;
 
     /* 환자 정보 DB */
@@ -136,19 +136,19 @@ private:
    /*블랜딩 다이얼로그를 호출하는 변수 추가*/
    Blending* blendDialog;
 
+   Scene* scene;
+
 public slots:
    /*Download클래스에서 보낸 이미지 다운로드 완효 신호를 받는 슬롯*/
    void receiveupload();
    /*요청이 끝남에 반응하는 함수*/
    void onFinished(QNetworkReply*);
 signals:
-    /*1픽셀당 실제 이미지의 길이 데이터를 보내는 함수*/
-    void sendImagePixel(double pixel);
-
+    /*1픽셀당 실제 이미지의 길이와 이미지 크기 정보를 보내는 함수*/
+    void sendImageInfo(double pixel, int width, int height);
 
 signals:
     void sig_doctorInfo(QString);
-
 };
 
 
