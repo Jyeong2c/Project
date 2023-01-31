@@ -37,11 +37,6 @@ Layout::Layout(QWidget *parent)
     grid3->setStyleSheet("border: 0.5px solid rgb(129, 134, 143);");
     grid4->setStyleSheet("border: 0.5px solid rgb(129, 134, 143);");
 
-    grid1->setScene(scene1);
-    grid2->setScene(scene2);
-    grid3->setScene(scene3);
-    grid4->setScene(scene4);
-
     grid = grid1;
 }
 
@@ -72,7 +67,7 @@ void Layout::gridLayout()
 
 void Layout::sceneLayout()
 {
-    scene1 = new Scene;
+    scene1 = new Scene(grid1, this);
     scene1->setBackgroundBrush(Qt::black);
     scene2 = new Scene;
     scene2->setBackgroundBrush(Qt::black);

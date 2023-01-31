@@ -768,6 +768,7 @@ void MainWindow::styleColor()
     ui->implantToolButton->setStyleSheet(sheetWhite);
     ui->implantToolButton_2->setStyleSheet(sheetWhite);
     ui->blendingButton->setStyleSheet(sheetWhite);
+    ui->measureClear->setStyleSheet(sheetWhite);
 
 
     // ui->toolBar->setToolButtonStyle(Qt::ToolBarArea));
