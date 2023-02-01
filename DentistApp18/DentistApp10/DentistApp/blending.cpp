@@ -22,10 +22,6 @@ Blending::Blending(QWidget *parent) :
     uiSetting();
     loadImages();
 
-    /*다이얼로그의 크기를 960x640 크기로 조정*/
-    //this->resize(ui->imageLabel->width(), ui->imageLabel->height());
-    //ui->horizontalSlider->setValue(0);
-
     /*다이얼로그 박스에 타이틀 버튼 활성화*/
     //setWindowFlag(Qt::CustomizeWindowHint);
     setWindowFlag(Qt::WindowMaximizeButtonHint);    //최소화 버튼
@@ -48,6 +44,7 @@ Blending::~Blending()
     delete ui;
 }
 
+/*선택된 이미지를 받는 setImage1,2 함수*/
 void Blending::setImage1(const QString& _image1)
 {
     image1 = imread(QString("./Images/%1").arg(_image1).toStdString(), IMREAD_COLOR);
@@ -181,10 +178,12 @@ void Blending::on_imageListWidget_clicked(const QModelIndex &index)
 
     /*opencv로 두장의 이미지 읽기*/
     if(imageFlag == 0){
+        /*플래그가 0인경우 image1에 listWidget에 선택된 이미지를 부르기*/
         ui->ImageOneLineEdit->setText(fileInfo);
         setImage1(fileInfo);
         imageFlag = 1;
     } else if(imageFlag == 1){
+        /*플래그가 1인 경우 image2에 listWidget에 선택된 이미지를 부르기*/
         ui->ImageTwoLineEdit->setText(fileInfo);
         setImage2(fileInfo);
         imageFlag = 0;
