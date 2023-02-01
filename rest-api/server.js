@@ -21,15 +21,34 @@ server.get('/', (req, res) => {
         .then((user) => {   //성공시 콘솔에 user정보와 json형태로 저장을 성공했다는 문구를 출력
             console.log(user);
             res.json({
-                message:'User Create Successfully'
+                message: 'User Create Successfully'
             });
         })
         .catch((err) => {   //실패ㅣ
             res.json({
-                message:'User was not successfully create'
-            })
+                message: 'User was not successfully create'
+            });
         })
 });
+
+// server.post('/', (req, res) => {
+//     const newUser = new User();
+//     newUser.push(req.body);
+//     //위의 정보들은 저장한 후 json응답으로 create 했다는 정보를 표시
+//     newUser
+//         .save()
+//         .then((user) => {   //성공시 콘솔에 user정보와 json형태로 저장을 성공했다는 문구를 출력
+//             console.log(user);
+//             res.json({
+//                 message: 'User Create Successfully'
+//             });
+//         })
+//         .catch((err) => {   //실패ㅣ
+//             res.json({
+//                 message: 'User was not successfully create'
+//             });
+//         })
+// })
 
 //console.log(process.env.MONGODB_URL);
 server.listen(3000, (err) => {
