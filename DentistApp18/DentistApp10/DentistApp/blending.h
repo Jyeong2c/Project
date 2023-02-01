@@ -13,6 +13,7 @@ class QPixmap;
 class QGraphicsScene;
 class QGraphicsPixmapItem;
 class QReszieEvent;
+class QListWidgetItem;
 
 namespace Ui {
 class Blending;
@@ -26,11 +27,19 @@ public:
     explicit Blending(QWidget *parent = nullptr);
     ~Blending();
 
+    void loadImages();
+    void uiSetting();
+    void setImage1(const QString& _image1);
+    void setImage2(const QString& _image2);
+
 public slots:
     void onBlending(int);
 
 protected:
     void resizeEvent(QResizeEvent *) override;
+
+private slots:
+    void on_imageListWidget_clicked(const QModelIndex &index);
 
 private:
     Ui::Blending *ui;
@@ -45,6 +54,7 @@ private:
 
     /*바운딩 렉트를 위한 Hash 할당*/
     //QHash<QGraphicsPixmapItem*, QString> itemHash;
+    int imageFlag = 0;
 };
 
 #endif // BLENDING_H

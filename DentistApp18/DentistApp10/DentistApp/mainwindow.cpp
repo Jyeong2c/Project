@@ -76,7 +76,7 @@ MainWindow::MainWindow(QWidget *parent)
     keyFeatures = new KeyFeaturesForm();                                              // 주요 기능 클래스
     connect(keyFeatures, SIGNAL(destroyed()), keyFeatures, SLOT(deleteLater()));
 
-    scene = new Scene;
+    //scene = new Scene;
 
 
     customLayout = new Layout(this);                                                // 레이아웃 화면
@@ -118,11 +118,11 @@ MainWindow::MainWindow(QWidget *parent)
     connect(myMaxlayout->viewQuit, SIGNAL(clicked()), SLOT(previousScreen()));
 
     /*길이 측정 좌표 signal과 좌표값을 받는 슬롯*/
-    connect(scene, &Scene::sendMeasureLength, this, &MainWindow::receiveLengthMeasure);
+    connect(customLayout->scene1, &Scene::sendMeasureLength, this, &MainWindow::receiveLengthMeasure);
     /*각도 측정 결과 signal과 결과값을 받는 슬롯*/
-    connect(scene, &Scene::sendMeasureAngle, this, &MainWindow::receiveAngleMeasure);
+    connect(customLayout->scene1, &Scene::sendMeasureAngle, this, &MainWindow::receiveAngleMeasure);
     /*각 Scene마다 픽셀당 실길이를 보내는 커넥트 함수*/
-    connect(this, &MainWindow::sendImageInfo, scene, &Scene::reImageInfo);
+    connect(this, &MainWindow::sendImageInfo, customLayout->scene1, &Scene::reImageInfo);
 }
 
 MainWindow::~MainWindow()
@@ -666,13 +666,13 @@ void MainWindow::on_actionload_triggered()
 /*길이 측정 버튼을 클릭 시 길이 측정 기능 활성화*/
 void MainWindow::on_rulerToolButton_clicked()
 {
-    scene->setCurrentShape(Scene::Length);
+    customLayout->scene1->setCurrentShape(Scene::Length);
 }
 
 /*각도 측정 버튼을 클릭 시 각도 측정 기능 활성화*/
 void MainWindow::on_protractorToolButton_clicked()
 {
-    scene->setCurrentShape(Scene::Angle);
+    customLayout->scene1->setCurrentShape(Scene::Angle);
 }
 
 /*환자 정보를 클릭 시 해당 이미지와 맞는 png파일이 있는지를 확인후 해당 png파일을 ini파일과 싱크*/
@@ -768,6 +768,7 @@ void MainWindow::styleColor()
     ui->implantToolButton->setStyleSheet(sheetWhite);
     ui->implantToolButton_2->setStyleSheet(sheetWhite);
     ui->blendingButton->setStyleSheet(sheetWhite);
+    ui->measureClear->setStyleSheet(sheetWhite);
 
 
     // ui->toolBar->setToolButtonStyle(Qt::ToolBarArea));

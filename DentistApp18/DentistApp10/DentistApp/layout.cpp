@@ -1,5 +1,5 @@
 #include "layout.h"
-#include "view.h"
+//#include "view.h"
 //#include <opencv2/opencv.hpp>
 #include "scene.h"
 
@@ -48,10 +48,10 @@ Layout::Layout(QWidget *parent)
 /* 2 X 2 Grid */
 void Layout::gridLayout()
 {
-    grid1 = new View;
-    grid2 = new View;
-    grid3 = new View;
-    grid4 = new View;
+    grid1 = new QGraphicsView;
+    grid2 = new QGraphicsView;
+    grid3 = new QGraphicsView;
+    grid4 = new QGraphicsView;
 
 
     QHBoxLayout *lay1 = new QHBoxLayout;

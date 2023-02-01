@@ -27,6 +27,7 @@ Scene::Scene(QObject *parent)
 
 void Scene::mousePressEvent(QGraphicsSceneMouseEvent *event)    // 마우스 클릭 시
 {
+
     QPen pen(m_currentColor, 3);
     //if(items(event->scenePos()).isEmpty()){
 
@@ -46,9 +47,9 @@ void Scene::mousePressEvent(QGraphicsSceneMouseEvent *event)    // 마우스 클
 
         pathList.append(item);
     } else if(m_currentShape == Length){
-         m_startPos = event->scenePos();
-         emit sendFirstOrtho(event->scenePos().x(), event->scenePos().y());
-         qDebug() << "Scene(mousePress) : " << event->scenePos().x() << ", " << event->scenePos().y();
+        m_startPos = event->scenePos();
+        emit sendFirstOrtho(event->scenePos().x(), event->scenePos().y());
+        qDebug() << "Scene(mousePress) : " << event->scenePos().x() << ", " << event->scenePos().y();
     } else if(m_currentShape == Angle) {
         switch(pointCount)
         {
@@ -67,8 +68,6 @@ void Scene::mousePressEvent(QGraphicsSceneMouseEvent *event)    // 마우스 클
         m_startPos = event->scenePos();
         qDebug() << "first X Pos : " << event->scenePos().x() << ", first Y Pos : " << event->scenePos().y();
     }
-
-
     QGraphicsScene::mousePressEvent(event);
 }
 /*길이 측정 좌표를 설정받는 set함수*/
@@ -80,8 +79,8 @@ void Scene::setLengFirstXY(int &x, int& y)
 
 void Scene::setLengLastXY(int &x, int& y)
 {
-   lengthLastX = x;
-   lengthLastY = y;
+    lengthLastX = x;
+    lengthLastY = y;
 }
 
 /*각도 좌표를 설정받는 set함수 -> 3개의 함수로 줄여보기*/
@@ -130,6 +129,7 @@ void Scene::reThirdAnglePoint(int _x, int _y)
 
 void Scene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
+
     if(m_currentShape == Path){
         if(drawing){
             QGraphicsPathItem* item = pathList.last();
@@ -205,11 +205,8 @@ void Scene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 
 void Scene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
-    Q_UNUSED(event);
-
     //        if(m_currentItem != nullptr)
     //        delete m_currentItem;
-
     switch(m_currentShape){
     case Line:
         addLineItem(m_startPos, event->scenePos());
@@ -309,7 +306,6 @@ void Scene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 
         break;
     }
-
     m_currentItem = nullptr;
     QGraphicsScene::mouseReleaseEvent(event);
 }

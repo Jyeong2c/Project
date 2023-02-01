@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1248</width>
-    <height>681</height>
+    <height>692</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -962,7 +962,11 @@ Size</string>
            </spacer>
           </item>
           <item>
-           <widget class="QListWidget" name="listWidget"/>
+           <widget class="QListWidget" name="listWidget">
+            <property name="layoutMode">
+             <enum>QListView::SinglePass</enum>
+            </property>
+           </widget>
           </item>
           <item>
            <spacer name="horizontalSpacer_10">
