@@ -8,6 +8,8 @@ const server = express();
 //bodyParser를 씀으로써 post로 들어오는 모든 데이터를 서버에서 읽을 수 있게 됨
 server.use(bodyParser.json());
 
+//CRUD (Create, Read, Update, Delete)
+
 //javascript Array를 사용하여 사용자의 정보를 json형태로 저장
 const users = [
     {
@@ -46,6 +48,36 @@ server.get('/api/user/:id', (req, res)=>{
     }
 });
 
+//서버의 데이터를 업데이트 하기 위해서는 put이라는 메소드를 사용
+server.put('/api/user/:id', (req, res)=>{
+    let foundIndex = users.findIndex(u=>u.id === req.params.id);
+    /*찾는 ID 가 없을 경우에는 -1을 반환 */
+    if(foundIndex === -1){ //찾으려는 아이디가 없는 경우
+        /*해당 User를 찾을 수 없다는 문구를 띄움*/
+        res.status(404).json({errorMessage : "User was not found"});
+    } else {    //해당 아이디를 찾은 경우
+        /*user의 아이디에 맞게 찾은 데이터를 ...user[foundIndex] 코드를 통해 데이터를 복사한다.(id, name, email 전부) */
+        /*그리고 ...req.body를 통해 추가로 들어오는 id, name, email 데이터 값을 업데이트한다.  */
+        users[foundIndex] = {...users[foundIndex], ...req.body};
+        /*업데이트 된 응답을 서버에 보여줌*/
+        res.json(users[foundIndex]);
+    }
+});
+
+//서버의 데이터를 지우기위해 delete라는 메소드를 사용
+server.delete('/api/user/:id', (req, res)=>{
+    let foundIndex = users.findIndex(u=>u.id === req.params.id);
+    //put과 마찬가지로 -1인경우 해당 데이터가 없다는 메세지를 표시
+    if(foundIndex === -1){
+        res.status(404).json({errorMessage : "User was not found"});
+    } else {
+        /*foundUser를 하는 이유는 데이터를 지울 아이디가 일치 한지를 확인하기 위함 */
+        let foundUser = users.splice(foundIndex, 1);
+        //splice() => 찾아낸 인덱스를 1칸 지워주고 나머지 아이디를 표시함.
+        res.json(foundUser[0]);
+    }
+})
+
 //post method로 요청이 왔을 경우 user 배열에 있는 데이터를 응답
 //post method는 실제 데이터를 보낼 때 해당 데이터를 감추어서 보내는 메소드이다.
 server.post("/api/user", (req, res) => {
@@ -54,6 +86,8 @@ server.post("/api/user", (req, res) => {
     users.push(req.body);
     res.json(users);
 });
+
+
 
 //localhost:3000 으로 서버를 활성화 
 server.listen(3000, () =>{
