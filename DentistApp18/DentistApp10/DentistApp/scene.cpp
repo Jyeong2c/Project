@@ -263,7 +263,7 @@ void Scene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
         /*길이 측정 첫번째 좌표와 결과값을 출력하는 슬롯 함수 구현부*/
 
         /*소수점 세자리 까지 반올림*/
-        emit sendMeasureLength(round(leng * imagePixel * 1000) / 1000);
+        emit sendMeasureLength(leng * imagePixel);
         break;
     }
 
