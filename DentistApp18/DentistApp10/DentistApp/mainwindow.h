@@ -126,7 +126,7 @@ private:
 private:
    /*할당 받는 IP와 PORT번호를 설정하는 QString 인자*/
    QString hostName = "192.168.0.12";
-   QString portNum = "3000";
+   QString portNum = "4000";
    Downloader* downLoader;
 
    /*서버로부터 이미지 파일을 받을 변수들을 설정*/
