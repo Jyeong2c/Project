@@ -22,7 +22,8 @@ MainWindow::MainWindow(QWidget *parent)
     manager = new QNetworkAccessManager(this);
 
     //웹페이지 수신 완료 신호를 받으면 QEventLoop의 quit() 메소드를 실행
-    connect(manager, SIGNAL(finished(QNetworkReply *)),  &connection_loop, SLOT(quit()));
+    connect(manager, SIGNAL(finished(QNetworkReply *)), &connection_loop, SLOT(quit()));
+    connect(manager, SIGNAL(finished(QNetworkReply *)), &connection, SLOT(quit()));
 }
 
 MainWindow::~MainWindow()
@@ -32,45 +33,30 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_patientParse_clicked()
 {
-    QNetworkRequest req;
-    req.setUrl(QUrl("http://192.168.0.12:4000/patient"));
-    QNetworkReply *rep = manager->get(req);
-    connection_loop.exec();
+    QNetworkRequest req(QUrl(QString("http://192.168.0.12:4000/patient/")));
+    QNetworkReply *reply = manager->get(req);
 
-    QByteArray byteArray = rep->readAll();
-    if(byteArray.isEmpty() == true) qDebug() << "Need to fill json Data";
+    connection.exec();
 
-    QJsonDocument docuMent = QJsonDocument::fromJson(byteArray);
-    if(docuMent.isObject() == false) qDebug() << "It is not a Json object";
+    if(reply->error() == QNetworkReply::NoError){
+        QString strReply = (QString)reply->readAll();
+        QJsonDocument jsonResponse = QJsonDocument::fromJson(strReply.toUtf8());
+        if(jsonResponse.isObject() == false) qDebug() << "It is not a Json object";
+        QJsonObject jsonObject = jsonResponse.object();
+        QJsonArray jsonArr1 = jsonObject["patients"].toArray();
 
-    QJsonArray patients = docuMent.array();
-
-    QJsonObject jsonObject = docuMent.object();
-
-    QString decodeData = "";
-
-    for(int i = 0; i < patients.size(); i++)
-    {
-        QJsonArray patient = jsonObject["patient"].toArray();
-        for(int i = 0; i < patient.size(); i++){
-            QJsonObject jsonObj = patient.at(i).toObject();
-            QJsonValue ID = jsonObj.value("ID");
-            QJsonValue Name = jsonObj.value("Name");
-            QJsonValue Age = jsonObj.value("Age");
-            QJsonValue DoctorID = jsonObj.value("DoctorID");
-            QJsonValue PhoneDate = jsonObj.value("PhoneDate");
-            QJsonValue ImageListURL = jsonObj.value("ImageListURL");
-
-
-            decodeData.append("Name : " + ID.toString() + "\n");
-            decodeData.append("Surname : " + Name.toString() + "\n");
-            decodeData.append("Age : " + QString::number(Age.toInt()) + "\n");
-            decodeData.append("DoctorID : " + DoctorID.toString() + "\n");
-            decodeData.append("PhoneDate : " + PhoneDate.toString() + "\n");
-            decodeData.append("ImageListURL : " + ImageListURL.toString() + "\n");
+        for(int i = 0; i < jsonArr1.size(); i++){
+            QJsonObject jsonObj1 = jsonArr1.at(i).toObject();
+            QJsonArray jsonArr2 = jsonObj1["patient"].toArray();
+            for(int j = 0; j < jsonArr2.size(); j++){
+                QJsonObject jsonObj2 = jsonArr2.at(i).toObject();
+                QString ID = jsonObj2["ID"].toString();
+                QString Name = jsonObj2["Name"].toString();
+                int Age = jsonObj2["Age"].toInt();
+                qDebug() << ID << ", " << Name << ", " << Age;
+            }
         }
     }
-    ui->plainTextEdit->setPlainText(decodeData);
 }
 
 
