@@ -57,6 +57,7 @@
 #include <QHash>
 #include <QStackedWidget>
 #include <QImage>
+#include <QImageReader>
 #include <QMenu>
 
 #define sheetWhite "background:rgb(255, 255, 255)"
@@ -684,30 +685,65 @@ void MainWindow::on_listWidget_clicked(const QModelIndex &index)
     /*파일정보 리스트에 png, jpg, bmp파일들만 리스트정보에 넣어둠*/
     QFileInfoList fileInfoList = dir.entryInfoList(filters, QDir::Files | QDir::NoDotAndDotDot);
     /*png 파일을 baseName으로 */
-    QString iniInfo = fileInfoList.at(index.row()).baseName() + ".ini";
+    QString fileName = fileInfoList.at(index.row()).fileName();
+    QString baseName = fileInfoList.at(index.row()).baseName();
+    qDebug() << baseName;
 
-    /*이미지 정보가 들어있는 디렉토리 내부의 ini파일 불러오기*/
-    QFile imgInfoFile(QString("./ImageInfo/%1").arg(iniInfo));
-    /*ini파일 정보가 있다면 존재여부 메세지 박스 출력*/
-    if(imgInfoFile.exists()){
-        QSettings ImageInfo(QString("./ImageInfo/%1").arg(iniInfo), QSettings::IniFormat);
-        /*double 값이 나오기 위해 beginGroup을 설정해야 함..(setvalue할 때도 group으로 시작하고 group으로 끝냄)*/
-        ImageInfo.beginGroup("ImageInfo");
-        /*픽셀당 이미지의 길이, 크기 정보 변수 설정*/
-        double imagePixelLength = ImageInfo.value("Image_Pixel_Length").toDouble();
-        int imageWidth = ImageInfo.value("Image_Width").toInt();
-        int imageHeight = ImageInfo.value("Image_Height").toInt();
-        ImageInfo.endGroup();
-        qDebug() << "image pixel : " << imagePixelLength;
-        QMessageBox::information(this, "Exist", "exist : " + iniInfo + "\n"
-                                 + QString("and PixelData : %1").arg(imagePixelLength) + "\n"
-                                 + QString("ImageWidth : %1").arg(imageWidth) + "\n"
-                                 + QString("ImageHeight : %1").arg(imageHeight));
-        /*ini파일에서 저장된 정보(픽셀당 이미지 길이, 크기 정보)를 추출후 signal 설정*/
-        emit sendImageInfo(imagePixelLength, imageWidth, imageHeight);
-    } else {
-        QMessageBox::information(this, "Not Exist", "not exist : " + iniInfo);
+//    //네트워크 응답 변수
+//    reply = manager->get(request);
+//    request.setUrl(QUrl(QString("http://" + hostName + ":" + portNum + "/allImagelist?by=%1").arg(baseName)));
+//    connectionLoop.exec();//동기화 부분
+//    QByteArray data = reply->readAll(); //해당 Url 전체 Json데이터 읽기
+//    if(data.isEmpty() == true) qDebug() << "Need to fill Json Data";
+    QEventLoop eventLoop;
+    QNetworkAccessManager manager;
+    connect(&manager, SIGNAL(finished(QNetworkReply *)), &eventLoop, SLOT(quit()));
+
+    QNetworkReply* reply;
+    QNetworkRequest request;
+
+    /*이미지를 클릭하면 해당 이미지의 리스트를 검색하여 이미지 정보를 얻어옴 ini파일 절대 아님!!*/
+    request.setUrl(QUrl(QString("http://" + hostName + ':' + portNum + "/allImagelist?by=%1").arg(baseName)));
+    reply = manager.get(request);
+
+
+    eventLoop.exec();
+    QByteArray data = reply->readAll();
+    if(data.isEmpty() == true) qDebug() << "Need to fill Json Data";
+
+
+    //만일 Array부터 시작하는 경우
+    QJsonParseError parseError;
+    if(reply->error() == QNetworkReply::NoError){
+        QJsonDocument document = QJsonDocument::fromJson(data, &parseError);
+
+        if (parseError.error != QJsonParseError::NoError){
+            qDebug() << "Parse error: " << parseError.errorString();
+            return;
+        }
+        if (!document.isArray()){
+            qDebug() << "Document does not contain array";
+            return;
+        }
+
+        QJsonArray array = document.array();
+        for(int i = 0; i < array.size(); i++){
+            QJsonObject jsonObj = array.at(i).toObject();
+            QJsonObject patientObj = jsonObj.constFind("Image")->toObject();
+            double pixelLength = patientObj["PixelLength"].toDouble();
+            qDebug() << "pixelLength : " << pixelLength;
+        }
+
     }
+
+    /*해당 폴더에 저장된 이미지의 사이즈를 출력*/
+    QImageReader reader("./Images/"+fileName);
+    QSize sizeOfImage = reader.size();
+    int height = sizeOfImage.height();
+    int width = sizeOfImage.width();
+
+
+    qDebug() << width << ", " << height;
 }
 
 

@@ -21,7 +21,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     manager = new QNetworkAccessManager(this);
     //네트워크 요구 변수
-    req.setUrl(QUrl("http://192.168.0.12:4000/patientlist?by=osstem1"));
+    req.setUrl(QUrl("http://192.168.0.12:4000/allImagelist?by=panorama1"));
 
     //웹페이지 수신 완료 신호를 받으면 QEventLoop의 quit() 메소드를 실행
     connect(manager, SIGNAL(finished(QNetworkReply *)), &connection_loop, SLOT(quit()));
@@ -44,7 +44,7 @@ void MainWindow::on_AcessMakeButton_clicked()
     QByteArray data = rep->readAll(); //해당 Url 전체 Json데이터 읽기
     if(data.isEmpty() == true) qDebug() << "Need to fill Json Data";
 
-#if 1
+#if 0
     //만일 Array부터 시작하는 경우
     QJsonParseError parseError;
     if(rep->error() == QNetworkReply::NoError){
@@ -110,44 +110,37 @@ void MainWindow::on_AcessMakeButton_clicked()
         ui->plainTextEdit->setPlainText(decodeData);
     }
 #else
-    //JSON object와 data를 넣음
-    QJsonObject object = doc.object();
+    //만일 Array부터 시작하는 경우
+    QJsonParseError parseError;
+    if(rep->error() == QNetworkReply::NoError){
+        QJsonDocument document = QJsonDocument::fromJson(data, &parseError);
 
-    //Access the sibgle values : object안에 있는 array의 쌍수값을 접근
-    QJsonValue name = object.value("name");
-    QJsonValue surname = object.value("surname");
-    QJsonValue age = object.value("age"); //이 값은 정수형 입니다.
+        if (parseError.error != QJsonParseError::NoError){
+            qDebug() << "Parse error: " << parseError.errorString();
+            return;
+        }
+        if (!document.isArray()){
+            qDebug() << "Document does not contain array";
+            return;
+        }
 
-    //Acess the inner Json Object and its inside data. object will be widthin {} curly braces
-    //내부 Json 객체와 내부 데이터에 액세스합니다. 개체의 너비는 {}개의 중괄호로 표시됩니다
-    QJsonObject address = object.value("address").toObject();
-    QJsonValue addr_city = address.value("city");
-    QJsonValue addr_country = address.value("country");
+        QString decodeData;
+        QJsonArray array = document.array();
+        for(int i = 0; i < array.size(); i++){
+            QJsonObject jsonObj = array.at(i).toObject();
+            QJsonObject patientObj = jsonObj.constFind("Image")->toObject();
+            double pixelLength = patientObj["PixelLength"].toDouble();
+            QString Name = patientObj["ImageName"].toString();
+            decodeData.append("Name : " + Name + "\n");
+            decodeData.append("pixelLength : " + QString::number(pixelLength) + "\n");
+            qDebug() << pixelLength;
+        }
 
-    //Acess the array within the JSON object. array will be with in [] squared braces
-    //JSON 개체 내의 배열에 액세스합니다. 배열은 []개의 대괄호 내에 있습니다
-    QJsonArray phones = object.value("phone").toArray();
-    qDebug() << "There are " + QString::number(phones.size()) + " items in phones array";
-    QString phoneList = "";
-    for(unsigned int i = 0; i < phones.size(); i++)
-        phoneList.append(phones.at(i).toString() + "\n");
+        ui->plainTextEdit->setPlainText(decodeData);
+    }
 
-    QString decodeData = "";
 
-    decodeData.append("Name : " + name.toString() + "\n");
-    decodeData.append("Surname : " + surname.toString() + "\n");
-    decodeData.append("Age : " + QString::number(age.toInt()) + "\n");
 
-    decodeData.append("Address : \n");
-    decodeData.append("-City : " + addr_city.toString() + "\n");
-    decodeData.append("-Country : " + addr_country.toString() + "\n");
-
-    decodeData.append("Phones : \n" + phoneList + "\n");
-
-    ui->plainTextEdit->setPlainText(decodeData);
-
-    if(name.isString() == true) qDebug() << "name is a string";
-    qDebug() << "Firstname : " + name.toString();
 #endif
 
 }

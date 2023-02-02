@@ -95,6 +95,8 @@ app.get('/patientlist', (req, res) => {
 });
 
 
+
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 //환자 1 이미지 정보 리스트 (환자 사진 var 값이 중복될 경우 웹 서버에 불러오지 못하는 일이 발생 할 수 있으니 주의 하기 바람)
@@ -365,7 +367,156 @@ app.get('/patient/008/image/:id', (req, res) => {
     });
     res.json(Image);
     res.end();
-})
+});
+
+var Images = [
+    {Image:{ID : '1001', ImageName : 'P1_14FMX0-1', PixelLength : 0.001, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P1_14FMX0-1.png'}},
+    {Image:{ID : '1002', ImageName : 'P1_14FMX0-2', PixelLength : 0.002, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P1_14FMX0-2.png'}},
+    {Image:{ID : '1003', ImageName : 'P1_14FMX0-3', PixelLength : 0.003, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P1_14FMX0-3.png'}},
+    {Image:{ID : '1004', ImageName : 'P1_14FMX0-4', PixelLength : 0.004, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P1_14FMX0-4.png'}},
+    {Image:{ID : '1005', ImageName : 'P1_14FMX0-5', PixelLength : 0.001, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P1_14FMX0-5.png'}},
+    {Image:{ID : '1006', ImageName : 'P1_14FMX0-6', PixelLength : 0.002, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P1_14FMX0-6.png'}},
+    {Image:{ID : '1007', ImageName : 'P1_14FMX0-7', PixelLength : 0.003, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P1_14FMX0-7.png'}},
+    {Image:{ID : '1008', ImageName : 'P1_14FMX0-8', PixelLength : 0.004, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P1_14FMX0-8.png'}},
+    {Image:{ID : '1009', ImageName : 'P1_14FMX0-9', PixelLength : 0.001, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P1_14FMX0-9.png'}},
+    {Image:{ID : '1010', ImageName : 'P1_14FMX1-0', PixelLength : 0.002, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P1_14FMX1-0.png'}},
+    {Image:{ID : '1011', ImageName : 'P1_14FMX1-1', PixelLength : 0.003, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P1_14FMX1-1.png'}},
+    {Image:{ID : '1012', ImageName : 'P1_14FMX1-2', PixelLength : 0.004, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P1_14FMX1-2.png'}},
+    {Image:{ID : '1013', ImageName : 'P1_14FMX1-3', PixelLength : 0.001, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P1_14FMX1-3.png'}},
+    {Image:{ID : '1014', ImageName : 'P1_14FMX1-4', PixelLength : 0.002, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P1_14FMX1-4.png'}},
+    {Image:{ID : '1015', ImageName : 'panorama1', PixelLength : 0.003, ImageKinds : 'panorama', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/panorama1.png'}},
+    {Image:{ID : '2001', ImageName : 'P2_14FMX0-1', PixelLength : 0.002, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P2_14FMX0-1.png'}},
+    {Image:{ID : '2002', ImageName : 'P2_14FMX0-2', PixelLength : 0.003, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P2_14FMX0-2.png'}},
+    {Image:{ID : '2003', ImageName : 'P2_14FMX0-3', PixelLength : 0.004, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P2_14FMX0-3.png'}},
+    {Image:{ID : '2004', ImageName : 'P2_14FMX0-4', PixelLength : 0.001, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P2_14FMX0-4.png'}},
+    {Image:{ID : '2005', ImageName : 'P2_14FMX0-5', PixelLength : 0.002, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P2_14FMX0-5.png'}},
+    {Image:{ID : '2006', ImageName : 'P2_14FMX0-6', PixelLength : 0.003, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P2_14FMX0-6.png'}},
+    {Image:{ID : '2007', ImageName : 'P2_14FMX0-7', PixelLength : 0.004, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P2_14FMX0-7.png'}},
+    {Image:{ID : '2008', ImageName : 'P2_14FMX0-8', PixelLength : 0.001, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P2_14FMX0-8.png'}},
+    {Image:{ID : '2009', ImageName : 'P2_14FMX0-9', PixelLength : 0.002, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P2_14FMX0-9.png'}},
+    {Image:{ID : '2010', ImageName : 'P2_14FMX1-0', PixelLength : 0.003, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P2_14FMX1-0.png'}},
+    {Image:{ID : '2011', ImageName : 'P2_14FMX1-1', PixelLength : 0.004, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P2_14FMX1-1.png'}},
+    {Image:{ID : '2012', ImageName : 'P2_14FMX1-2', PixelLength : 0.001, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P2_14FMX1-2.png'}},
+    {Image:{ID : '2013', ImageName : 'P2_14FMX1-3', PixelLength : 0.002, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P2_14FMX1-3.png'}},
+    {Image:{ID : '2014', ImageName : 'P2_14FMX1-4', PixelLength : 0.003, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P2_14FMX1-4.png'}},
+    {Image:{ID : '2015', ImageName : 'panorama2', PixelLength : 0.004, ImageKinds : 'panorama', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/panorama2.png'}},
+    {Image:{ID : '3001', ImageName : 'P3_14FMX0-1', PixelLength : 0.003, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P3_14FMX0-1.png'}},
+    {Image:{ID : '3002', ImageName : 'P3_14FMX0-2', PixelLength : 0.004, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P3_14FMX0-2.png'}},
+    {Image:{ID : '3003', ImageName : 'P3_14FMX0-3', PixelLength : 0.001, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P3_14FMX0-3.png'}},
+    {Image:{ID : '3004', ImageName : 'P3_14FMX0-4', PixelLength : 0.002, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P3_14FMX0-4.png'}},
+    {Image:{ID : '3005', ImageName : 'P3_14FMX0-5', PixelLength : 0.003, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P3_14FMX0-5.png'}},
+    {Image:{ID : '3006', ImageName : 'P3_14FMX0-6', PixelLength : 0.004, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P3_14FMX0-6.png'}},
+    {Image:{ID : '3007', ImageName : 'P3_14FMX0-7', PixelLength : 0.001, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P3_14FMX0-7.png'}},
+    {Image:{ID : '3008', ImageName : 'P3_14FMX0-8', PixelLength : 0.002, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P3_14FMX0-8.png'}},
+    {Image:{ID : '3009', ImageName : 'P3_14FMX0-9', PixelLength : 0.003, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P3_14FMX0-9.png'}},
+    {Image:{ID : '3010', ImageName : 'P3_14FMX1-0', PixelLength : 0.004, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P3_14FMX1-0.png'}},
+    {Image:{ID : '3011', ImageName : 'P3_14FMX1-1', PixelLength : 0.001, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P3_14FMX1-1.png'}},
+    {Image:{ID : '3012', ImageName : 'P3_14FMX1-2', PixelLength : 0.002, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P3_14FMX1-2.png'}},
+    {Image:{ID : '3013', ImageName : 'P3_14FMX1-3', PixelLength : 0.003, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P3_14FMX1-3.png'}},
+    {Image:{ID : '3014', ImageName : 'P3_14FMX1-4', PixelLength : 0.004, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P3_14FMX1-4.png'}},
+    {Image:{ID : '3015', ImageName : 'panorama3', PixelLength : 0.001, ImageKinds : 'panorama', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/panorama3.png'}},
+    {Image:{ID : '4001', ImageName : 'P4_14FMX0-1', PixelLength : 0.002, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P4_14FMX0-1.png'}},
+    {Image:{ID : '4002', ImageName : 'P4_14FMX0-2', PixelLength : 0.003, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P4_14FMX0-2.png'}},
+    {Image:{ID : '4003', ImageName : 'P4_14FMX0-3', PixelLength : 0.004, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P4_14FMX0-3.png'}},
+    {Image:{ID : '4004', ImageName : 'P4_14FMX0-4', PixelLength : 0.001, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P4_14FMX0-4.png'}},
+    {Image:{ID : '4005', ImageName : 'P4_14FMX0-5', PixelLength : 0.002, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P4_14FMX0-5.png'}},
+    {Image:{ID : '4006', ImageName : 'P4_14FMX0-6', PixelLength : 0.003, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P4_14FMX0-6.png'}},
+    {Image:{ID : '4007', ImageName : 'P4_14FMX0-7', PixelLength : 0.004, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P4_14FMX0-7.png'}},
+    {Image:{ID : '4008', ImageName : 'P4_14FMX0-8', PixelLength : 0.001, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P4_14FMX0-8.png'}},
+    {Image:{ID : '4009', ImageName : 'P4_14FMX0-9', PixelLength : 0.002, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P4_14FMX0-9.png'}},
+    {Image:{ID : '4010', ImageName : 'P4_14FMX1-0', PixelLength : 0.003, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P4_14FMX1-0.png'}},
+    {Image:{ID : '4011', ImageName : 'P4_14FMX1-1', PixelLength : 0.004, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P4_14FMX1-1.png'}},
+    {Image:{ID : '4012', ImageName : 'P4_14FMX1-2', PixelLength : 0.001, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P4_14FMX1-2.png'}},
+    {Image:{ID : '4013', ImageName : 'P4_14FMX1-3', PixelLength : 0.002, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P4_14FMX1-3.png'}},
+    {Image:{ID : '4014', ImageName : 'P4_14FMX1-4', PixelLength : 0.003, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P4_14FMX1-4.png'}},
+    {Image:{ID : '4015', ImageName : 'panorama4', PixelLength : 0.004, ImageKinds : 'panorama', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/panorama4.png'}},
+    {Image:{ID : '5001', ImageName : 'P5_14FMX0-1', PixelLength : 0.002, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P5_14FMX0-1.png'}},
+    {Image:{ID : '5002', ImageName : 'P5_14FMX0-2', PixelLength : 0.003, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P5_14FMX0-2.png'}},
+    {Image:{ID : '5003', ImageName : 'P5_14FMX0-3', PixelLength : 0.004, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P5_14FMX0-3.png'}},
+    {Image:{ID : '5004', ImageName : 'P5_14FMX0-4', PixelLength : 0.001, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P5_14FMX0-4.png'}},
+    {Image:{ID : '5005', ImageName : 'P5_14FMX0-5', PixelLength : 0.002, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P5_14FMX0-5.png'}},
+    {Image:{ID : '5006', ImageName : 'P5_14FMX0-6', PixelLength : 0.003, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P5_14FMX0-6.png'}},
+    {Image:{ID : '5007', ImageName : 'P5_14FMX0-7', PixelLength : 0.004, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P5_14FMX0-7.png'}},
+    {Image:{ID : '5008', ImageName : 'P5_14FMX0-8', PixelLength : 0.001, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P5_14FMX0-8.png'}},
+    {Image:{ID : '5009', ImageName : 'P5_14FMX0-9', PixelLength : 0.002, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P5_14FMX0-9.png'}},
+    {Image:{ID : '5010', ImageName : 'P5_14FMX1-0', PixelLength : 0.003, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P5_14FMX1-0.png'}},
+    {Image:{ID : '5011', ImageName : 'P5_14FMX1-1', PixelLength : 0.004, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P5_14FMX1-1.png'}},
+    {Image:{ID : '5012', ImageName : 'P5_14FMX1-2', PixelLength : 0.001, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P5_14FMX1-2.png'}},
+    {Image:{ID : '5013', ImageName : 'P5_14FMX1-3', PixelLength : 0.002, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P5_14FMX1-3.png'}},
+    {Image:{ID : '5014', ImageName : 'P5_14FMX1-4', PixelLength : 0.003, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P5_14FMX1-4.png'}},
+    {Image:{ID : '5015', ImageName : 'panorama5', PixelLength : 0.004, ImageKinds : 'panorama', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/panorama5.png'}},
+    {Image:{ID : '6001', ImageName : 'P6_14FMX0-1', PixelLength : 0.004, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P6_14FMX0-1.png'}},
+    {Image:{ID : '6002', ImageName : 'P6_14FMX0-2', PixelLength : 0.001, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P6_14FMX0-2.png'}},
+    {Image:{ID : '6003', ImageName : 'P6_14FMX0-3', PixelLength : 0.002, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P6_14FMX0-3.png'}},
+    {Image:{ID : '6004', ImageName : 'P6_14FMX0-4', PixelLength : 0.003, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P6_14FMX0-4.png'}},
+    {Image:{ID : '6005', ImageName : 'P6_14FMX0-5', PixelLength : 0.004, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P6_14FMX0-5.png'}},
+    {Image:{ID : '6006', ImageName : 'P6_14FMX0-6', PixelLength : 0.001, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P6_14FMX0-6.png'}},
+    {Image:{ID : '6007', ImageName : 'P6_14FMX0-7', PixelLength : 0.002, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P6_14FMX0-7.png'}},
+    {Image:{ID : '6008', ImageName : 'P6_14FMX0-8', PixelLength : 0.003, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P6_14FMX0-8.png'}},
+    {Image:{ID : '6009', ImageName : 'P6_14FMX0-9', PixelLength : 0.004, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P6_14FMX0-9.png'}},
+    {Image:{ID : '6010', ImageName : 'P6_14FMX1-0', PixelLength : 0.001, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P6_14FMX1-0.png'}},
+    {Image:{ID : '6011', ImageName : 'P6_14FMX1-1', PixelLength : 0.002, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P6_14FMX1-1.png'}},
+    {Image:{ID : '6012', ImageName : 'P6_14FMX1-2', PixelLength : 0.003, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P6_14FMX1-2.png'}},
+    {Image:{ID : '6013', ImageName : 'P6_14FMX1-3', PixelLength : 0.004, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P6_14FMX1-3.png'}},
+    {Image:{ID : '6014', ImageName : 'P6_14FMX1-4', PixelLength : 0.001, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P6_14FMX1-4.png'}},
+    {Image:{ID : '6015', ImageName : 'panorama6', PixelLength : 0.002, ImageKinds : 'panorama', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/panorama6.png'}},
+    {Image:{ID : '7001', ImageName : 'P7_14FMX0-1', PixelLength : 0.001, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P7_14FMX0-1.png'}},
+    {Image:{ID : '7002', ImageName : 'P7_14FMX0-2', PixelLength : 0.002, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P7_14FMX0-2.png'}},
+    {Image:{ID : '7003', ImageName : 'P7_14FMX0-3', PixelLength : 0.003, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P7_14FMX0-3.png'}},
+    {Image:{ID : '7004', ImageName : 'P7_14FMX0-4', PixelLength : 0.004, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P7_14FMX0-4.png'}},
+    {Image:{ID : '7005', ImageName : 'P7_14FMX0-5', PixelLength : 0.001, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P7_14FMX0-5.png'}},
+    {Image:{ID : '7006', ImageName : 'P7_14FMX0-6', PixelLength : 0.002, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P7_14FMX0-6.png'}},
+    {Image:{ID : '7007', ImageName : 'P7_14FMX0-7', PixelLength : 0.003, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P7_14FMX0-7.png'}},
+    {Image:{ID : '7008', ImageName : 'P7_14FMX0-8', PixelLength : 0.004, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P7_14FMX0-8.png'}},
+    {Image:{ID : '7009', ImageName : 'P7_14FMX0-9', PixelLength : 0.001, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P7_14FMX0-9.png'}},
+    {Image:{ID : '7010', ImageName : 'P7_14FMX1-0', PixelLength : 0.002, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P7_14FMX1-0.png'}},
+    {Image:{ID : '7011', ImageName : 'P7_14FMX1-1', PixelLength : 0.003, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P7_14FMX1-1.png'}},
+    {Image:{ID : '7012', ImageName : 'P7_14FMX1-2', PixelLength : 0.004, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P7_14FMX1-2.png'}},
+    {Image:{ID : '7013', ImageName : 'P7_14FMX1-3', PixelLength : 0.001, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P7_14FMX1-3.png'}},
+    {Image:{ID : '7014', ImageName : 'P7_14FMX1-4', PixelLength : 0.002, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P7_14FMX1-4.png'}},
+    {Image:{ID : '7015', ImageName : 'panorama7', PixelLength : 0.003, ImageKinds : 'panorama', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/panorama7.png'}},
+    {Image:{ID : '8001', ImageName : 'P8_14FMX0-1', PixelLength : 0.003, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P8_14FMX0-1.png'}},
+    {Image:{ID : '8002', ImageName : 'P8_14FMX0-2', PixelLength : 0.004, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P8_14FMX0-2.png'}},
+    {Image:{ID : '8003', ImageName : 'P8_14FMX0-3', PixelLength : 0.001, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P8_14FMX0-3.png'}},
+    {Image:{ID : '8004', ImageName : 'P8_14FMX0-4', PixelLength : 0.002, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P8_14FMX0-4.png'}},
+    {Image:{ID : '8005', ImageName : 'P8_14FMX0-5', PixelLength : 0.003, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P8_14FMX0-5.png'}},
+    {Image:{ID : '8006', ImageName : 'P8_14FMX0-6', PixelLength : 0.004, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P8_14FMX0-6.png'}},
+    {Image:{ID : '8007', ImageName : 'P8_14FMX0-7', PixelLength : 0.001, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P8_14FMX0-7.png'}},
+    {Image:{ID : '8008', ImageName : 'P8_14FMX0-8', PixelLength : 0.002, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P8_14FMX0-8.png'}},
+    {Image:{ID : '8009', ImageName : 'P8_14FMX0-9', PixelLength : 0.003, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P8_14FMX0-9.png'}},
+    {Image:{ID : '8010', ImageName : 'P8_14FMX1-0', PixelLength : 0.004, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P8_14FMX1-0.png'}},
+    {Image:{ID : '8011', ImageName : 'P8_14FMX1-1', PixelLength : 0.001, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P8_14FMX1-1.png'}},
+    {Image:{ID : '8012', ImageName : 'P8_14FMX1-2', PixelLength : 0.002, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P8_14FMX1-2.png'}},
+    {Image:{ID : '8013', ImageName : 'P8_14FMX1-3', PixelLength : 0.003, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P8_14FMX1-3.png'}},
+    {Image:{ID : '8014', ImageName : 'P8_14FMX1-4', PixelLength : 0.004, ImageKinds : 'IO', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/P8_14FMX1-4.png'}},
+    {Image:{ID : '8015', ImageName : 'panorama8', PixelLength : 0.001, ImageKinds : 'panorama', ImagePathURL : 'http://' + hostName + ':' + portNum + '/Files/panorama8.png'}}
+];
+
+//DoctorID에 따른 patientList를 나열
+app.get('/allImageList', (req, res) => {
+
+    //요청받은 쿼리를 변수로 저장하는 DoctorID
+    var ImageName = req.query.by;
+    //DoctorID에 따른 patients 들을 보여주는 변수
+    var allImageList;
+
+    //해당하는 의사 아이디가 있는 경우
+    if(ImageName != undefined){
+        //해당하는 DoctorID를 찾아 환자리스트를 나열
+        allImageList = Images.filter(function(e){
+            return e.Image.ImageName === ImageName;
+        })
+    } else { //해당하는 의사 아이디가 없는 경우
+        allImageList = Images;
+    }
+
+    //확인 방법
+    //192.168.0.12:4000/allImagelist?by=paranoma8
+    res.json(allImageList);
+    res.end();
+});
+
+app.get('/ImageList')
 
 /* 위에서 지정된 port 와 IPAddress를 연결후 서버 활성화 */
 app.listen(portNum, hostName, function() {
