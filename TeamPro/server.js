@@ -28,21 +28,24 @@ app.get('/Files/:id', (req, res) => {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 //환자 정보 리스트 (8명의 환자 정보 입력된 상태 / 의사의 아이디에 따라 환자 정보를 구분지음)
+//(2023-02-02) parient: 명을 추가
 var patients = [
-    {ID : '001', Name : 'Jeong jae hyeon', Age : 27, DoctorID : 'osstem1', PhotoDate : '2023-01-07', ImageListURL : 'http://' + hostName + ':' + portNum + '/patient/001/image'},
-    {ID : '002', Name : 'Jeong yu na', Age : 25, DoctorID : 'osstem1', PhotoDate : '2023-01-07', ImageListURL : 'http://' + hostName + ':' + portNum + '/patient/002/image'},
-    {ID : '003', Name : 'Jo jae yeong', Age : 28, DoctorID : 'osstem1', PhotoDate : '2023-01-07', ImageListURL : 'http://' + hostName + ':' + portNum + '/patient/003/image'},
-    {ID : '004', Name : 'Han en ji', Age : 29, DoctorID : 'osstem1', PhotoDate : '2023-01-07', ImageListURL : 'http://' + hostName + ':' + portNum + '/patient/004/image'},
-    {ID : '005', Name : 'An da mi ro', Age : 29, DoctorID : 'osstem2', PhotoDate : '2023-01-08', ImageListURL : 'http://' + hostName + ':' + portNum + '/patient/005/image'},
-    {ID : '006', Name : 'Bark byeong gyu', Age : 30, DoctorID : 'osstem2', PhotoDate : '2023-01-08', ImageListURL : 'http://' + hostName + ':' + portNum + '/patient/006/image'},
-    {ID : '007', Name : 'Kim yu sun', Age : 28, DoctorID : 'osstem2', PhotoDate : '2023-01-08', ImageListURL : 'http://' + hostName + ':' + portNum + '/patient/007/image'},
-    {ID : '008', Name : 'Lee jeong yeon', Age : 25, DoctorID : 'osstem2', PhotoDate : '2023-01-08', ImageListURL : 'http://' + hostName + ':' + portNum + '/patient/008/image'},
+    {patient:{ID : '001', Name : 'Jeong jae hyeon', Age : 27, DoctorID : 'osstem1', PhotoDate : '2023-01-07', ImageListURL : 'http://' + hostName + ':' + portNum + '/patient/001/image'}},
+    {patient:{ID : '002', Name : 'Jeong yu na', Age : 25, DoctorID : 'osstem1', PhotoDate : '2023-01-07', ImageListURL : 'http://' + hostName + ':' + portNum + '/patient/002/image'}},
+    {patient:{ID : '003', Name : 'Jo jae yeong', Age : 28, DoctorID : 'osstem1', PhotoDate : '2023-01-07', ImageListURL : 'http://' + hostName + ':' + portNum + '/patient/003/image'}},
+    {patient:{ID : '004', Name : 'Han en ji', Age : 29, DoctorID : 'osstem1', PhotoDate : '2023-01-07', ImageListURL : 'http://' + hostName + ':' + portNum + '/patient/004/image'}},
+    {patient:{ID : '005', Name : 'An da mi ro', Age : 29, DoctorID : 'osstem2', PhotoDate : '2023-01-08', ImageListURL : 'http://' + hostName + ':' + portNum + '/patient/005/image'}},
+    {patient:{ID : '006', Name : 'Bark byeong gyu', Age : 30, DoctorID : 'osstem2', PhotoDate : '2023-01-08', ImageListURL : 'http://' + hostName + ':' + portNum + '/patient/006/image'}},
+    {patient:{ID : '007', Name : 'Kim yu sun', Age : 28, DoctorID : 'osstem2', PhotoDate : '2023-01-08', ImageListURL : 'http://' + hostName + ':' + portNum + '/patient/007/image'}},
+    {patient:{ID : '008', Name : 'Lee jeong yeon', Age : 25, DoctorID : 'osstem2', PhotoDate : '2023-01-08', ImageListURL : 'http://' + hostName + ':' + portNum + '/patient/008/image'}},
 ];
+
+//웹 브라우저에서는 [patients{patient{data...}}] 형식으로 json Array화 됨
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 app.get('/patient', (req, res) => {
-    res.json({patients});
+    res.json(patients);
     res.end();
 });
 
@@ -55,12 +58,28 @@ app.get('/patient/:id', (req, res) => {
     res.end();
 });
 
+//DoctorID에 따른 patientList를 나열
+app.get('/patientlist', (req, res) => {
 
-app.get('/patient/:id', (req, res) => {
-    var patient = patients.find((u) =>{
-        return u.DoctorID === req.params.id;
-    });
-    res.json(patient);
+    //요청받은 쿼리를 변수로 저장하는 DoctorID
+    var DoctorID = req.query.by;
+    //DoctorID에 따른 patients 들을 보여주는 변수
+    var patientlist;
+
+    //해당하는 의사 아이디가 있는 경우
+    if(DoctorID != undefined){
+        //해당하는 DoctorID를 찾아 환자리스트를 나열
+        patientlist = patients.filter(function(e){
+            return e.patient.DoctorID === DoctorID;
+        })
+    } else { //해당하는 의사 아이디가 없는 경우
+        patientlist = patients;
+    }
+
+    //확인 방법
+    //192.168.0.12:4000/patientlist?by=osstem1 or
+    //192.168.0.12:4000/patientlist?by=osstem2
+    res.json(patientlist);
     res.end();
 });
 

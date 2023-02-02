@@ -35,7 +35,7 @@ server.get('/', (req, res) => {
 server.listen(3000, (err) => {
     if (err) {
         return console.log(err);
-    } else {
+    } else {   
         //mongoDB 사이트에서 만든 URL을 호출 (<password> = 1234(1234자리에 <password>라고 있었음))
         //const MONGODB_URL = 'mongodb+srv://root:1234@education.wkqeuzd.mongodb.net/?retryWrites=true&w=majority';
 
