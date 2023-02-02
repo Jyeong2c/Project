@@ -112,7 +112,6 @@ MainWindow::MainWindow(QWidget *parent)
     ui->listWidget->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
     manager = new QNetworkAccessManager(this);
-    request.setUrl(QUrl( QString("http://" + hostName +  ':' + portNum + "/patient/")));
 
     /* 시그널 슬롯은 위치가 중요 동적할당(new)보다 밑에 있을 것 */
     connect(ui->listWidget, SIGNAL(itemClicked(QListWidgetItem*)), SLOT(selectItem(QListWidgetItem*)));
@@ -398,11 +397,18 @@ void MainWindow::patientLoad()
         ui->patientTableView->setModel(patientQueryModel);
         ui->patientTableView->hideColumn(5);
 
+        QString DoctorID = ui->doctorNameLineEdit->text();
+        //http://192.168.0.12:4000/patientlist?by=osstem1
+        request.setUrl(QUrl( QString("http://192.168.0.12:4000/patientlist?by=%1").arg(DoctorID)));
         reply = manager->get(request);
         connectionLoop.exec( );           // 동기화를 위한 이벤트 루프
         QByteArray data = reply->readAll();
+        if(data.isEmpty() == true) qDebug() << "Need to fill Json Data";
+
+        QJsonParseError parseError;
         if (reply->error( ) == QNetworkReply::NoError) {
             //QString strReply = (QString)reply->readAll();
+#if 0
             QJsonDocument doc1 = QJsonDocument::fromJson(data);
             if(doc1.isObject() == false) qDebug() << "It is not a Json object";
             QJsonArray jsonArr = doc1["patients"].toArray();
@@ -410,28 +416,47 @@ void MainWindow::patientLoad()
             for(int i = 0; i < jsonArr.size(); i++){
                 QJsonObject jsonObj = jsonArr.at(i).toObject();
                 QJsonObject patientObj = jsonObj.constFind("patient")->toObject();
-                QString ID = patientObj["ID"].toString();
-                QString Name = patientObj["Name"].toString();
-                int Age = patientObj["Age"].toInt();
                 QString DoctorID = patientObj["DoctorID"].toString();
-                QString PhotoDate = patientObj["PhotoDate"].toString();
-                QString ImageListURL = patientObj["ImageListURL"].toString();
 
-                /*의사의 아이디를 구분하여 해당하는 환자의 정보를 출력*/
-                qDebug() << ui->doctorNameLineEdit->text();
                 /*로그인 아이디와 doctorNameLineEdit의 데이터가 일치하는 경우*/
-                if(DoctorID == ui->doctorNameLineEdit->text())
-                {
+
                     /*구분된 JsonArr.size() 내부의 Json데이터를 QtDB Table에 Insert*/
                     patientQuery->exec(QString::fromStdString("INSERT INTO patient VALUES ('%1','%2',%3,'%4','%5','%6')")
                                        .arg(patientObj["ID"].toString()).arg(patientObj["Name"].toString())
                             .arg(patientObj["Age"].toInt()).arg(patientObj["DoctorID"].toString())
                             .arg(patientObj["PhotoDate"].toString())
                             .arg(patientObj["ImageListURL"].toString()));
-                }
+
+            }
+#else
+            QJsonDocument document = QJsonDocument::fromJson(data, &parseError);
+
+            if (parseError.error != QJsonParseError::NoError){
+                qDebug() << "Parse error: " << parseError.errorString();
+                return;
+            }
+            if (!document.isArray()){
+                qDebug() << "Document does not contain array";
+                return;
             }
 
+            QJsonArray array = document.array();
+            for(int i = 0; i < array.size(); i++){
+                QJsonObject jsonObj = array.at(i).toObject();
+                QJsonObject patientObj = jsonObj.constFind("patient")->toObject();
+                QString DoctorID = patientObj["DoctorID"].toString();
 
+                /*로그인 아이디와 doctorNameLineEdit의 데이터가 일치하는 경우*/
+
+                    /*구분된 JsonArr.size() 내부의 Json데이터를 QtDB Table에 Insert*/
+                    patientQuery->exec(QString::fromStdString("INSERT INTO patient VALUES ('%1','%2',%3,'%4','%5','%6')")
+                                       .arg(patientObj["ID"].toString()).arg(patientObj["Name"].toString())
+                            .arg(patientObj["Age"].toInt()).arg(patientObj["DoctorID"].toString())
+                            .arg(patientObj["PhotoDate"].toString())
+                            .arg(patientObj["ImageListURL"].toString()));
+
+            }
+#endif
         }
         /*환자의 정보를 데이터 베이스 테이블에 출력*/
         patientQueryModel->select();
@@ -509,38 +534,18 @@ void MainWindow::onFinished(QNetworkReply* reply)
 
             /*Json 파싱 데이터 ID(QString), ImageName(QString), PixelLength(double), ImageKinds(QString), ImagePathURL(QString)*/
             /*이게 제일 중요 해당 이미지를 이 URL에서 호출하도록 해야함*/
-            qDebug( ) << "Imagename: " << jsonObj["ImageName"].toString( );
-            qDebug( ) << "ImagePathURL:" << jsonObj["ImagePathURL"].toString(); //이미지 URL 호출
-            QString ImageID = jsonObj["ImageName"].toString();
-            double ImagePixelLength = jsonObj["PixelLength"].toDouble();
-            QString ImageKinds = jsonObj["ImageKinds"].toString();
+
             /* 데이터 베이스 테이블을 클릭시 해당하는 URL의 ImageURL */
             QString ImageURL = jsonObj["ImagePathURL"].toString();
             QString ImageName = jsonObj["ImageName"].toString( );
-            int ImageWidth = jsonObj["ImageWidth"].toInt();
-            int ImageHeight = jsonObj["ImageHeight"].toInt();
 
             /*ini파일을 생성하기 위한 ImageInfo 디렉토리가 없으면 현재 디렉토리에 ImageInfo 디렉토리 생성*/
             if(!dir.exists()) dir.mkdir("./ImageInfo/");
 
             /*ImageInfo 디렉토리 내부에 ImageName.ini 파일을 생성*/
-            QSettings ImageInfo(QString("./ImageInfo/%1.ini").arg(ImageName),
-                                QSettings::IniFormat);
-
-            //            std::stringstream ss;
-            //            ss << setprecision(6) << ImagePixelLength;
 
             /*ini파일의 시작 그룹을 ImageInfo로 시작*/
-            ImageInfo.beginGroup("ImageInfo");
-            ImageInfo.setValue("Image_ID", ImageID);
-            ImageInfo.setValue("Image_Pixel_Length", ImagePixelLength);
-            ImageInfo.setValue("Image_Kinds", ImageKinds);
-            ImageInfo.setValue("Image_URL", ImageURL);
-            ImageInfo.setValue("Image_Name", ImageName);
-            ImageInfo.setValue("Image_Width", ImageWidth);
-            ImageInfo.setValue("Image_Height", ImageHeight);
-            /*ini파일의 정보를 다 받으면 endGroup하여 이미지 정보를 ini파일 형태로 저장*/
-            ImageInfo.endGroup();
+
 
             qDebug("[%s] %s : %d", __FILE__, __FUNCTION__, __LINE__);
             //patientID = jsonObj["ID"].toString();
