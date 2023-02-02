@@ -24,6 +24,7 @@
 #include <QJsonArray>
 #include <QJsonValue>
 #include <QFileDialog>
+#include <QEventLoop>
 
 /*해당되는 URL로부터 이미지로드를 위한 헤더*/
 #include <iostream>
@@ -110,12 +111,17 @@ MainWindow::MainWindow(QWidget *parent)
     ui->listWidget->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     ui->listWidget->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
+    manager = new QNetworkAccessManager(this);
+    request.setUrl(QUrl( QString("http://" + hostName +  ':' + portNum + "/patient/")));
+
     /* 시그널 슬롯은 위치가 중요 동적할당(new)보다 밑에 있을 것 */
     connect(ui->listWidget, SIGNAL(itemClicked(QListWidgetItem*)), SLOT(selectItem(QListWidgetItem*)));
     connect(customLayout, SIGNAL(sig_size(QGraphicsView*)), SLOT(layoutSizeChanged(QGraphicsView*)));
     connect(myMaxlayout, SIGNAL(max_sig_size(QGraphicsView*)), SLOT(DoubleWidget(QGraphicsView*)));
     connect(customLayout, SIGNAL(sig_widgetbyDClick(QGraphicsView*)), SLOT(DoubleWidget(QGraphicsView*)));
     connect(myMaxlayout->viewQuit, SIGNAL(clicked()), SLOT(previousScreen()));
+
+    connect(manager, SIGNAL(finished(QNetworkReply*)), &connectionLoop, SLOT(quit()));
 
     /*길이 측정 좌표 signal과 좌표값을 받는 슬롯*/
     connect(customLayout->scene1, &Scene::sendMeasureLength, this, &MainWindow::receiveLengthMeasure);
@@ -392,54 +398,40 @@ void MainWindow::patientLoad()
         ui->patientTableView->setModel(patientQueryModel);
         ui->patientTableView->hideColumn(5);
 
-        //ui->patientTableView->hideColumn(3);
-
-        /*요청한 HTTP 경로에 JSON 데이터 파싱*/
-
-        /*스택 위의 임시 이벤트 루프(event loop)*/
-        QEventLoop eventLoop;
-
-        /*"finished()"가 불려지면 이벤트 루프를 종료*/
-        QNetworkAccessManager mgr;
-        QObject::connect(&mgr, SIGNAL(finished(QNetworkReply*)),
-                         &eventLoop, SLOT(quit()));
-
-        QNetworkRequest req( QUrl( QString("http://" + hostName +  ':' + portNum + "/patient/") ) );
-        QNetworkReply *reply = mgr.get(req);
-        eventLoop.exec( );           // "finished( )" 가 호출 될때까지 블록
-
+        reply = manager->get(request);
+        connectionLoop.exec( );           // 동기화를 위한 이벤트 루프
+        QByteArray data = reply->readAll();
         if (reply->error( ) == QNetworkReply::NoError) {
-            QString strReply = (QString)reply->readAll( );
-            // Json 파싱
-            //qDebug( ) << "Response:" << strReply;
+            //QString strReply = (QString)reply->readAll();
+            QJsonDocument doc1 = QJsonDocument::fromJson(data);
+            if(doc1.isObject() == false) qDebug() << "It is not a Json object";
+            QJsonArray jsonArr = doc1["patients"].toArray();
 
-            /*strReply변수로 모든 Json 데이터를 받으후 Json형태로 포멧팅 */
-            QJsonDocument jsonResponse = QJsonDocument::fromJson(strReply.toUtf8( ));
-            /*Json Object 변수명 설정*/
-            QJsonObject jsonObject = jsonResponse.object();
-            /*Json 형태의 데이터중 "patients"라는 구분자를 찾고 재배열*/
-            QJsonArray jsonArr = jsonObject["patients"].toArray();
-
-            /*"patient"구분자의 사이즈 만큼 jsonObj롤 구분*/
-            for(int i = 0; i < jsonArr.size(); i++) {
-                QJsonObject jsonObj = jsonArr.at(i).toObject();    //jsonResponse.object();
-                /*JSON 파싱(환자 정보는 ID(int), Name(QString), Age(int), DoctorID(QString), PhotoDate(QString))*/
+            for(int i = 0; i < jsonArr.size(); i++){
+                QJsonObject jsonObj = jsonArr.at(i).toObject();
+                QJsonObject patientObj = jsonObj.constFind("patient")->toObject();
+                QString ID = patientObj["ID"].toString();
+                QString Name = patientObj["Name"].toString();
+                int Age = patientObj["Age"].toInt();
+                QString DoctorID = patientObj["DoctorID"].toString();
+                QString PhotoDate = patientObj["PhotoDate"].toString();
+                QString ImageListURL = patientObj["ImageListURL"].toString();
 
                 /*의사의 아이디를 구분하여 해당하는 환자의 정보를 출력*/
                 qDebug() << ui->doctorNameLineEdit->text();
-                QString DoctorID = jsonObj["DoctorID"].toString();
                 /*로그인 아이디와 doctorNameLineEdit의 데이터가 일치하는 경우*/
                 if(DoctorID == ui->doctorNameLineEdit->text())
                 {
                     /*구분된 JsonArr.size() 내부의 Json데이터를 QtDB Table에 Insert*/
                     patientQuery->exec(QString::fromStdString("INSERT INTO patient VALUES ('%1','%2',%3,'%4','%5','%6')")
-                                       .arg(jsonObj["ID"].toString()).arg(jsonObj["Name"].toString())
-                            .arg(jsonObj["Age"].toInt()).arg(jsonObj["DoctorID"].toString())
-                            .arg(jsonObj["PhotoDate"].toString())
-                            .arg(jsonObj["ImageListURL"].toString()));
+                                       .arg(patientObj["ID"].toString()).arg(patientObj["Name"].toString())
+                            .arg(patientObj["Age"].toInt()).arg(patientObj["DoctorID"].toString())
+                            .arg(patientObj["PhotoDate"].toString())
+                            .arg(patientObj["ImageListURL"].toString()));
                 }
             }
-            delete reply;
+
+
         }
         /*환자의 정보를 데이터 베이스 테이블에 출력*/
         patientQueryModel->select();
@@ -489,9 +481,9 @@ void MainWindow::on_patientTableView_doubleClicked(const QModelIndex &index)
 
     qDebug("URL 접속 여부 확인");
     /*더블클릭된 이미지 리스트 URL안의 이미지 Json 데이터를 request*/
-    request = new QNetworkRequest(QString("%1").arg(ImageListURLName));
+    request.setUrl(QUrl(QString("%1").arg(ImageListURLName)));
     //    QNetworkReply *reply =
-    manager->get(*request);
+    manager->get(request);
 }
 
 /*메니저 요청이 끝날 시 해당되는 url을 요청 받고 json데이터를 탐색한 뒤 Finished*/

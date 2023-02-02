@@ -20,10 +20,11 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
 
     manager = new QNetworkAccessManager(this);
+    //네트워크 요구 변수
+    req.setUrl(QUrl("http://127.0.0.1:3500/test/"));
 
     //웹페이지 수신 완료 신호를 받으면 QEventLoop의 quit() 메소드를 실행
     connect(manager, SIGNAL(finished(QNetworkReply *)), &connection_loop, SLOT(quit()));
-    connect(manager, SIGNAL(finished(QNetworkReply *)), &connection, SLOT(quit()));
 }
 
 MainWindow::~MainWindow()
@@ -31,51 +32,47 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::on_patientParse_clicked()
-{
-    QNetworkRequest req(QUrl(QString("http://192.168.0.12:4000/patient/")));
-    QNetworkReply *reply = manager->get(req);
-
-    connection.exec();
-
-    if(reply->error() == QNetworkReply::NoError){
-        QString strReply = (QString)reply->readAll();
-        QJsonDocument jsonResponse = QJsonDocument::fromJson(strReply.toUtf8());
-        if(jsonResponse.isObject() == false) qDebug() << "It is not a Json object";
-        QJsonObject jsonObject = jsonResponse.object();
-        QJsonArray jsonArr1 = jsonObject["patients"].toArray();
-
-        for(int i = 0; i < jsonArr1.size(); i++){
-            QJsonObject jsonObj1 = jsonArr1.at(i).toObject();
-            QJsonArray jsonArr2 = jsonObj1["patient"].toArray();
-            for(int j = 0; j < jsonArr2.size(); j++){
-                QJsonObject jsonObj2 = jsonArr2.at(i).toObject();
-                QString ID = jsonObj2["ID"].toString();
-                QString Name = jsonObj2["Name"].toString();
-                int Age = jsonObj2["Age"].toInt();
-                qDebug() << ID << ", " << Name << ", " << Age;
-            }
-        }
-    }
-}
-
 
 void MainWindow::on_AcessMakeButton_clicked()
 {
     qDebug("[%s] %s : %d", __FILE__, __FUNCTION__, __LINE__);
-    //네트워크 요구 변수
-    QNetworkRequest req;
-    req.setUrl(QUrl("http://127.0.0.1:3500/test/"));
+
     //네트워크 응답 변수
-    QNetworkReply *rep = manager->get(req);
+    rep = manager->get(req);
 
     connection_loop.exec();//동기화 부분
     QByteArray data = rep->readAll(); //해당 Url 전체 Json데이터 읽기
     if(data.isEmpty() == true) qDebug() << "Need to fill Json Data";
 
-    QJsonDocument doc = QJsonDocument::fromJson(data);
-    if(doc.isObject() == false) qDebug() << "It is not a Json object";
 
+#if 1
+    if(rep->error() == QNetworkReply::NoError){
+        QJsonDocument doc1 = QJsonDocument::fromJson(data);
+        if(doc1.isObject() == false) qDebug() << "It is not a Json object";
+        QJsonArray jsonArr1  = doc1["patients"].toArray();
+
+        QString decodeData = "";
+        for(int i = 0; i < jsonArr1.size(); i++){
+            QJsonObject jsonObj = jsonArr1.at(i).toObject();
+            QJsonObject patientObj = jsonObj.constFind("patient")->toObject();
+            QString ID = patientObj["ID"].toString();
+            QString Name = patientObj["Name"].toString();
+            int Age = patientObj["Age"].toInt();
+            QString DoctorID = patientObj["DoctorID"].toString();
+            QString PhotoDate = patientObj["PhotoDate"].toString();
+            QString ImageListURL = patientObj["ImageListURL"].toString();
+
+            decodeData.append("ID : " + ID  + "\n");
+            decodeData.append("Name : " + Name + "\n");
+            decodeData.append("Age : " + QString::number(Age) + "\n");
+            decodeData.append("DoctorID : " + DoctorID + "\n");
+            decodeData.append("PhotoDate : " + PhotoDate + "\n");
+            decodeData.append("ImageListURL : " + ImageListURL + "\n\n");
+
+        }
+        ui->plainTextEdit->setPlainText(decodeData);
+    }
+#else
     //JSON object와 data를 넣음
     QJsonObject object = doc.object();
 
@@ -114,8 +111,7 @@ void MainWindow::on_AcessMakeButton_clicked()
 
     if(name.isString() == true) qDebug() << "name is a string";
     qDebug() << "Firstname : " + name.toString();
-
-
+#endif
 
 }
 

@@ -1,6 +1,8 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "qeventloop.h"
+#include "qnetworkrequest.h"
 #include <QMainWindow>
 
 class Layout;
@@ -27,6 +29,7 @@ class QNetworkRequest;
 class QNetworkReply;
 class QFile;
 class Scene;
+class QEventLoop;
 
 /*blening class 설정*/
 class Blending;
@@ -130,8 +133,10 @@ private:
    Downloader* downLoader;
 
    /*서버로부터 이미지 파일을 받을 변수들을 설정*/
+   QEventLoop connectionLoop;
    QNetworkAccessManager *manager; //네트워크를 통해 요청/응답을 시행하는 메니저 변수
-   QNetworkRequest *request;       //네트워크를 통해 데이터를 요청하는 변수
+   QNetworkRequest request;       //네트워크를 통해 데이터를 요청하는 변수
+   QNetworkReply *reply;
 
    /*블랜딩 다이얼로그를 호출하는 변수 추가*/
    Blending* blendDialog;
