@@ -56,6 +56,15 @@ app.get('/patient/:id', (req, res) => {
 });
 
 
+app.get('/patient/:id', (req, res) => {
+    var patient = patients.find((u) =>{
+        return u.DoctorID === req.params.id;
+    });
+    res.json(patient);
+    res.end();
+});
+
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 //환자 1 이미지 정보 리스트 (환자 사진 var 값이 중복될 경우 웹 서버에 불러오지 못하는 일이 발생 할 수 있으니 주의 하기 바람)
