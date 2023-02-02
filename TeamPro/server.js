@@ -16,6 +16,7 @@ var portNum = 4000;
 /*이미지 파일 서버 업로드 부분*/
 app.get('/Files/:id', (req, res) => {
     /*파일 디렉토리 이미지 Content-Type : image/png로 설정(멘토님 께선 application/json로 설정 권장하였음.) */ 
+    //그런데 application/json으로 타입을 변경하면 이미지가 나오지 않음.
     res.writeHead(200, {'Content-Type':'image/png'});
     fs.readFile(__dirname + '\\Files\\' + req.params.id, (err, data) => {
       if (err) {
@@ -46,6 +47,7 @@ var patients = [
 
 app.get('/patient', (req, res) => {
     res.json(patients);
+    //{(patients)}, (patients)의 차이는 jsonArr를 시행시 arr시행 문구가 보이고 안보이고의 차이가 있음.
     res.end();
 });
 
