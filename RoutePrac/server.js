@@ -5,6 +5,8 @@ const bodyParser = require('body-parser');
 
 require('dotenv').config({ path: 'variables.env' });
 
+const EmployeeRoute = require('./routes/employee');
+
 mongoose.connect(process.env.MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology : true });
 const db = mongoose.connection;
 
@@ -26,3 +28,6 @@ const PORT = process.env.PORT || 20000
 app.listen(PORT, () => {
     console.log('Server is running on Port', PORT);
 });
+
+//서버가 포트 0.0.0.0:3000/api/employee
+app.use('/api/employee', EmployeeRoute);

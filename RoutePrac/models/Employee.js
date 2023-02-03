@@ -1,0 +1,25 @@
+const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
+
+const employeeSchema = new Schema({
+    name : {
+        type : String
+    },
+    designation:{
+        type : String
+    },
+    email : {
+        type : String
+    },
+    phone : {
+        type : String
+    },
+    age : {
+        type : String
+    }
+},{timestamps:true})
+
+const Employee = mongoose.model('Employee', employeeSchema);
+module.exports = Employee;
+
+//스키마 준비 완료
