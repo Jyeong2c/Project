@@ -22,6 +22,9 @@ const app = express();
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({extended : true}));
 app.use(bodyParser.json());
+//Access server image file
+//http://192.168.0.12:40000/uploads/1675489038845.png
+app.use('/uploads', express.static('uploads'));
 const PORT = process.env.PORT || 40000;
 
 app.listen(PORT, () => {

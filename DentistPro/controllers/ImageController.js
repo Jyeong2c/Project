@@ -35,10 +35,24 @@ const show = (req, res) => {
 const store = (req, res) => {
     let image = new Image({
         ImageName: req.body.ImageName,
+        PatientName : req.body.PatientName,
         PixelLength: req.body.PixelLength,
         ImageKinds: req.body.ImageKinds,
-        ImagePathURL: req.body.ImagePathURL
+        PhotoDate : req.body.PhotoDate,
     })
+    // if requset store image file
+    if (req.file) {
+        image.ImageFile = req.file.path;
+    }
+    // if request store image files
+    // if(req.files){
+    //     let path = ''
+    //     req.files.forEach(function(files, index, arr){
+    //         path = path + files.path + ',';
+    //     })
+    //     path = path.substring(0, path.lastIndexOf(","));
+    //     image.ImageFile = path;
+    // }
     image.save()
         .then(response => {
             res.json({
@@ -58,9 +72,10 @@ const update = (req, res) => {
 
     let updateData = {
         ImageName: req.body.ImageName,
+        PatientName : req.body.PatientName,
         PixelLength: req.body.PixelLength,
         ImageKinds: req.body.ImageKinds,
-        ImagePathURL: req.body.ImagePathURL
+        PhotoDate : req.body.PhotoDate,
     }
 
     Image.findByIdAndUpdate(ImageID, { $set: updateData })

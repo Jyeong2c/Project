@@ -28,7 +28,7 @@ public:
     Scene *scene4;
 
     QGraphicsView *grid;
-    Scene *scene;
+    QGraphicsScene *scene;
 
     QPointF clickPoint;
     bool g = false;

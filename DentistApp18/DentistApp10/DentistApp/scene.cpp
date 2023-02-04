@@ -251,16 +251,16 @@ void Scene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
         qDebug() << "sceneHeight : " << sceneHeight;
         emit sendLastOrtho(event->scenePos().x(), event->scenePos().y());
         /*서버의 이미지 크기도 여기에서 수정되어야 함.*/
-        double avgWidth = (double)imageWidth / sceneWidth;
-        double avgHeight = (double)imageHeight / sceneHeight;
+        double avgWidth = (double)400 / sceneWidth;
+        double avgHeight = (double)200 / sceneHeight;
 
         double leng = qSqrt(qPow((lengthLastX - lengthFstX) * avgWidth, 2) +
                             qPow((lengthLastY - lenghtFstY) * avgHeight, 2));
-        qDebug() << "Length : " <<  leng * imagePixel << "cm";
+        qDebug() << "Length : " <<  leng << "cm";
         /*길이 측정 첫번째 좌표와 결과값을 출력하는 슬롯 함수 구현부*/
 
         /*소수점 세자리 까지 반올림*/
-        emit sendMeasureLength(leng * imagePixel);
+        emit sendMeasureLength(leng /** imagePixel*/);
         break;
     }
 

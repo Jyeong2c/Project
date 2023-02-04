@@ -36,9 +36,7 @@ const store = (req, res) => {
     let patient = new Patient({
         Name : req.body.Name,
         Age : req.body.Age,
-        DoctorID : req.body.DoctorID,
-        PhotoDate : req.body.PhotoDate,
-        ImageListUrl : req.body.ImageListUrl
+        DoctorID : req.body.DoctorID
     })
     patient.save()
     .then(response => {
@@ -61,8 +59,6 @@ const update = (req, res) => {
         Name : req.body.Name,
         Age : req.body.Age,
         DoctorID : req.body.DoctorID,
-        PhotoDate : req.body.PhotoDate,
-        ImageListUrl : req.body.ImageListUrl
     }
 
     Patient.findByIdAndUpdate(patientID, {$set : updateData})

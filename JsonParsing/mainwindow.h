@@ -37,4 +37,6 @@ private:
     QEventLoop connection_loop;     //웹페이지를 호출하게 되면 이벤트로써 데이터 수신 완료 신호를 받기 때문에
                                     //동기화 프로그램을 위해 QEventLoop가 필요
 };
+
+
 #endif // MAINWINDOW_H

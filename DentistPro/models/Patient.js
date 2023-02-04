@@ -10,12 +10,6 @@ const patientSchema = new Schema({
     },
     DoctorID : {
         type : String
-    },
-    PhotoDate : {
-        type : String
-    },
-    ImageListUrl : {
-        type : String
     }
 },{timestamps : true});
 

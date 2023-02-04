@@ -5,13 +5,19 @@ const imageSchema = new Schema({
     ImageName : {
         type : String
     },
+    PatientName : {
+        type : String
+    },
     PixelLength : {
         type : Number
     },
     ImageKinds : {
         type : String
     },
-    ImagePathURL : {
+    PhotoDate : {
+        type : String
+    },
+    ImageFile : {
         type : String
     }
 },{timestamps : true});

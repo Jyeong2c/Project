@@ -80,7 +80,7 @@ void Layout::sceneLayout()
     scene3->setBackgroundBrush(Qt::black);
     scene4 = new Scene;
     scene4->setBackgroundBrush(Qt::black);
-    scene = new Scene;
+    scene = new QGraphicsScene;
     scene->setBackgroundBrush(Qt::black);
 }
 
