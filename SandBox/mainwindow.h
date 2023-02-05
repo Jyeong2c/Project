@@ -3,12 +3,14 @@
 
 #include <QMainWindow>
 #include <QNetworkAccessManager>
+#include <QAbstractTableModel>
 
 class QTableWidgetItem;
 class QNetworkAccessManager;
 class QNetworkReply;
 class QNetworkRequire;
 class Downloader;
+class PatientModel;
 class QFile;
 
 QT_BEGIN_NAMESPACE
@@ -27,15 +29,37 @@ public:
     void loadImages();
 
 private slots:
-    void on_tableWidget_clicked(const QModelIndex &index);
     void receiveUpload();
 
     void on_DoctorButton_clicked();
     void on_postButton_clicked();
 
+    void on_tableView_clicked(const QModelIndex &index);
+
 private:
     Ui::MainWindow *ui;
     Downloader *downLoader;
+};
+
+class PatientModel : public QAbstractTableModel
+{
+    Q_OBJECT
+public:
+    PatientModel(QObject *parent = 0);
+    void populateData(const QList<QString> &_contactName,
+                      const QList<int> &age,
+                      const QList<QString> &_doctorID);
+    int rowCount(const QModelIndex &parent = QModelIndex()) const;
+    int columnCount(const QModelIndex &parent = QModelIndex()) const;
+
+    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
+    QVariant headerData(int section, Qt::Orientation orientation,
+                        int role = Qt::DisplayRole) const;
+
+private:
+    QList<QString> contactName;
+    QList<int> age;
+    QList<QString> doctorID;
 };
 
 class Downloader : public QObject

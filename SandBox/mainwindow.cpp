@@ -15,6 +15,7 @@
 #include <QJsonObject>
 
 #include <QUrlQuery>
+#include <QStandardItemModel>
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -31,15 +32,16 @@ MainWindow::MainWindow(QWidget *parent)
     ui->listWidget->setResizeMode(QListWidget::Adjust);
     ui->listWidget->setFlow(QListWidget::LeftToRight);
     ui->listWidget->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+
 }
 
 
 void MainWindow::PatientTableLoad()
 {
-    while (ui->tableWidget->rowCount() > 0)
-    {
-        ui->tableWidget->removeRow(0);
-    }
+    QList<QString> contacName;
+    QList<int> age;
+    QList<QString> doctorID;
+
     QNetworkAccessManager mgr;
     QEventLoop eventLoop;
     QNetworkRequest req( QUrl( QString("http://192.168.0.12:40000/api/patient/") ) );
@@ -68,27 +70,21 @@ void MainWindow::PatientTableLoad()
             qDebug() << DoctorID;
 
             if(ui->doctorIDLineEdit->text() == DoctorID){
-                ui->tableWidget->insertRow(ui->tableWidget->rowCount());
-                ui->tableWidget->setItem(ui->tableWidget->rowCount() - 1, 0, new QTableWidgetItem(Name));
-                ui->tableWidget->setItem(ui->tableWidget->rowCount() - 1, 1, new QTableWidgetItem(QString::number(Age)));
-                ui->tableWidget->setItem(ui->tableWidget->rowCount() - 1, 2, new QTableWidgetItem(DoctorID));
-
+                contacName.append(Name);
+                age.append(Age);
+                doctorID.append(DoctorID);
             }
         }
 
         delete reply;
-        //ui->tableWidget->horizontalHeader()->setStretchLastSection(true);
-        //테이블 Widget에 쓰는 Header resize code
-        QTableWidgetItem *header1 = new QTableWidgetItem();
-        QTableWidgetItem *header2 = new QTableWidgetItem();
-        QTableWidgetItem *header3 = new QTableWidgetItem();
-        header1->setText("Name");
-        header2->setText("Age");
-        header3->setText("DoctorID");
-        ui->tableWidget->setHorizontalHeaderItem(0, header1);
-        ui->tableWidget->setHorizontalHeaderItem(1, header2);
-        ui->tableWidget->setHorizontalHeaderItem(2, header3);
-        ui->tableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
+
+        PatientModel *patientModel = new PatientModel(this);
+        patientModel->populateData(contacName, age, doctorID);
+        ui->tableView->setModel(patientModel);
+        ui->tableView->horizontalHeader()->setVisible(true);
+
+        ui->tableView->show();
+        ui->tableView->horizontalHeader()->setStretchLastSection(true);
     }
 }
 
@@ -97,9 +93,10 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::on_tableWidget_clicked(const QModelIndex &index)
+
+
+void MainWindow::on_tableView_clicked(const QModelIndex &index)
 {
-    Q_UNUSED(index);
     QString path = "./Images";
     QDir dir(path);
     dir.setNameFilters(QStringList() << "*.png");
@@ -109,7 +106,7 @@ void MainWindow::on_tableWidget_clicked(const QModelIndex &index)
         dir.remove(dirFile);
     }
 
-    QString patient = ui->tableWidget->currentIndex().data().toString();
+    QString patient = index.data().toString();
     QNetworkAccessManager mgr;
     QEventLoop eventLoop;
     QNetworkRequest req( QUrl( QString("http://192.168.0.12:40000/api/image/") ) );
@@ -151,6 +148,7 @@ void MainWindow::on_tableWidget_clicked(const QModelIndex &index)
     }
 }
 
+
 void MainWindow::loadImages()
 {
     QDir dir("./Images/");
@@ -172,6 +170,64 @@ void MainWindow::loadImages()
 void MainWindow::receiveUpload()
 {
     loadImages();
+}
+
+
+PatientModel::PatientModel(QObject *parent) : QAbstractTableModel(parent)
+{
+
+}
+
+void PatientModel::populateData(const QList<QString> &_contactName,
+                                const QList<int> &_age,
+                                const QList<QString> &_doctorID)
+{
+    contactName.clear();
+    contactName = _contactName;
+    age.clear();
+    age = _age;
+    doctorID.clear();
+    doctorID = _doctorID;
+    return;
+}
+
+int PatientModel::rowCount(const QModelIndex &parent) const
+{
+    Q_UNUSED(parent);
+    return contactName.length();
+}
+int PatientModel::columnCount(const QModelIndex &parent) const
+{
+    Q_UNUSED(parent);
+    return 3;
+}
+QVariant PatientModel::data(const QModelIndex &index, int role) const
+{
+    if(!index.isValid() || role != Qt::DisplayRole){
+        return QVariant();
+    }
+    if(index.column() == 0){
+        return contactName[index.row()];
+    } else if (index.column() == 1) {
+        return age[index.row()];
+    } else if (index.column() == 2) {
+        return doctorID[index.row()];
+    }
+    return QVariant();
+}
+
+QVariant PatientModel::headerData(int section, Qt::Orientation orientation, int role) const
+{
+    if(role == Qt::DisplayRole && orientation == Qt::Horizontal){
+        if(section == 0){
+            return QString("Name");
+        } else if(section == 1){
+            return QString("age");
+        } else if(section == 2){
+            return QString("DoctorID");
+        }
+    }
+    return QVariant();
 }
 
 Downloader::Downloader(QObject *parent) :
@@ -305,4 +361,7 @@ void MainWindow::on_postButton_clicked()
     QNetworkReply *reply = manager->post(request, postData.toString(QUrl::FullyEncoded).toUtf8());
     reply->request();
 }
+
+
+
 

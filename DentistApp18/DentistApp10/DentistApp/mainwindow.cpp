@@ -757,6 +757,7 @@ void MainWindow::styleColor()
     ui->splitter4->setStyleSheet("background:rgb(32, 56, 100)");
     ui->listWidget->setStyleSheet("background:rgb(255, 255, 255)");
     ui->patientTableView->setStyleSheet("background:rgb(255, 255, 255)");
+
     ui->doctorNameLineEdit->setStyleSheet("background:rgb(180, 199, 231)");
     //ui->line->setStyleSheet("background:rgb(255, 255, 255)");
     ui->line->setStyleSheet(sheetWhite);
