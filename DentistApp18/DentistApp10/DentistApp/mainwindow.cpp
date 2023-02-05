@@ -110,7 +110,6 @@ MainWindow::MainWindow(QWidget *parent)
     ui->listWidget->setResizeMode(QListWidget::Adjust);
     ui->listWidget->setFlow(QListWidget::LeftToRight);
     ui->listWidget->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    ui->listWidget->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
     manager = new QNetworkAccessManager(this);
 
