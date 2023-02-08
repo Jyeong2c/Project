@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-
+//PatientController를 얻기 위한 변수
 const PatientController = require('../controllers/PatientController');
 
 // index : show all patient list

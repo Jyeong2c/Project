@@ -17,12 +17,9 @@ const index = (req, res) => {
         })
 };
 
-//Show single Patient
+//Show single ImageInfo
 const show = (req, res) => {
     let ImageID = req.body.ImageID;
-    let ImageFile = req.body.ImageFile;
-    console.log(ImageFile);
-    console.log(ImageID);
     //console.log(multer.toString(req.file.ImageFile));
     Image.findById(ImageID)
         .then(response => {
@@ -37,7 +34,7 @@ const show = (req, res) => {
         })
 };
 
-// Add new patient
+// Add new ImageInfo
 const store = (req, res) => {
     let image = new Image({
         ImageName: req.body.ImageName,
@@ -73,7 +70,7 @@ const store = (req, res) => {
         })
 }
 
-// Update an Patient
+// Update an ImageInfo
 const update = (req, res) => {
     let ImageID = req.body.ImageID
 
@@ -98,7 +95,7 @@ const update = (req, res) => {
         })
 };
 
-//delete an patient
+//delete an ImageInfo
 const destroy = (req, res) => {
     let ImageID = req.body.ImageID;
     // if (req.file) {
@@ -125,6 +122,7 @@ const destroy = (req, res) => {
         })
 }
 
+//서버내의 이미지 삭제
 const removeSync = (req, res) => {
     var pngFile = req.query.pngFile;
 
