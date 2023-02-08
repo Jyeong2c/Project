@@ -237,26 +237,34 @@ void MainWindow::layoutSizeChanged(QGraphicsView *grid)
 
     foreach(auto item, customLayout->scene1->items()) {
         QGraphicsPixmapItem* pixItem = dynamic_cast<QGraphicsPixmapItem*>(item);
-        pixItem->setPixmap(QPixmap(itemHash[pixItem]).scaled(itemSize1, Qt::KeepAspectRatio));
-        customLayout->scene1->setSceneRect(pixItem->sceneBoundingRect());
+        if(pixItem == nullptr){
+            pixItem->setPixmap(QPixmap(itemHash[pixItem]).scaled(itemSize1, Qt::KeepAspectRatio));
+            customLayout->scene1->setSceneRect(pixItem->sceneBoundingRect());
+        }
     }
 
     foreach(auto item, customLayout->scene2->items()) {
         QGraphicsPixmapItem* pixItem = dynamic_cast<QGraphicsPixmapItem*>(item);
-        pixItem->setPixmap(QPixmap(itemHash[pixItem]).scaled(itemSize2, Qt::KeepAspectRatio));
-        customLayout->scene2->setSceneRect(pixItem->sceneBoundingRect());
+        if(pixItem == nullptr){
+            pixItem->setPixmap(QPixmap(itemHash[pixItem]).scaled(itemSize2, Qt::KeepAspectRatio));
+            customLayout->scene2->setSceneRect(pixItem->sceneBoundingRect());
+        }
     }
 
     foreach(auto item, customLayout->scene3->items()) {
         QGraphicsPixmapItem* pixItem = dynamic_cast<QGraphicsPixmapItem*>(item);
-        pixItem->setPixmap(QPixmap(itemHash[pixItem]).scaled(itemSize3, Qt::KeepAspectRatio));
-        customLayout->scene3->setSceneRect(pixItem->sceneBoundingRect());
+        if(pixItem == nullptr){
+            pixItem->setPixmap(QPixmap(itemHash[pixItem]).scaled(itemSize3, Qt::KeepAspectRatio));
+            customLayout->scene3->setSceneRect(pixItem->sceneBoundingRect());
+        }
     }
 
     foreach(auto item, customLayout->scene4->items()) {
         QGraphicsPixmapItem* pixItem = dynamic_cast<QGraphicsPixmapItem*>(item);
-        pixItem->setPixmap(QPixmap(itemHash[pixItem]).scaled(itemSize4, Qt::KeepAspectRatio));
-        customLayout->scene4->setSceneRect(pixItem->sceneBoundingRect());
+        if(pixItem == nullptr){
+            pixItem->setPixmap(QPixmap(itemHash[pixItem]).scaled(itemSize4, Qt::KeepAspectRatio));
+            customLayout->scene4->setSceneRect(pixItem->sceneBoundingRect());
+        }
     }
 }
 
@@ -278,8 +286,11 @@ void MainWindow::DoubleWidget(QGraphicsView* grid)
 
     foreach(auto item, myMaxlayout->maxNewSc->items()) {
         QGraphicsPixmapItem* pixItem = dynamic_cast<QGraphicsPixmapItem*>(item);
-        pixItem->setPixmap(QPixmap(itemHash[pixItem]).scaled(itemSize5, Qt::KeepAspectRatio));
-        myMaxlayout->maxNewSc->setSceneRect(pixItem->sceneBoundingRect());
+        if(pixItem == nullptr){
+            pixItem->setPixmap(QPixmap(itemHash[pixItem]).scaled(itemSize5, Qt::KeepAspectRatio));
+            myMaxlayout->maxNewSc->setSceneRect(pixItem->sceneBoundingRect());
+
+        }
     }
     myMaxlayout->viewQuit->setGeometry(myMaxlayout->maxNewGrid->width()-45, 10, 30, 30);
     myMaxlayout->maxNewGrid->resetTransform();
@@ -313,30 +324,38 @@ void MainWindow::previousScreen()
 
     foreach(auto item, customLayout->scene1->items()) {
         QGraphicsPixmapItem* pixItem = dynamic_cast<QGraphicsPixmapItem*>(item);
-        pixItem->setPixmap(QPixmap(itemHash[pixItem]).scaled(itemSize1, Qt::KeepAspectRatio));
-        customLayout->scene1->setSceneRect(pixItem->sceneBoundingRect());
-        customLayout->grid1->resetTransform();
+        if(pixItem == nullptr){
+            pixItem->setPixmap(QPixmap(itemHash[pixItem]).scaled(itemSize1, Qt::KeepAspectRatio));
+            customLayout->scene1->setSceneRect(pixItem->sceneBoundingRect());
+            customLayout->grid1->resetTransform();
+        }
     }
 
     foreach(auto item, customLayout->scene2->items()) {
         QGraphicsPixmapItem* pixItem = dynamic_cast<QGraphicsPixmapItem*>(item);
-        pixItem->setPixmap(QPixmap(itemHash[pixItem]).scaled(itemSize2, Qt::KeepAspectRatio));
-        customLayout->scene2->setSceneRect(pixItem->sceneBoundingRect());
-        customLayout->grid2->resetTransform();
+        if(pixItem == nullptr){
+            pixItem->setPixmap(QPixmap(itemHash[pixItem]).scaled(itemSize2, Qt::KeepAspectRatio));
+            customLayout->scene2->setSceneRect(pixItem->sceneBoundingRect());
+            customLayout->grid2->resetTransform();
+        }
     }
 
     foreach(auto item, customLayout->scene3->items()) {
         QGraphicsPixmapItem* pixItem = dynamic_cast<QGraphicsPixmapItem*>(item);
-        pixItem->setPixmap(QPixmap(itemHash[pixItem]).scaled(itemSize3, Qt::KeepAspectRatio));
-        customLayout->scene3->setSceneRect(pixItem->sceneBoundingRect());
-        customLayout->grid3->resetTransform();
+        if(pixItem == nullptr){
+            pixItem->setPixmap(QPixmap(itemHash[pixItem]).scaled(itemSize3, Qt::KeepAspectRatio));
+            customLayout->scene3->setSceneRect(pixItem->sceneBoundingRect());
+            customLayout->grid3->resetTransform();
+        }
     }
 
     foreach(auto item, customLayout->scene4->items()) {
         QGraphicsPixmapItem* pixItem = dynamic_cast<QGraphicsPixmapItem*>(item);
-        pixItem->setPixmap(QPixmap(itemHash[pixItem]).scaled(itemSize4, Qt::KeepAspectRatio));
-        customLayout->scene4->setSceneRect(pixItem->sceneBoundingRect());
-        customLayout->grid4->resetTransform();
+        if(pixItem == nullptr){
+            pixItem->setPixmap(QPixmap(itemHash[pixItem]).scaled(itemSize4, Qt::KeepAspectRatio));
+            customLayout->scene4->setSceneRect(pixItem->sceneBoundingRect());
+            customLayout->grid4->resetTransform();
+        }
     }
 }
 
@@ -399,7 +418,7 @@ void MainWindow::patientLoad()
 
         QString DoctorID = ui->doctorNameLineEdit->text();
         //http://192.168.0.12:4000/patientlist?by=osstem1
-        request.setUrl(QUrl( QString("http://192.168.0.12:4000/patientlist?by=%1").arg(DoctorID)));
+        request.setUrl(QUrl( QString("http://" + hostName + ":" + portNum + "/patientlist?by=%1").arg(DoctorID)));
         reply = manager->get(request);
         connectionLoop.exec( );           // 동기화를 위한 이벤트 루프
         QByteArray data = reply->readAll();
@@ -420,12 +439,12 @@ void MainWindow::patientLoad()
 
                 /*로그인 아이디와 doctorNameLineEdit의 데이터가 일치하는 경우*/
 
-                    /*구분된 JsonArr.size() 내부의 Json데이터를 QtDB Table에 Insert*/
-                    patientQuery->exec(QString::fromStdString("INSERT INTO patient VALUES ('%1','%2',%3,'%4','%5','%6')")
-                                       .arg(patientObj["ID"].toString()).arg(patientObj["Name"].toString())
-                            .arg(patientObj["Age"].toInt()).arg(patientObj["DoctorID"].toString())
-                            .arg(patientObj["PhotoDate"].toString())
-                            .arg(patientObj["ImageListURL"].toString()));
+                /*구분된 JsonArr.size() 내부의 Json데이터를 QtDB Table에 Insert*/
+                patientQuery->exec(QString::fromStdString("INSERT INTO patient VALUES ('%1','%2',%3,'%4','%5','%6')")
+                                   .arg(patientObj["ID"].toString()).arg(patientObj["Name"].toString())
+                        .arg(patientObj["Age"].toInt()).arg(patientObj["DoctorID"].toString())
+                        .arg(patientObj["PhotoDate"].toString())
+                        .arg(patientObj["ImageListURL"].toString()));
 
             }
 #else
@@ -448,12 +467,12 @@ void MainWindow::patientLoad()
 
                 /*로그인 아이디와 doctorNameLineEdit의 데이터가 일치하는 경우*/
 
-                    /*구분된 JsonArr.size() 내부의 Json데이터를 QtDB Table에 Insert*/
-                    patientQuery->exec(QString::fromStdString("INSERT INTO patient VALUES ('%1','%2',%3,'%4','%5','%6')")
-                                       .arg(patientObj["ID"].toString()).arg(patientObj["Name"].toString())
-                            .arg(patientObj["Age"].toInt()).arg(patientObj["DoctorID"].toString())
-                            .arg(patientObj["PhotoDate"].toString())
-                            .arg(patientObj["ImageListURL"].toString()));
+                /*구분된 JsonArr.size() 내부의 Json데이터를 QtDB Table에 Insert*/
+                patientQuery->exec(QString::fromStdString("INSERT INTO patient VALUES ('%1','%2',%3,'%4','%5','%6')")
+                                   .arg(patientObj["ID"].toString()).arg(patientObj["Name"].toString())
+                        .arg(patientObj["Age"].toInt()).arg(patientObj["DoctorID"].toString())
+                        .arg(patientObj["PhotoDate"].toString())
+                        .arg(patientObj["ImageListURL"].toString()));
 
             }
 #endif
@@ -688,12 +707,12 @@ void MainWindow::on_listWidget_clicked(const QModelIndex &index)
     QString baseName = fileInfoList.at(index.row()).baseName();
     qDebug() << baseName;
 
-//    //네트워크 응답 변수
-//    reply = manager->get(request);
-//    request.setUrl(QUrl(QString("http://" + hostName + ":" + portNum + "/allImagelist?by=%1").arg(baseName)));
-//    connectionLoop.exec();//동기화 부분
-//    QByteArray data = reply->readAll(); //해당 Url 전체 Json데이터 읽기
-//    if(data.isEmpty() == true) qDebug() << "Need to fill Json Data";
+    //    //네트워크 응답 변수
+    //    reply = manager->get(request);
+    //    request.setUrl(QUrl(QString("http://" + hostName + ":" + portNum + "/allImagelist?by=%1").arg(baseName)));
+    //    connectionLoop.exec();//동기화 부분
+    //    QByteArray data = reply->readAll(); //해당 Url 전체 Json데이터 읽기
+    //    if(data.isEmpty() == true) qDebug() << "Need to fill Json Data";
     QEventLoop eventLoop;
     QNetworkAccessManager manager;
     connect(&manager, SIGNAL(finished(QNetworkReply *)), &eventLoop, SLOT(quit()));

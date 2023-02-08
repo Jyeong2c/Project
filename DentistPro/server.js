@@ -35,9 +35,13 @@ app.listen(PORT, () => {
 const PatientRoute = require('./routes/patient');
 //routes of image.js
 const ImageRoute = require('./routes/image');
+//routes of login.js
+const LoginRoute = require('./routes/login');
 
 //use patientDB
 app.use('/api/patient', PatientRoute);
 //use imageDB
 app.use('/api/image', ImageRoute);
+//use loginDB
+app.use('/api/login', LoginRoute);
 

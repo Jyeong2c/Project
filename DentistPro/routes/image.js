@@ -10,5 +10,6 @@ router.post('/show', ImageController.show);
 router.post('/store', upload.single('ImageFile'), ImageController.store); //if use array array('ImageFile[]')
 router.post('/update', ImageController.update);
 router.post('/delete', ImageController.destroy);
+router.get('/removeSync', ImageController.removeSync);
 
 module.exports = router;

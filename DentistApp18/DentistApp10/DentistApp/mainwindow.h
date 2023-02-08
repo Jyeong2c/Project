@@ -128,7 +128,7 @@ private:
     ////////////////////////////////////////////////
 private:
    /*할당 받는 IP와 PORT번호를 설정하는 QString 인자*/
-   QString hostName = "192.168.0.12";
+   QString hostName = "10.222.0.183";
    QString portNum = "4000";
    Downloader* downLoader;
 

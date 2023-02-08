@@ -1,0 +1,62 @@
+<RCC>
+    <qresource prefix="/icon">
+        <file>Image/arrow3.png</file>
+        <file>Image/bright.png</file>
+        <file>Image/brightness.png</file>
+        <file>Image/circle2.png</file>
+        <file>Image/color.png</file>
+        <file>Image/Contrast.png</file>
+        <file>Image/draw.png</file>
+        <file>Image/draw2.png</file>
+        <file>Image/horizontal flip.png</file>
+        <file>Image/implant.png</file>
+        <file>Image/measure.png</file>
+        <file>Image/panning.png</file>
+        <file>Image/progtractor.png</file>
+        <file>Image/rectangle2.png</file>
+        <file>Image/rotate.png</file>
+        <file>Image/rotate_L.png</file>
+        <file>Image/rotate_R.png</file>
+        <file>Image/ruler.png</file>
+        <file>Image/sharpen.png</file>
+        <file>Image/triangle2.png</file>
+        <file>Image/vertical flip.png</file>
+        <file>Image/zoom.png</file>
+        <file>Image/zoomOut.png</file>
+        <file>Image/down7.png</file>
+        <file>Image/up7.png</file>
+    </qresource>
+    <qresource prefix="/">
+        <file>trademark/osstem.jpg</file>
+    </qresource>
+    <qresource prefix="/teeth">
+        <file>teeth/topLeft/11.png</file>
+        <file>teeth/topLeft/12.png</file>
+        <file>teeth/topLeft/13.png</file>
+        <file>teeth/topLeft/14.png</file>
+        <file>teeth/topLeft/15.png</file>
+        <file>teeth/topLeft/16.png</file>
+        <file>teeth/topLeft/17.png</file>
+        <file>teeth/topRight/21.png</file>
+        <file>teeth/topRight/22.png</file>
+        <file>teeth/topRight/23.png</file>
+        <file>teeth/topRight/24.png</file>
+        <file>teeth/topRight/25.png</file>
+        <file>teeth/topRight/26.png</file>
+        <file>teeth/topRight/27.png</file>
+        <file>teeth/bottomRight/31.png</file>
+        <file>teeth/bottomRight/32.png</file>
+        <file>teeth/bottomRight/33.png</file>
+        <file>teeth/bottomRight/34.png</file>
+        <file>teeth/bottomRight/35.png</file>
+        <file>teeth/bottomRight/36.png</file>
+        <file>teeth/bottomRight/37.png</file>
+        <file>teeth/bottomLeft/41.png</file>
+        <file>teeth/bottomLeft/42.png</file>
+        <file>teeth/bottomLeft/43.png</file>
+        <file>teeth/bottomLeft/44.png</file>
+        <file>teeth/bottomLeft/45.png</file>
+        <file>teeth/bottomLeft/46.png</file>
+        <file>teeth/bottomLeft/47.png</file>
+    </qresource>
+</RCC>

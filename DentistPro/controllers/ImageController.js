@@ -1,4 +1,6 @@
 const Image = require('../models/Image');
+//const multer = require('multer');
+const fs = require('fs');
 
 //Show the list of Patients
 const index = (req, res) => {
@@ -18,6 +20,10 @@ const index = (req, res) => {
 //Show single Patient
 const show = (req, res) => {
     let ImageID = req.body.ImageID;
+    let ImageFile = req.body.ImageFile;
+    console.log(ImageFile);
+    console.log(ImageID);
+    //console.log(multer.toString(req.file.ImageFile));
     Image.findById(ImageID)
         .then(response => {
             res.json({
@@ -35,14 +41,15 @@ const show = (req, res) => {
 const store = (req, res) => {
     let image = new Image({
         ImageName: req.body.ImageName,
-        PatientName : req.body.PatientName,
+        PatientName: req.body.PatientName,
         PixelLength: req.body.PixelLength,
         ImageKinds: req.body.ImageKinds,
-        PhotoDate : req.body.PhotoDate,
+        PhotoDate: req.body.PhotoDate,
     })
     // if requset store image file
     if (req.file) {
         image.ImageFile = req.file.path;
+        //var filename = path.basename(req.file.path);  
     }
     // if request store image files
     // if(req.files){
@@ -72,10 +79,10 @@ const update = (req, res) => {
 
     let updateData = {
         ImageName: req.body.ImageName,
-        PatientName : req.body.PatientName,
+        PatientName: req.body.PatientName,
         PixelLength: req.body.PixelLength,
         ImageKinds: req.body.ImageKinds,
-        PhotoDate : req.body.PhotoDate,
+        PhotoDate: req.body.PhotoDate,
     }
 
     Image.findByIdAndUpdate(ImageID, { $set: updateData })
@@ -94,10 +101,21 @@ const update = (req, res) => {
 //delete an patient
 const destroy = (req, res) => {
     let ImageID = req.body.ImageID;
+    // if (req.file) {
+    //     image.ImageFile = req.file.path;
+    // }
+
+    // try{
+    //     fs.unlinkSync('./uploads/1675661012939.png');
+    //     console.log('Delete complete');
+    // }catch(err){
+    //     console.log(err);
+    // }
+
     Image.findByIdAndRemove(ImageID)
         .then(() => {
             res.json({
-                message: 'Image deleted successfully!'
+                message: 'Image deleted successfully!',
             });
         })
         .catch(error => {
@@ -107,8 +125,29 @@ const destroy = (req, res) => {
         })
 }
 
+const removeSync = (req, res) => {
+    var pngFile = req.query.pngFile;
+
+    res.json(pngFile);
+    res.end();
+    const directoryPath = "./uploads/";
+
+    try {
+        fs.unlinkSync(directoryPath + pngFile);
+
+        res.status(200).send({
+            message: "File is deleted.",
+        });
+    } catch (err) {
+        res.status(500).send({
+            message: "Could not delete the file. " + err,
+        });
+    }
+};
+
+
 module.exports = {
-    index, show, store, update, destroy
+    index, show, store, update, destroy, removeSync
 }
 
 
