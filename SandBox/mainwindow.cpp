@@ -10,18 +10,15 @@
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QNetworkRequest>
-#include <QEventLoop>
 #include <QFile>
 #include <QDir>
 #include <QTableWidgetItem>
 
-//Json에 관련된 것
+//Json에 Parsing과 관련된 헤더
 #include <QJsonDocument>
-#include <QJsonValue>
 #include <QJsonArray>
 #include <QJsonObject>
 
-#include <QUrlQuery>
 #include <QStandardItemModel>
 #include <QHttpMultiPart>
 #include <QHttpPart>
@@ -37,59 +34,58 @@ MainWindow::MainWindow(QWidget *parent)
 
     QList<int> list;
     list << 150 << 450;
+    //UI 폼 세팅
     ui->splitter->setSizes(list);
     ui->listWidget->setIconSize(QSize(130, 80));
     ui->listWidget->setResizeMode(QListWidget::Adjust);
     ui->listWidget->setFlow(QListWidget::LeftToRight);
     ui->listWidget->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
+    //manager 변수 new 할당
     manager = new QNetworkAccessManager(this);
+    //upload 다이얼로그 변수 new 할당
     uploadDialog = new AddImageServer(this);
     connect(manager, SIGNAL(finished(QNetworkReply *)), &eventLoop, SLOT(quit()));
-    //connect(this, &MainWindow::sendPatientName, uploadDialog, &AddImageServer::rePatientName);
 }
 
+//환자 테이블 불러오기 함수
 void MainWindow::PatientTableLoad()
 {
+    //환자 데이터를 리스트화
     QList<QString> contacName;
     QList<int> age;
     QList<QString> doctorID;
 
+    //환자 정보 Url 검색
     QNetworkRequest req( QUrl( QString("http://" + hostName + ":" + portNum + "/api/patient/") ) );
     reply = manager->get(req);
     eventLoop.exec( );           // "finished( )" 가 호출 될때까지 블록(동기화)
 
+    //에러메시지가 없는 경우
     if (reply->error( ) == QNetworkReply::NoError) {
+        //해당 Url에 저장된 Json데이터를 읽은 후 response배열 내부의 jsonData Parsing
         QString strReply = (QString)reply->readAll( );
-
         QJsonDocument jsonResponse = QJsonDocument::fromJson(strReply.toUtf8( ));
-
         QJsonArray jsonArr = jsonResponse["response"].toArray();
         for(int i = 0; i < jsonArr.size(); i++) {
             QJsonObject patientObj = jsonArr.at(i).toObject();    //jsonResponse.object();
-
             QString ID = patientObj["_id"].toString();
             QString Name = patientObj["Name"].toString();
             int Age = patientObj["Age"].toInt();
             QString DoctorID = patientObj["DoctorID"].toString();
 
-
-            if(ui->doctorIDLineEdit->text() == DoctorID){
+            if(ui->doctorIDLineEdit->text() == DoctorID) {
                 contacName.append(Name);
                 age.append(Age);
                 doctorID.append(DoctorID);
-
-                //emit sendPatientName(Name);
             }
         }
-
         delete reply;
-
+        //환자모델 데이터를 얻은 후 PatientModel 클래스에 환자데이터 삽입
         patientModel = new PatientModel(this);
         patientModel->patientData(contacName, age, doctorID);
         ui->tableView->setModel(patientModel);
         ui->tableView->horizontalHeader()->setVisible(true);
-
         ui->tableView->show();
         ui->tableView->horizontalHeader()->setStretchLastSection(true);
     }

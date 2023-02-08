@@ -1,27 +1,29 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include "qeventloop.h"
+#include <QEventLoop>
 #include <QMainWindow>
 #include <QNetworkAccessManager>
 #include <QAbstractTableModel>
 
+//Qt에서 제공하는 클래스
 class QTableWidgetItem;
 class QNetworkAccessManager;
 class QNetworkReply;
 class QNetworkRequire;
 class QNetworkReply;
-class Downloader;
+
+//추가해야되는 사용자 클래스
 class PatientModel;
-class Uploader;
 class Blending;
 class AddImageServer;
 class DeleteImage;
 class PatitentView;
+
+//추가하지 않아도 되는 사용자 클래스
 class MainWidget;
 class LoginDlg;
-class QFile;
-class QStackedWidget;
+
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -35,7 +37,9 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+    /*환자 정보 URL 접근 후 get으로 환자 목록 얻기*/
     void PatientTableLoad();
+    /**/
     void loadImages();
 public slots:
     void slotDoctorInfo(QString);
@@ -47,7 +51,6 @@ private slots:
     void on_tableView_clicked(const QModelIndex &index);
     void on_actiondialog_triggered();
     void on_listWidget_doubleClicked(const QModelIndex &index);
-
     void on_actionLoginPage_triggered();
 
 private:
@@ -68,13 +71,9 @@ private:
     QNetworkReply *reply;
     QEventLoop eventLoop;
 
+    //접속할 URL IP와 PORT 번호
     QString hostName = "192.168.0.12";
     QString portNum = "40000";
-
-    QList<QString> patientList;
-
-signals:
-    //void sendPatientName(QString _list);
 };
 
 

@@ -51,8 +51,7 @@ private:
 
     QImage* image;
 
-    /*바운딩 렉트를 위한 Hash 할당*/
-    //QHash<QGraphicsPixmapItem*, QString> itemHash;
+    //받는 이미지를 count 할 수 있는 변수
     int imageFlag = 0;
 };
 

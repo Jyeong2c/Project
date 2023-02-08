@@ -12,18 +12,29 @@
 
 DeleteImage::DeleteImage()
 {
+    manager = new QNetworkAccessManager(this);
+    delImgInfoMgr = new QNetworkAccessManager(this);
+    delImgFileMgr = new QNetworkAccessManager(this);
 
+    connect(manager, SIGNAL(finished(QNetworkReply *)), &eventLoop, SLOT(quit()));
+    connect(delImgFileMgr, SIGNAL(finished(QNetworkReply *)), &eventImgLoop, SLOT(quit()));
+}
+
+DeleteImage::~DeleteImage()
+{
+    delete manager;
+    delete delImgInfoMgr;
+    delete delImgFileMgr;
 }
 
 void DeleteImage::deleteImage(QString _hostName, QString _portNum, QString _fileName)
 {
-    QNetworkAccessManager mgr;
-    QEventLoop eventLoop;
+    QString path = "./Images";
+    QDir dir(path);
+    dir.remove(_fileName);
     QNetworkRequest req( QUrl( QString("http://" + _hostName + ":" + _portNum + "/api/image/") ) );
-    QNetworkReply *reply = mgr.get(req);
-
-    connect(&mgr, SIGNAL(finished(QNetworkReply *)), &eventLoop, SLOT(quit()));
-    eventLoop.exec( );           // "finished( )" 가 호출 될때까지 블록
+    reply = manager->get(req);
+    eventLoop.exec( );           // "finished( )" 가 호출 될때까지 블록(동기화)
 
     if (reply->error( ) == QNetworkReply::NoError) {
         QString strReply = (QString)reply->readAll( );
@@ -42,7 +53,7 @@ void DeleteImage::deleteImage(QString _hostName, QString _portNum, QString _file
             qDebug() << "csvString" << csvString; // output : *.png
             ////////////////////////////////////////////////////////////////////////
             if(csvString == _fileName){
-                QNetworkAccessManager *deleteMgr = new QNetworkAccessManager();
+                delImgInfoMgr = new QNetworkAccessManager();
                 const QUrl url("http://" + _hostName + ":" + _portNum + "/api/image/delete");
                 QNetworkRequest request(url);
                 request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
@@ -53,10 +64,10 @@ void DeleteImage::deleteImage(QString _hostName, QString _portNum, QString _file
                 QJsonDocument doc(obj);
                 QByteArray data = doc.toJson();
 
-                QNetworkReply *deleteReply = deleteMgr->post(request, data);
-                connect(deleteReply, &QNetworkReply::finished, [=](){ //람다식
-                    if(deleteReply->error() == QNetworkReply::NoError){
-                        QByteArray ba=deleteReply->readAll();
+                delImgInfoRep = delImgInfoMgr->post(request, data);
+                connect(delImgInfoRep, &QNetworkReply::finished, [=](){ //람다식
+                    if(delImgInfoRep->error() == QNetworkReply::NoError){
+                        QByteArray ba=delImgInfoRep->readAll();
                         QString contents = QString::fromUtf8(ba);
                         qDebug()<<contents;
                     }
@@ -64,27 +75,19 @@ void DeleteImage::deleteImage(QString _hostName, QString _portNum, QString _file
                         QString err = reply->errorString();
                         qDebug() << err;
                     }
-                    deleteReply->deleteLater();
+                    delete delImgInfoRep;
                 });
 
-                QNetworkAccessManager *delImgMgr = new QNetworkAccessManager();
-                QEventLoop delImgLoop;
+                delImgFileMgr = new QNetworkAccessManager();
                 QNetworkRequest delImgReq(QUrl(QString("http://" + _hostName + ":" + _portNum + "/api/image/removeSync?pngFile=%1")
                                          .arg(csvString)));
-                QNetworkReply *delImgRep = delImgMgr->get(delImgReq);
-                connect(delImgMgr, SIGNAL(finished(QNetworkReply *)),
-                        &delImgLoop, SLOT(quit()));
-                delImgLoop.exec();
+                delImgFileRep = delImgFileMgr->get(delImgReq);
+                eventImgLoop.exec();
 
-                if(delImgRep->error() == QNetworkReply::NoError){
+                if(delImgFileRep->error() == QNetworkReply::NoError){
                     qDebug() << "Image Delete complete";
                 }
-                delete delImgRep;
-
-                QString path = "./Images";
-                QDir dir(path);
-                dir.remove(_fileName);
-
+                delete delImgFileRep;
             }
             ///////////////////////////////////////////////////////////
         }

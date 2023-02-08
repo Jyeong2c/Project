@@ -23,7 +23,6 @@ Blending::Blending(QWidget *parent) :
     loadImages();
 
     /*다이얼로그 박스에 타이틀 버튼 활성화*/
-    //setWindowFlag(Qt::CustomizeWindowHint);
     setWindowFlag(Qt::WindowMaximizeButtonHint);    //최소화 버튼
     setWindowFlag(Qt::WindowMinimizeButtonHint);    //최대화 버튼
     setWindowFlag(Qt::WindowCloseButtonHint);       //닫기 버튼
@@ -42,6 +41,8 @@ Blending::Blending(QWidget *parent) :
 Blending::~Blending()
 {
     delete ui;
+    delete sceneImage;
+    delete image;
 }
 
 /*선택된 이미지를 받는 setImage1,2 함수*/
