@@ -57,7 +57,6 @@ void Blending::setImage2(const QString& _image2)
 
 void Blending::loadImages()
 {
-    qDebug("[%s] %s : %d", __FILE__, __FUNCTION__, __LINE__);
     update();
     /*환자의 ID별로 이미지리스트를 출력*/
     QDir dir("./Images/");
@@ -113,7 +112,6 @@ void Blending::resizeEvent(QResizeEvent *e)
 
 void Blending::onBlending(int value)
 {
-    //qDebug() << "slider action : " << value;
     update();
 
     /*image1과 image2가 비어 있는 경우 return 반환*/
@@ -151,7 +149,6 @@ void Blending::onBlending(int value)
 
     if(image->isNull())
     {
-        qDebug() << "Image is Null!";
         return;
     }
 
@@ -167,7 +164,6 @@ void Blending::onBlending(int value)
 
 void Blending::on_imageListWidget_clicked(const QModelIndex &index)
 {
-    qDebug() << "index.row() : " << index.row() << " , " << "index.colum() : " << index.column();
     /*./Images의 디렉토리의 이미지 데이터를 찾음*/
     QDir dir("./Images/");
     QStringList filters;
@@ -178,12 +174,13 @@ void Blending::on_imageListWidget_clicked(const QModelIndex &index)
     QString fileInfo = fileInfoList.at(index.row()).fileName();
 
     /*opencv로 두장의 이미지 읽기*/
-    if(imageFlag == 0){
+    if(imageFlag == 0) {
         /*플래그가 0인경우 image1에 listWidget에 선택된 이미지를 부르기*/
         ui->ImageOneLineEdit->setText(fileInfo);
         setImage1(fileInfo);
         imageFlag = 1;
-    } else if(imageFlag == 1){
+    }
+    else if(imageFlag == 1) {
         /*플래그가 1인 경우 image2에 listWidget에 선택된 이미지를 부르기*/
         ui->ImageTwoLineEdit->setText(fileInfo);
         setImage2(fileInfo);

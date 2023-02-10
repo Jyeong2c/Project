@@ -60,8 +60,7 @@ void Uploader::uploadImage(QString FileName, QString URL, QString FieldName)
 
 void Uploader::onUploadProgress(qint64 bytesRead, qint64 byteTotal)
 {
-    qDebug(QString::number(bytesRead).toLatin1() + " - " +
-           QString::number(byteTotal).toLatin1());
+
 }
 void Uploader::onUploadFinished()
 {

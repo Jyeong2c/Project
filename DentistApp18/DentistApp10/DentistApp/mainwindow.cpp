@@ -151,7 +151,7 @@ void MainWindow::loadImages()
     qDebug("[%s] %s : %d", __FILE__, __FUNCTION__, __LINE__);
     update();
     /*환자의 ID별로 이미지리스트를 출력*/
-    QDir dir("./Images/");
+    QDir dir("./");
     QStringList filters;
     filters << "*.png" << "*.jpg" << "*.bmp";
     QFileInfoList fileInfoList = dir.entryInfoList(filters, QDir::Files | QDir::NoDotAndDotDot);

@@ -46,11 +46,7 @@ void PatitentView::patientView(QString _hostName, QString _portNum, QString _pat
             QString ImageFile = patientObj["ImageFile"].toString();
 
             if(PatientName == _patient){
-                qDebug() << ImageFile;
-
                 QString csvString = ImageFile.section("\\", 1, 1);
-                qDebug() << "csvString" << csvString; // output : *.png
-
                 downLoader = new Downloader;
                 connect(downLoader, &Downloader::sendUpload, this, &PatitentView::middlePatient);
                 downLoader->setFile(QString("http://" + _hostName + ":" + _portNum + "/uploads/%1").arg(csvString));

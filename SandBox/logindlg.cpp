@@ -54,9 +54,6 @@ void LoginDlg::on_pushButton_clicked()
             if(inputDoctorID == DoctorID){
                 qDebug() << "ID ok";
                 if(inputDoctorPW == Password){
-                    qDebug() << DoctorID;
-                    qDebug() << DoctorName;
-                    qDebug() << Password;
 
                     emit sigLoginSuccess(1);
                     emit sigIDInfo(DoctorID);

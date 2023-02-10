@@ -11,6 +11,7 @@ AddImageServer::AddImageServer(QWidget *parent) :
     ui->setupUi(this);
     ui->ImageFileLineEdit->setReadOnly(true);
     upLoader = new Uploader;
+    //업로드 클래스에 보내는 데이터를 커넥트
     connect(this, &AddImageServer::sendImageName, upLoader, &Uploader::reImageName);
     connect(this, &AddImageServer::sendPatientName, upLoader, &Uploader::rePatientName);
     connect(this, &AddImageServer::sendPixelData, upLoader, &Uploader::rePixelData);
@@ -25,11 +26,12 @@ AddImageServer::~AddImageServer()
     delete upLoader;
 }
 
+/*파일 다이얼로그를 열게하는 함수*/
 void AddImageServer::on_fileDialogButton_clicked()
 {
     QString dir = QFileDialog::getOpenFileName(this,
                                                "choose file for add server",
-                                               "D:/Panorama");
+                                               "D:/Panorama"); //다이얼로그 경로 변경
     ui->ImageFileLineEdit->setText(dir);
 }
 
@@ -42,10 +44,10 @@ void AddImageServer::on_sendButton_clicked()
     photoDate = ui->photoDateLineEdit->text();
     imageFile = ui->ImageFileLineEdit->text();
     if(imageName.isEmpty() && patientName.isEmpty() && pixelLength.isEmpty()
-            && imageKind.isEmpty() && photoDate.isEmpty() && imageFile.isEmpty()){
+            && imageKind.isEmpty() && photoDate.isEmpty() && imageFile.isEmpty()) {
         return;
-    } else{
-        //qDebug() << "send : " << ui->imageNameLineEdit->text();
+    }
+    else {
         emit sendImageName(imageName);
         emit sendPatientName(patientName);
         emit sendPixelData(pixelLength);

@@ -53,6 +53,8 @@ private slots:
     void on_listWidget_doubleClicked(const QModelIndex &index);
     void on_actionLoginPage_triggered();
 
+    void on_listWidget_clicked(const QModelIndex &index);
+
 private:
     Ui::MainWindow *ui;
     //클래스 합류

@@ -96,6 +96,7 @@ MainWindow::~MainWindow()
     delete ui;
     manager->deleteLater();
 
+    //MainWindow가 닫아질 때 이미지 폴더 내의 png 파일들을 제거
     QString path = "./Images";
     QDir dir(path);
     dir.setNameFilters(QStringList() << "*.png");
@@ -107,6 +108,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_tableView_clicked(const QModelIndex &index)
 {
+    //해당환자의 테이블을 클릭시 이미지 폴더의 png 파일들을 제거
     QString path = "./Images";
     QDir dir(path);
     dir.setNameFilters(QStringList() << "*.png");
@@ -116,9 +118,11 @@ void MainWindow::on_tableView_clicked(const QModelIndex &index)
         dir.remove(dirFile);
     }
 
+    //환자의 이름을 받는 변수 할당
     QString patient = index.data().toString();
     patView = new PatitentView;
     connect(patView, &PatitentView::middlePatient, this, &MainWindow::receiveUpload);
+    //환자의 테이블을 나열하기위한 함수 호출 후 환자의 이름을 입력받으면 해당이름에 맞는 이미지 리스트 다운로드
     patView->patientView(hostName, portNum, patient);
 }
 

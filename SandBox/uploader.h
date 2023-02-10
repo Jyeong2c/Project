@@ -27,8 +27,6 @@ private slots:
     void onUploadProgress(qint64, qint64);
     void onUploadFinished();
 
-
-
 private:
     QNetworkReply* currentUpload;
     QFile* file;

@@ -24,12 +24,11 @@ void Downloader::setFile(QString fileURL)
     QDir dir;
     /*해당 디렉토리가 존재하는 경우 그대로 유지 /
       디렉토리가 없는 경우 folderName 그대로 새 디렉토리를 생성*/
-    if(dir.exists("./Images")){
-        qDebug() << "Existis ./Images directory";
-    }else{
+    if(dir.exists("./Images")) {
+    }
+    else {
         /*mkdir = make directory*/
         dir.mkdir("./Images");
-        qDebug() << "Created ./Images directory";
     }
 
     QString filePath = fileURL;
@@ -56,8 +55,6 @@ void Downloader::setFile(QString fileURL)
 
 void Downloader::onDownloadProgress(qint64 bytesRead, qint64 byteTotal)
 {
-    qDebug(QString::number(bytesRead).toLatin1() + " - " +
-           QString::number(byteTotal).toLatin1());
 }
 
 void Downloader::onFinished(QNetworkReply* reply)
@@ -73,9 +70,7 @@ void Downloader::onFinished(QNetworkReply* reply)
         {
             emit sendUpload();
         }break;
-
         default:{
-            //qDebug(reply->errorString().toLatin1());
         };
     }
 }
