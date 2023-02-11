@@ -1,17 +1,12 @@
 const express = require('express');
 const router = express.Router();
-//LoginController를 얻기 위한 변수
-const LoginController = require('../controllers/LoginController');
+const LoginController = require('../controllers/LoginController');  //LoginController를 얻기 위한 변수
 
-// index : show all logininfo list
-router.get('/', LoginController.index);
-// show : show selected logininfo
-router.post('/show', LoginController.show);
-// store : add new logininfo 
-router.post('/store', LoginController.store);
-// update : update selected logininfo
-router.post('/update', LoginController.update);
-// destroy : delete selected logininfo
-router.post('/delete', LoginController.destroy);
 
-module.exports = router;
+router.get('/', LoginController.index);         // 전체 로그인 정보를 출력하기 위한 get 함수
+router.post('/show', LoginController.show);     // 1개의 로그인 정보를 출력하기 위한 post 함수
+router.post('/store', LoginController.store);   // 단일 로그인 정보를 입력후 저장하는 post 함수
+router.post('/update', LoginController.update);     // 단일 로그인 정보를 수정하는 post 함수
+router.post('/delete', LoginController.destroy);  // 단일 로그인 정보를 삭제하는 post 함수
+
+module.exports = router;        // 로그인 라우터 추출

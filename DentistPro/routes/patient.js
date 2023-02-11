@@ -1,17 +1,11 @@
 const express = require('express');
 const router = express.Router();
-//PatientController를 얻기 위한 변수
-const PatientController = require('../controllers/PatientController');
+const PatientController = require('../controllers/PatientController');  // PatientController를 얻기 위한 변수
 
-// index : show all patient list
-router.get('/', PatientController.index);
-// show : show selected patient
-router.post('/show', PatientController.show);
-// store : add new patient 
-router.post('/store', PatientController.store);
-// update : update selected patient
-router.post('/update', PatientController.update);
-// destroy : delete selected patient
-router.post('/delete', PatientController.destroy);
+router.get('/', PatientController.index);               // 전체 환자 정보를 출력하기 위한 get 함수
+router.post('/show', PatientController.show);           // 단일 환자 정보를 출력하기 위한 post 함수
+router.post('/store', PatientController.store);         // 단일 환자 정보를 입력후 저장하기 위한 post 함수 
+router.post('/update', PatientController.update);       // 단일 환자 정보를 수정하기 위한 post 함수
+router.post('/delete', PatientController.destroy);      // 단일 환자 정보를 삭제하기 위한 post 함수
 
 module.exports = router;

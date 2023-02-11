@@ -3,16 +3,16 @@ const Schema = mongoose.Schema;
 
 //환자 정보 스키마
 const patientSchema = new Schema({
-    Name : {    //환자 성함
+    Name : {    // 환자 성함
         type : String
     },
-    Age : {     //환자 나이
+    Age : {     // 환자 나이
         type : Number
     },
-    DoctorID : {//의사 아이디
+    DoctorID : {// 의사 아이디
         type : String
     }
-},{timestamps : true}); //환자 입력/수정 날짜 표시
+},{timestamps : true}); // 환자 입력/수정 날짜 표시
 
-const Patient = mongoose.model('Patient', patientSchema);
-module.exports = Patient;
+const Patient = mongoose.model('Patient', patientSchema); // 환자 스키마를 모델로 지정
+module.exports = Patient;  // 환다 스키마 추출
