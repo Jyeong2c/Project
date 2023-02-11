@@ -1,8 +1,7 @@
-const Image = require('../models/Image');
-//const multer = require('multer');
-const fs = require('fs');
+const Image = require('../models/Image'); //Image.js 모델 스키마 변수 할당
+const fs = require('fs');                 //fs 패키지 사용(파일관리)
 
-//Show the list of Patients
+/*Show the list of Patients*/
 const index = (req, res) => {
     Image.find()
         .then(response => {
