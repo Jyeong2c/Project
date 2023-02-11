@@ -23,16 +23,16 @@ BlendingDlg::BlendingDlg(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    uiSetting();
-    loadImages();
+    uiSetting();            // 초기 UI 설정
+    loadImages();           // listWidget 이미지 출력
 
     /*다이얼로그 박스에 타이틀 버튼 활성화*/
     setWindowFlag(Qt::WindowMaximizeButtonHint);    //최소화 버튼
     setWindowFlag(Qt::WindowMinimizeButtonHint);    //최대화 버튼
     setWindowFlag(Qt::WindowCloseButtonHint);       //닫기 버튼
 
-    /*다이얼로그 타이틀 선정*/
-    setWindowTitle("Blend Result");
+
+    setWindowTitle("Blend Result");         // 다이얼로그 타이틀 설정
 
     /*sceneImage new 할당*/
     sceneImage = new QGraphicsScene();
@@ -61,6 +61,7 @@ void BlendingDlg::setImage2(const QString& _image2)
     image2 = imread(QString("./Images/%1").arg(_image2).toStdString(), IMREAD_COLOR);
 }
 
+/*listWidget의 이미지를 출력하기 위한 로드 함수*/
 void BlendingDlg::loadImages()
 {
     update();
@@ -82,6 +83,7 @@ void BlendingDlg::loadImages()
     update();
 }
 
+/* blending dialog 내부 ui 설정, 비율 설정 함수 */
 void BlendingDlg::uiSetting()
 {
     /*imageListWidget 의 설정을 변경하기 위한 set함수 목록*/
@@ -116,6 +118,7 @@ void BlendingDlg::resizeEvent(QResizeEvent *e)
     QDialog::resizeEvent(e);
 }
 
+/*슬라이더 위젯을 움직일 때 마다 가중치 값을 받는 함수*/
 void BlendingDlg::onBlending(int value)
 {
     update();
@@ -141,18 +144,15 @@ void BlendingDlg::onBlending(int value)
     cv::resize(image1, reImage1, Size(ui->pixelDataGraphics->width() - 5, ui->pixelDataGraphics->height() - 5));
     cv::resize(image2, reImage2, Size(ui->pixelDataGraphics->width() - 5, ui->pixelDataGraphics->height() - 5));
 
-
-    /*alpha 값은 들어오는 value(0 ~ 10)를 10으로 나눈 값*/
-    double alpha = (double)value / 10;
+    double alpha = (double)value / 10;       // alpha 값은 들어오는 value(0 ~ 10)를 10으로 나눈 값
     /*이미지의 가중치 alpha값에 맞추어 resize된 image1, image2의 0에 가까울 수록 image1을 선명하게 표시*/
     addWeighted(reImage1, 1 - alpha, reImage2, alpha, 0, result);
 
     /*변경된 이미지 쓰기, 저장할 이미지도 PNG형식으로 저장하기 위해 ImwriteFlags 조정*/
     imwrite("./Images/result.png", result, vector<int>(ImwriteFlags::IMWRITE_PNG_BILEVEL));
+    image->load("./Images/result.png");      // 해당 경로에 결과 이미지 호출
 
-    /*라벨의 가로 세로의 길이에 맞추어 resize*/
-    image->load("./Images/result.png");
-
+    /*이미지에 어떤 정보도 들어가지 않으면 return*/
     if(image->isNull()) {
         return;
     }
@@ -167,6 +167,7 @@ void BlendingDlg::onBlending(int value)
     ui->pixelDataGraphics->show();
 }
 
+/*listWidget을 클릭 시 이미지 호출*/
 void BlendingDlg::on_imageListWidget_clicked(const QModelIndex &index)
 {
     /*./Images의 디렉토리의 이미지 데이터를 찾음*/
@@ -175,8 +176,7 @@ void BlendingDlg::on_imageListWidget_clicked(const QModelIndex &index)
     filters << "*.png" << "*.jpg" << "*.bmp";
     /*파일정보 리스트에 png, jpg, bmp파일들만 리스트정보에 넣어둠*/
     QFileInfoList fileInfoList = dir.entryInfoList(filters, QDir::Files | QDir::NoDotAndDotDot);
-    /*png 파일을 baseName으로 */
-    QString fileInfo = fileInfoList.at(index.row()).fileName();
+    QString fileInfo = fileInfoList.at(index.row()).fileName();   // 파일이름만 받는 변수 선언후 정의
 
     /*opencv로 두장의 이미지 읽기*/
     if(imageFlag == 0) {

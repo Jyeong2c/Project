@@ -52,7 +52,7 @@ void PatitentView::patientView(QString _hostName, QString _portNum, QString _pat
                 qDebug() << "csvString" << csvString; // output : *.png
 
                 downLoader = new Downloader;
-                connect(downLoader, &Downloader::sendUpload, this, &PatitentView::middlePatient);
+                connect(downLoader, &Downloader::sendDownload, this, &PatitentView::middlePatient);
                 downLoader->setFile(QString("http://" + _hostName + ":" + _portNum + "/uploads/%1").arg(csvString));
             }
         }

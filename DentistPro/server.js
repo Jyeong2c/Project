@@ -30,7 +30,7 @@ app.use('/uploads', express.static('uploads'));   // http://192.168.0.12:40000/u
 const PORT = process.env.PORT || 40000;   // 포트 번호 40000 설정
 
 /*MongoDB 에서 설정한 Network Access와 node.js 설정한 포트로 네트워크 환경 구축*/
-app.listen(PORT, () => {
+app.listen(PORT, () => { 
     console.log('Server is running on Port', PORT);
 });
 
