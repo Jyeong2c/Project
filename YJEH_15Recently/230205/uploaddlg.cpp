@@ -12,7 +12,7 @@ UploadDlg::UploadDlg(QWidget *parent) :
 
     ui->ImageFileLineEdit->setReadOnly(true);
     upLoader = new Uploader(this);
-    //업로드 클래스에 보내는 데이터를 커넥트
+    /*Uploader 클래스에 보내는 데이터를 커넥트*/
     connect(this, &UploadDlg::sendImageName, upLoader, &Uploader::reImageName);
     connect(this, &UploadDlg::sendPatientName, upLoader, &Uploader::rePatientName);
     connect(this, &UploadDlg::sendPixelData, upLoader, &Uploader::rePixelData);
@@ -36,8 +36,10 @@ void UploadDlg::on_fileDialogButton_clicked()
     ui->ImageFileLineEdit->setText(dir);
 }
 
+/*보내기 버튼 클릭 시 발생하는 함수*/
 void UploadDlg::on_sendButton_clicked()
 {
+    /*라인 에디트에 있는 텍스트 정보들을 각 변수에 저장*/
     imageName = ui->imageNameLineEdit->text();
     patientName = ui->patientNameLineEdit->text();
     pixelLength = ui->pixelLengthLineEdit->text();
@@ -46,11 +48,13 @@ void UploadDlg::on_sendButton_clicked()
     imageFile = ui->ImageFileLineEdit->text();
 
 
+    /*해당 데이터가 공백인 경우 데이터를 보내지 않음(전송 무시)*/
     if(imageName.isEmpty() && patientName.isEmpty() && pixelLength.isEmpty()
             && imageKind.isEmpty() && photoDate.isEmpty() && imageFile.isEmpty()) {
         return;
     }
     else {
+        /*Uploader class에 보내는 신호*/
         emit sendImageName(imageName);
         emit sendPatientName(patientName);
         emit sendPixelData(pixelLength);
@@ -58,9 +62,12 @@ void UploadDlg::on_sendButton_clicked()
         emit sendPhotoDate(photoDate);
         emit sendImageFile(imageFile);
 
+        /*Uploder class의 uploadImage 클래스를 통해서 Url탐색*/
         upLoader->uploadImage(ui->ImageFileLineEdit->text(),
                               "http://" + hostName + ":" + portNum + "/api/image/store",
                               "ImageFile");
+
+        /*전송완료 시 라인에디트 데이터 클리어*/
         ui->imageNameLineEdit->clear();
         ui->patientNameLineEdit->clear();
         ui->pixelLengthLineEdit->clear();
@@ -68,5 +75,5 @@ void UploadDlg::on_sendButton_clicked()
         ui->photoDateLineEdit->clear();
         ui->ImageFileLineEdit->clear();
     }
-    close();
+    close(); // 보내기 완료 후 다이얼로그 창 닫음
 }

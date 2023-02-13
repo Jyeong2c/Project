@@ -8,18 +8,20 @@
 #include <QEventLoop>
 #include <QAbstractTableModel>
 
-//Qt에서 제공하는 클래스
+
 class QTableWidgetItem;
+/*네트워크에 접근하기 위해 Qt에서 제공하는 클래스*/
 class QNetworkAccessManager;
 class QNetworkReply;
 class QNetworkRequire;
 class QNetworkReply;
 
-//추가해야되는 사용자 클래스
+/*추가해야되는 클래스*/
 class PatientModel;
 class PatitentView;
 class UploadDlg;
 class DeleteImage;
+class BlendingDlg;
 ///////////////////
 
 class Layout;
@@ -27,8 +29,6 @@ class FMX;
 
 class QListWidgetItem;
 class QGraphicsView;
-
-
 class QSqlQuery;
 class QSqlTableModel;
 class QGraphicsPixmapItem;
@@ -38,9 +38,6 @@ class LoginForm;
 class KeyFeaturesForm;
 class Menuitem;
 class TeethForm;
-class BlendingDlg;
-
-
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -53,10 +50,9 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-
     void styleColor();                  // ui 색상 조절
     void loadImages();                  // 이미지 로드
-    void PatientTableLoad();            // 재현
+    void PatientTableLoad();            // 재현 : 환지 테이블 로드 함수
 
     bool d = false;
 
@@ -67,8 +63,6 @@ public slots:
     void slot_doctorInfo(QString DoctorID);
 
     void slot_doubleSize();            // 최대창 화면에 맞게 scene의 크기를 조절해주는 슬롯
-
-
 
 
 
@@ -123,14 +117,15 @@ private slots:
 
 /* JAE HYEON */
 //---------------------------------------------------------------------
-    void receiveUpload();
-    void on_rulerToolButton_clicked();
-    void on_protractorToolButton_clicked();
-    void on_blendingPushButton_clicked();
-    void on_patientTableView_clicked(const QModelIndex &index);
-    void on_uploadButton_clicked();
-    void on_listWidget_doubleClicked(const QModelIndex &index);
+    void receiveDownload();                   // 다운로드 완료 시 시그널을 받는 슬롯 함수
+    void on_rulerToolButton_clicked();          // 길이 측정 버튼 함수
+    void on_protractorToolButton_clicked();     // 각도 측정 버튼 함수
+    void on_blendingPushButton_clicked();       // 블렌딩 다이얼로그 호출 함수
+    void on_patientTableView_clicked(const QModelIndex &index); // 환자 테이블 클릭시 발생하는 이벤트 함수
+    void on_uploadButton_clicked();             // 클라이언트에서 처리한 이미지를 서버로 업로드 하는 함수
+    void on_listWidget_doubleClicked(const QModelIndex &index); // 리스트 위젯의 이미지를 더블 클릭시 삭제하는 함수(좌/우 클릭 모두 가능)
 
+    /*각도, 길이 측정 결과를 받아오는 함수*/
     void reLengthMeasure(double length);
     void reAngleMeasure(double angle);
 //---------------------------------------------------------------------
@@ -198,18 +193,18 @@ private:
 //---------------------------------------------
 
     /* JAE HY */
-    //클래스 합류
-    PatientModel *patientModel;
-    PatitentView *patView;
-    UploadDlg *uploading;
-    BlendingDlg *blending;
-    DeleteImage *delImage;
-    //멤버변수
+    PatientModel *patientModel;     // 환자 테이블 모델 클래스
+    PatitentView *patView;          // 테이블 환자 클릭시 서버로부터 이미지를 다운로드하는 중계 클래스
+    UploadDlg *uploading;           // Upload 다이얼로그 클래스
+    BlendingDlg *blending;          // Blending 다이얼로그 클래스
+    DeleteImage *delImage;          // 서버의 이미지 정보와 이미지 파일을 삭제하는 클래스
+
+    /*환자 목록을 가져오기 위한 URL 접근 변수*/
     QNetworkAccessManager *manager;
     QNetworkReply *reply;
     QEventLoop eventLoop;
 
-    //접속할 URL IP와 PORT 번호
+    /*접속할 URL IP와 PORT 번호*/
     QString hostName = "192.168.0.12";
     QString portNum = "40000";
 

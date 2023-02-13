@@ -54,11 +54,11 @@ BlendingDlg::~BlendingDlg()
 /*선택된 이미지를 받는 setImage1,2 함수*/
 void BlendingDlg::setImage1(const QString& _image1)
 {
-    image1 = imread(QString("./Images/%1").arg(_image1).toStdString(), IMREAD_COLOR);
+    image1 = imread(QString("./Images/%1").arg(_image1).toStdString(), IMREAD_COLOR);       // ./Image/ 내부의 이미지 파일 읽기
 }
 void BlendingDlg::setImage2(const QString& _image2)
 {
-    image2 = imread(QString("./Images/%1").arg(_image2).toStdString(), IMREAD_COLOR);
+    image2 = imread(QString("./Images/%1").arg(_image2).toStdString(), IMREAD_COLOR);       // ./Image/ 내부의 이미지 파일 읽기
 }
 
 /*listWidget의 이미지를 출력하기 위한 로드 함수*/
@@ -109,10 +109,8 @@ void BlendingDlg::resizeEvent(QResizeEvent *e)
     /*해당 Scene의 아이템을 가져와서 pixItem변수에 QGraphicsPixmapItem을 동적 할당*/
     foreach(auto item, sceneImage->items()) {
         QGraphicsPixmapItem* pixItem = dynamic_cast<QGraphicsPixmapItem*>(item);
-        /*pixItem의 setPixmap함수를 사용하여 result.png를 itemSize만큼 scaling, 옵션은 Qt::IgnoreAspecRatio*/
-        pixItem->setPixmap(pix.scaled(itemSize, Qt::IgnoreAspectRatio));
-        /*sceneImage의 바운딩 직선을 반환함 */
-        sceneImage->setSceneRect(pixItem->sceneBoundingRect());
+        pixItem->setPixmap(pix.scaled(itemSize, Qt::IgnoreAspectRatio));    // pixItem의 setPixmap함수를 사용하여 result.png를 itemSize만큼 scaling, 옵션은 Qt::IgnoreAspecRatio
+        sceneImage->setSceneRect(pixItem->sceneBoundingRect());         // sceneImage의 바운딩 직선을 반환함
     }
 
     QDialog::resizeEvent(e);
@@ -128,17 +126,12 @@ void BlendingDlg::onBlending(int value)
         return;
     }
 
-    /*image1, image2의 이미지 유무 판단*/
-    CV_Assert(!(image1.empty() || image2.empty()));
-
-    /*슬라이더의 범위*/
-    ui->alphaSlider->setRange(0, 10);
-
-    /*슬라이더의 눈금을 11개의 표시하여 0부터 10까지 표시*/
-    ui->alphaSlider->setTickPosition(QSlider::TicksAbove);
+    CV_Assert(!(image1.empty() || image2.empty()));         // image1, image2의 이미지 유무 판단
+    ui->alphaSlider->setRange(0, 10);                       // 슬라이더의 범위
+    ui->alphaSlider->setTickPosition(QSlider::TicksAbove);  // 슬라이더의 눈금을 11개의 표시하여 0부터 10까지 표시
 
     /*blending 결과 이미지 Mat 생성*/
-    Mat result;
+    Mat result;         // 결과 이미지 변수 선언
 
     /*읽어온 이미지의 크기를 변경하는 이미지 생성(resize함수 내에서는 INTER_LAYER가 있음.)*/
     cv::resize(image1, reImage1, Size(ui->pixelDataGraphics->width() - 5, ui->pixelDataGraphics->height() - 5));

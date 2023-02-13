@@ -653,52 +653,37 @@ void Scene::reThirdAnglePoint(int _x, int _y)
     trdPosX = _x, trdPosY = _y;
 }
 
-
+/*길이 측정 아이템 선택시 아이템 상태 설정*/
 void Scene::addLengthItem(QPointF stPos, QPointF edPos)
 {
-    QLineF line(stPos,edPos);
-    QGraphicsLineItem *lengthItem = new QGraphicsLineItem(line);
-    lengthItem->setPen(QPen(m_currentColor, paintSize));
+    QLineF line(stPos,edPos);                                           // 설정된 시작 지점과 끝지점에 line 변수 선언
+    QGraphicsLineItem *lengthItem = new QGraphicsLineItem(line);        // QGraphicsLineItem 할당
+    lengthItem->setPen(QPen(Qt::green, paintSize));         // 초기 길이 측정 색상은 초록색으로 설정
+    addItem(lengthItem);                                    // Scene 상의 아이템 추가
 
-    lengthItem->setFlags(QGraphicsItem::ItemIsSelectable);
-
-    addItem(lengthItem);
-
-    m_allitems.append(lengthItem);
+    m_allitems.append(lengthItem);          // 전체 아이템 리스트에 추가
 }
 
+/*각도 측정 아이템 선택시 아이템 상태 설정*/
 void Scene::addAngleItem(QPointF stPos,QPointF mdPos, QPointF edPos)
 {
     QPolygonF polygon1;
-    polygon1 << QPointF(stPos) << QPointF(mdPos);
+    polygon1 << QPointF(stPos) << QPointF(mdPos);         // 첫 번째 선분(polygon) 좌표 할당
     QPolygonF polygon2;
-    polygon2 << QPointF(mdPos) << QPointF(edPos);
+    polygon2 << QPointF(mdPos) << QPointF(edPos);         // 두 번째 선분(polygon) 좌표 할당
 
+    /*할당된 선분들을 추가*/
     QPainterPath polyLineItem;
     polyLineItem.addPolygon(polygon1);
     polyLineItem.addPolygon(polygon2);
 
-    QGraphicsPathItem *polyLine = new QGraphicsPathItem(polyLineItem);
-    polyLine->setPen(QPen(polyLine->isSelected()?Qt::red:m_currentColor, polyLine->isSelected()?1:paintSize));
+    QGraphicsPathItem *polyLine = new QGraphicsPathItem(polyLineItem); // 폴리곤 아이템 객체 할당
+    polyLine->setPen(QPen(Qt::blue, paintSize));         // 초기 각도 측정 색상은 파란색으로 설정
 
-    addItem(polyLine);
-    m_allitems.append(polyLine);
+    addItem(polyLine);                      // 각도 측정 추가
+    m_allitems.append(polyLine);            // 전체 아이템 리스트에 추가
 }
 //----------------------------------------------------------------------------
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 /* Top Left Teeth */

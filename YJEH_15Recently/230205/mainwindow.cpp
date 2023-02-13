@@ -93,7 +93,7 @@ MainWindow::MainWindow(QWidget *parent)
 
      //재현
 
-    //manager 변수 new 할당
+    /*네트워크 접근을 위한 manager 변수 new 할당 eventLoop로 서버 동기화*/
     manager = new QNetworkAccessManager(this);
     connect(manager, SIGNAL(finished(QNetworkReply *)), &eventLoop, SLOT(quit()));
 
@@ -117,16 +117,11 @@ MainWindow::MainWindow(QWidget *parent)
     styleColor();                                   // ui 색상 조절 및 크기 조절 함수
     //loadImages();                                   // listWidget에 이미지 로드
 
-
     ui->listWidget->setIconSize(QSize(130, 80));
     ui->listWidget->setResizeMode(QListWidget::Adjust);
     ui->listWidget->setFlow(QListWidget::LeftToRight);
     ui->listWidget->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     ui->listWidget->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-
-
-
-
 
 
     /* 시그널 슬롯은 위치가 중요 동적할당(new)보다 밑에 있을 것 */
@@ -175,7 +170,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(customLayout->imageProcessingClearAction, SIGNAL(triggered()), SLOT(on_processingClearPushButton_clicked()));
 
     /* 재현 기능 */
-    connect(customLayout->blendingAction, SIGNAL(triggered()), SLOT(on_blendingPushButton_clicked()));
+    //connect(customLayout->blendingAction, SIGNAL(triggered()), SLOT(on_blendingPushButton_clicked()));
     connect(customLayout->lengthMeasurementAction, SIGNAL(triggered()), SLOT(on_rulerToolButton_clicked()));
     connect(customLayout->angleMeasurementAction, SIGNAL(triggered()), SLOT(on_protractorToolButton_clicked()));
 
@@ -1503,24 +1498,25 @@ void MainWindow::on_rotateDoubleSpinBox_valueChanged(double angle)
 
 /* JAE HY */
 //-------------------------------------------------------------------------
+/*길이 측정 버튼 함수*/
 void MainWindow::on_rulerToolButton_clicked()
 {
-    if(customLayout->g == true) {
-        customLayout->m_currentScene->setCurrentShape(Scene::Length);
+    if(customLayout->g == true) {       // 선택된 grid가 있으면
+        customLayout->m_currentScene->setCurrentShape(Scene::Length);   // 길이 측정 모양 호출
     }
-    myMaxlayout->maxNewSc->setCurrentShape(Scene::Length);
+    myMaxlayout->maxNewSc->setCurrentShape(Scene::Length);              // 큰 화면일때도 길이 측정 모양 호출
 }
 
-
+/*각도 측정 버튼 함수*/
 void MainWindow::on_protractorToolButton_clicked()
 {
-    if(customLayout->g == true) {
-        customLayout->m_currentScene->setCurrentShape(Scene::Angle);
+    if(customLayout->g == true) {       // 선택된 grid가 있으면
+        customLayout->m_currentScene->setCurrentShape(Scene::Angle);    // 각도 측정 모양 호출
     }
-    myMaxlayout->maxNewSc->setCurrentShape(Scene::Angle);
+    myMaxlayout->maxNewSc->setCurrentShape(Scene::Angle);               // 큰 화면일때도 각도 측정 모양 호출
 }
 
-
+/*블랜딩 버튼 클릭시 작동하는 함수*/
 void MainWindow::on_blendingPushButton_clicked()
 {
     QDir dir("./Images/");
@@ -1544,38 +1540,38 @@ void MainWindow::on_blendingPushButton_clicked()
             blending = new BlendingDlg(this);
             blending->exec();
         } else {
-            /*호출하지 않음*/
-            return;
+            return;         // 호출하지 않음
         }
     }
 }
 
-//환자 테이블 불러오기 함수
+/*환자 테이블 불러오기 함수*/
 void MainWindow::PatientTableLoad()
 {
-    //환자 데이터를 리스트화
+    /*환자 데이터를 리스트화*/
     QList<QString> contacName;
     QList<int> age;
     QList<QString> doctorID;
 
-    //환자 정보 Url 검색
+    /*환자 정보 Url 검색*/
     QNetworkRequest req( QUrl( QString("http://" + hostName + ":" + portNum + "/api/patient/") ) );
     reply = manager->get(req);
     eventLoop.exec( );           // "finished( )" 가 호출 될때까지 블록(동기화)
 
     //에러메시지가 없는 경우
     if (reply->error( ) == QNetworkReply::NoError) {
-        //해당 Url에 저장된 Json데이터를 읽은 후 response배열 내부의 jsonData Parsing
+        /*해당 Url에 저장된 Json데이터를 읽은 후 response배열 내부의 jsonData Parsing*/
         QString strReply = (QString)reply->readAll( );
         QJsonDocument jsonResponse = QJsonDocument::fromJson(strReply.toUtf8( ));
         QJsonArray jsonArr = jsonResponse["response"].toArray();
         for(int i = 0; i < jsonArr.size(); i++) {
             QJsonObject patientObj = jsonArr.at(i).toObject();    //jsonResponse.object();
-            QString ID = patientObj["_id"].toString();
-            QString Name = patientObj["Name"].toString();
-            int Age = patientObj["Age"].toInt();
-            QString DoctorID = patientObj["DoctorID"].toString();
+            QString ID = patientObj["_id"].toString();              // 환자 아이디 변수 선언
+            QString Name = patientObj["Name"].toString();           // 환자 성함 변수 선언
+            int Age = patientObj["Age"].toInt();                    // 환자 나이 변수 선언
+            QString DoctorID = patientObj["DoctorID"].toString();   // 환자의 담당의사 로그인 변수 선언
 
+            /*로그인 된 DoctorID에 해당하는 환자들만 테이블에 나열*/
             if(ui->doctorNameLineEdit->text() == DoctorID) {
                 contacName.append(Name);
                 age.append(Age);
@@ -1583,17 +1579,15 @@ void MainWindow::PatientTableLoad()
             }
         }
         delete reply;
-        //환자모델 데이터를 얻은 후 PatientModel 클래스에 환자데이터 삽입
+        /*환자모델 데이터를 얻은 후 PatientModel 클래스에 환자데이터 삽입*/
         patientModel = new PatientModel(this);
-        patientModel->patientData(contacName, age, doctorID);
-        ui->patientTableView->setModel(patientModel);
-        ui->patientTableView->horizontalHeader()->setVisible(true);
-        ui->patientTableView->show();
-        ui->patientTableView->horizontalHeader()->setStretchLastSection(true);
+        patientModel->patientData(contacName, age, doctorID);       // 환자의 모델 데이터 입력
+        ui->patientTableView->setModel(patientModel);               // patientModel 설정
+        ui->patientTableView->show();                               // Model 출력
     }
 }
 
-
+/*환자 테이블 클릭시 발생하는 이벤트 함수*/
 void MainWindow::on_patientTableView_clicked(const QModelIndex &index)
 {
     //해당환자의 테이블을 클릭시 이미지 폴더의 png 파일들을 제거
@@ -1606,20 +1600,20 @@ void MainWindow::on_patientTableView_clicked(const QModelIndex &index)
         dir.remove(dirFile);
     }
 
-    //환자의 이름을 받는 변수 할당
-    QString patient = index.data().toString();
+    QString patient = index.data().toString();    // 환자의 이름을 받는 변수 할당
     patView = new PatitentView;
-    connect(patView, &PatitentView::middlePatient, this, &MainWindow::receiveUpload);
+    connect(patView, &PatitentView::middlePatient, this, &MainWindow::receiveDownload);
     //환자의 테이블을 나열하기위한 함수 호출 후 환자의 이름을 입력받으면 해당이름에 맞는 이미지 리스트 다운로드
     patView->patientView(hostName, portNum, patient);
 }
 
-void MainWindow::receiveUpload()
+/*다운로드 완료 시 시그널을 받는 슬롯 함수*/
+void MainWindow::receiveDownload()
 {
-    loadImages();
+    loadImages();       // listWidget의 이미지들을 나열
 }
 
-
+/*클라이언트에서 처리한 이미지를 서버로 업로드 하는 함수*/
 void MainWindow::on_uploadButton_clicked()
 {
     /*Yes/No 버튼을 누를 시 다이얼로그를 호출하는 버튼 변수 생성*/
@@ -1643,7 +1637,7 @@ void MainWindow::on_uploadButton_clicked()
     }
 }
 
-
+/*리스트 위젯의 이미지를 더블 클릭시 삭제하는 함수(좌/우 클릭 모두 가능)*/
 void MainWindow::on_listWidget_doubleClicked(const QModelIndex &index)
 {
     QDir dir("./Images/");
@@ -1651,7 +1645,7 @@ void MainWindow::on_listWidget_doubleClicked(const QModelIndex &index)
     filters << "*.png" << "*.jpg" << "*.bmp";
     /*파일정보 리스트에 png, jpg, bmp파일들만 리스트정보에 넣어둠*/
     QFileInfoList fileInfoList = dir.entryInfoList(filters, QDir::Files | QDir::NoDotAndDotDot);
-    /*png 파일을 baseName으로 */
+    /*png 파일을 fileName으로 */
     QString fileName = fileInfoList.at(index.row()).fileName(); //*.png
     /*Yes/No 버튼을 누를 시 다이얼로그를 호출하는 버튼 변수 생성*/
     QMessageBox::StandardButton buttonReply;
@@ -1667,20 +1661,19 @@ void MainWindow::on_listWidget_doubleClicked(const QModelIndex &index)
         delImage->deleteImage(hostName, portNum, fileName);
         loadImages();
     } else {
-        /*호출하지 않음*/
-        return;
+        return;      // 호출하지 않음
     }
 }
 
+/*길이 측정 버튼 함수*/
 void MainWindow::reLengthMeasure(double length)
 {
-    qDebug() << "re leng : " << length;
-    ui->rulerLineEdit->setText(QString::number(length));
+    ui->rulerLineEdit->setText(QString::number(length) + " mm");  // Scene으로 부터 측정된 결과값을 라인에디트에 출력
 }
-
+/*각도 측정 버튼 함수*/
 void MainWindow::reAngleMeasure(double angle)
 {
-    ui->angleLineEdit->setText(QString::number(angle));
+    ui->angleLineEdit->setText(QString::number(angle) + " º"); // Scene으로 부터 측정된 결과값을 라인에디트에 출력
 }
 
 

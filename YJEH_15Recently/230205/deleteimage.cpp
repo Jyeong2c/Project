@@ -67,15 +67,14 @@ void DeleteImage::deleteImage(QString _hostName, QString _portNum, QString _file
                 QJsonDocument doc(obj); // 설정된 아이디 변수를 doc 변수에 초기화
                 QByteArray data = doc.toJson();
 
-                /*받은 데이터를 post하여 reply*/
-                delImgInfoRep = delImgInfoMgr->post(request, data);
-                connect(delImgInfoRep, &QNetworkReply::finished, [=]() { // 람다식
-                    if(delImgInfoRep->error() == QNetworkReply::NoError) {
-                        QByteArray ba=delImgInfoRep->readAll();
-                        QString contents = QString::fromUtf8(ba);
+                delImgInfoRep = delImgInfoMgr->post(request, data);     // 받은 데이터를 post하여 reply
+                /*Post가 전달되는 동안 delImgInfoRep의 데이터 전송 원활화*/
+                connect(delImgInfoRep, &QNetworkReply::finished, [=]() {
+                    if(delImgInfoRep->error() == QNetworkReply::NoError) {      // 에러가 없는 경우
+                        // 이미지 정보 삭제 완료
                     }
                     else {
-                        //QString err = reply->errorString();
+                        // 이미지 정보 삭제간 오류 발생
                     }
                     delete delImgInfoRep;
                 });
@@ -87,7 +86,7 @@ void DeleteImage::deleteImage(QString _hostName, QString _portNum, QString _file
                 eventImgLoop.exec();
 
                 if(delImgFileRep->error() == QNetworkReply::NoError){
-                    qDebug() << "Image Delete complete";
+                    // 이미지 파일 삭제 완료
                 }
                 delete delImgFileRep;
             }

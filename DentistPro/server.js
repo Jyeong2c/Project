@@ -26,7 +26,7 @@ app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({extended : true}));
 app.use(bodyParser.json());
 /*Access server image file*/
-app.use('/uploads', express.static('uploads'));   // http://192.168.0.12:40000/uploads/1675489038845.png
+app.use('/uploads', express.static('uploads'));   // http://<IP Address>:<Port Number>/uploads/1675489038845.png
 const PORT = process.env.PORT || 40000;   // 포트 번호 40000 설정
 
 /*MongoDB 에서 설정한 Network Access와 node.js 설정한 포트로 네트워크 환경 구축*/
