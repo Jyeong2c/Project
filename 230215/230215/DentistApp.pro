@@ -81,7 +81,8 @@ RESOURCES += \
     INCLUDEPATH += C:/opencv/build/include
 
 DISTFILES += \
-    model.qmodel
+    model.qmodel \
+    test.qmodel
 
 #RESOURCES += \
 #    Image.qrc

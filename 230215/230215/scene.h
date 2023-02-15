@@ -7,9 +7,6 @@
 class TeethForm;
 class QMouseEvent;
 
-
-
-
 class Scene : public QGraphicsScene
 {
     Q_OBJECT
