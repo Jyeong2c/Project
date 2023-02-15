@@ -40,11 +40,11 @@ const show = (req, res) => {
 const store = (req, res) => {
     /*이미지 스키마를 빌려 해당 이미지 정보를 입력하는 변수 할당*/
     let image = new Image({         
-        ImageName: req.body.ImageName,
-        PatientName: req.body.PatientName,
-        PixelLength: req.body.PixelLength,
-        ImageKinds: req.body.ImageKinds,
-        PhotoDate: req.body.PhotoDate,
+        ImageName: req.body.ImageName,          // 이미지 이름 변수 할당 
+        PatientName: req.body.PatientName,      // 환자 성함 변수 할당
+        PixelLength: req.body.PixelLength,      // 픽셀 당 길이 변수 할당
+        ImageKinds: req.body.ImageKinds,        // 이미지 종류 변수 할당
+        PhotoDate: req.body.PhotoDate,          // 이미지 날짜 정보 변수 할당
     })
     /*이미지 파일을 저장할 시 해당 파일 경로를 서버에 저장*/
     if (req.file) {
@@ -70,7 +70,7 @@ const update = (req, res) => {
     let ImageID = req.body.ImageID      // 수정할 이미지 아이디 변수 할당
     /*updateData 배열 함수 내부의 수정할 데이터를 할당*/
     let updateData = {
-        ImageName: req.body.ImageName,
+        ImageName: req.body.ImageName,              
         PatientName: req.body.PatientName,
         PixelLength: req.body.PixelLength,
         ImageKinds: req.body.ImageKinds,

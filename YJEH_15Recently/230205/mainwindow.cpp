@@ -17,7 +17,8 @@
 #include <opencv2/opencv.hpp>
 using namespace cv;
 
-
+#include <QtTest/QtTest>
+#include <QTest>
 #include <QSplitter>
 #include <QListWidget>
 #include <QDir>
@@ -45,6 +46,7 @@ using namespace cv;
 #include <QFile>
 #include <QDir>
 #include <QTableWidgetItem>
+#include <QImageReader>
 
 //Json에 Parsing과 관련된 헤더
 #include <QJsonDocument>
@@ -170,7 +172,6 @@ MainWindow::MainWindow(QWidget *parent)
     connect(customLayout->imageProcessingClearAction, SIGNAL(triggered()), SLOT(on_processingClearPushButton_clicked()));
 
     /* 재현 기능 */
-    //connect(customLayout->blendingAction, SIGNAL(triggered()), SLOT(on_blendingPushButton_clicked()));
     connect(customLayout->lengthMeasurementAction, SIGNAL(triggered()), SLOT(on_rulerToolButton_clicked()));
     connect(customLayout->angleMeasurementAction, SIGNAL(triggered()), SLOT(on_protractorToolButton_clicked()));
 
@@ -390,33 +391,42 @@ MainWindow::MainWindow(QWidget *parent)
 //----------------------------------------------------------
     connect(customLayout->scene1, &Scene::sendLengthMeasure, this, &MainWindow::reLengthMeasure);
     connect(customLayout->scene1, &Scene::sendAngleMeasure, this, &MainWindow::reAngleMeasure);
+    connect(this, &MainWindow::sendImageWHP, customLayout->scene1, &Scene::reImageWHP);
 
     connect(customLayout->scene2, &Scene::sendLengthMeasure, this, &MainWindow::reLengthMeasure);
     connect(customLayout->scene2, &Scene::sendAngleMeasure, this, &MainWindow::reAngleMeasure);
+    connect(this, &MainWindow::sendImageWHP, customLayout->scene2, &Scene::reImageWHP);
 
     connect(customLayout->scene3, &Scene::sendLengthMeasure, this, &MainWindow::reLengthMeasure);
     connect(customLayout->scene3, &Scene::sendAngleMeasure, this, &MainWindow::reAngleMeasure);
+    connect(this, &MainWindow::sendImageWHP, customLayout->scene3, &Scene::reImageWHP);
 
     connect(customLayout->scene4, &Scene::sendLengthMeasure, this, &MainWindow::reLengthMeasure);
     connect(customLayout->scene4, &Scene::sendAngleMeasure, this, &MainWindow::reAngleMeasure);
+    connect(this, &MainWindow::sendImageWHP, customLayout->scene4, &Scene::reImageWHP);
 
     connect(myMaxlayout->maxNewSc, &Scene::sendLengthMeasure, this, &MainWindow::reLengthMeasure);
     connect(myMaxlayout->maxNewSc, &Scene::sendAngleMeasure, this, &MainWindow::reAngleMeasure);
+    connect(this, &MainWindow::sendImageWHP, myMaxlayout->maxNewSc, &Scene::reImageWHP);
 
     ui->rulerLineEdit->setStyleSheet(sheetWhite);
     ui->angleLineEdit->setStyleSheet(sheetWhite);
 //----------------------------------------------------------
+
+    // TESTing
+    //QTest::qExec(patientModel);
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
     //재현
+    /*프로그램 종료시 해당 폴더의 이미지 삭제*/
     QString path = "./Images";
     QDir dir(path);
-    dir.setNameFilters(QStringList() << "*.png");
-    dir.setFilter(QDir::Files);
-    foreach(QString dirFile, dir.entryList()){
+    dir.setNameFilters(QStringList() << "*.png" << "*.jpg");    // png, jpg 파일 탐색
+    dir.setFilter(QDir::Files);                                 // 파일 형태의 필터
+    foreach(QString dirFile, dir.entryList()){                  // 해당 디렉토리 내의 파일 제거
         dir.remove(dirFile);
     }
 }
@@ -1591,18 +1601,18 @@ void MainWindow::PatientTableLoad()
 void MainWindow::on_patientTableView_clicked(const QModelIndex &index)
 {
     //해당환자의 테이블을 클릭시 이미지 폴더의 png 파일들을 제거
-    QString path = "./Images";
-    QDir dir(path);
-    dir.setNameFilters(QStringList() << "*.png");
-    dir.setFilter(QDir::Files);
+    QString path = "./Images";                                  // path 경로 탐색
+    QDir dir(path);                                             // dir 변수 초기화
+    dir.setNameFilters(QStringList() << "*.png" << "*.jpg");    // png 파일 리스트
+    dir.setFilter(QDir::Files);                                 // 파일 데이터 필터화
     foreach(QString dirFile, dir.entryList())
     {
-        dir.remove(dirFile);
+        dir.remove(dirFile);                                    // 디렉토리 내부의 파일 제거
     }
 
-    QString patient = index.data().toString();    // 환자의 이름을 받는 변수 할당
-    patView = new PatitentView;
-    connect(patView, &PatitentView::middlePatient, this, &MainWindow::receiveDownload);
+    QString patient = index.data().toString();                  // 환자의 이름을 받는 변수 할당
+    patView = new PatitentView;                                 // 해당 환자의 이미지 다운로드
+    connect(patView, &PatitentView::middlePatient, this, &MainWindow::receiveDownload);     // 중계 연결
     //환자의 테이블을 나열하기위한 함수 호출 후 환자의 이름을 입력받으면 해당이름에 맞는 이미지 리스트 다운로드
     patView->patientView(hostName, portNum, patient);
 }
@@ -1650,7 +1660,7 @@ void MainWindow::on_listWidget_doubleClicked(const QModelIndex &index)
     /*Yes/No 버튼을 누를 시 다이얼로그를 호출하는 버튼 변수 생성*/
     QMessageBox::StandardButton buttonReply;
 
-    /*Blending Dialog를 띄울 사항이 있냐는 메세지 박스를 출력*/
+    /*이미지를 삭제한다는 의항이 있냐는 메세지 박스를 출력*/
     buttonReply = QMessageBox::question(this, "question", "Are you Delete this image?",
                                         QMessageBox::Yes | QMessageBox::No);
 
@@ -1676,4 +1686,49 @@ void MainWindow::reAngleMeasure(double angle)
     ui->angleLineEdit->setText(QString::number(angle) + " º"); // Scene으로 부터 측정된 결과값을 라인에디트에 출력
 }
 
+
+/*이미지 클릭시 해당 이미지의 픽셀 및 폭, 넓이 값 전달*/
+void MainWindow::on_listWidget_clicked(const QModelIndex &index)
+{
+    QDir dir("./Images/");
+    QStringList filters;
+    filters << "*.png" << "*.jpg" << "*.bmp";
+    /*파일정보 리스트에 png, jpg, bmp파일들만 리스트정보에 넣어둠*/
+    QFileInfoList fileInfoList = dir.entryInfoList(filters, QDir::Files | QDir::NoDotAndDotDot);
+    /*png 파일을 baseName으로 */
+    QString fileName = fileInfoList.at(index.row()).fileName(); //*.png
+
+    /*Url 탐색후 해당 이미지의 픽셀당 길이 정보를 추출*/
+    QEventLoop eventLoop;
+    QNetworkAccessManager manager;
+    QNetworkRequest req( QUrl( QString("http://" + hostName + ":" + portNum + "/api/image/") ) );
+    QNetworkReply *reply = manager.get(req);
+    connect(&manager, SIGNAL(finished(QNetworkReply *)), &eventLoop, SLOT(quit()));
+    eventLoop.exec( );           // "finished( )" 가 호출 될때까지 블록(동기화)
+
+    /*해당 폴더에 저장된 이미지의 사이즈를 출력*/
+    QImageReader reader("./Images/"+fileName);      // 이미지파일 포함 경로 변수
+    QSize sizeOfImage = reader.size();              // 이미지의 크기
+    int height = sizeOfImage.height();              // 이미지 크기 중 height 값 추출
+    int width = sizeOfImage.width();                // 이미지 크기 중 width 값 추출
+    if (reply->error( ) == QNetworkReply::NoError) {
+        QString strReply = (QString)reply->readAll( );  // 전체 이미지 데이터 읽기
+
+        QJsonDocument jsonResponse =
+                QJsonDocument::fromJson(strReply.toUtf8( ));        // Json 데이터 포멧
+
+        QJsonArray jsonArr = jsonResponse["response"].toArray();    // response Array 내부의 JsonData Parsing
+        for(int i = 0; i < jsonArr.size(); i++) {
+            QJsonObject patientObj = jsonArr.at(i).toObject();      // jsonResponse.object();
+            QString ImageFile = patientObj["ImageFile"].toString(); // 이미지 파일 정보
+            double ImagePixel = patientObj["PixelLength"].toDouble(); // 이미지 픽셀 정보
+
+            QString csvString = ImageFile.section("\\", 1, 1);      // \\uploads/*.png => *.png로 파싱
+            if(fileName == csvString){                              // 해당 이미지를 찾은 경우
+                emit sendImageWHP(width, height, ImagePixel);       // 이미지 정보 전송
+            }
+        }
+        delete reply;
+    }
+}
 

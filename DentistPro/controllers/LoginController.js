@@ -39,9 +39,9 @@ const show = (req, res) => {
 const store = (req, res) => {
     /*로그인 스키마를 빌려 해당 로그인 정보를 입력하는 변수 할당*/
     let login = new Login({
-        DoctorID : req.body.DoctorID,
-        DoctorName : req.body.DoctorName,
-        Password : req.body.Password
+        DoctorID : req.body.DoctorID,               // 프로그램 로그인 아이디 변수 할당
+        DoctorName : req.body.DoctorName,           // 의사 성함 변수 할당
+        Password : req.body.Password                // 프로그램 로그인 비밀번호 변수 할당
     })
     login.save()        // 입력한 로그인 정보 변수들을 저장하는 함수
     /*저장 완료시 성공 메세지 출력*/

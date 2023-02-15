@@ -39,9 +39,9 @@ const show = (req, res) => {
 const store = (req, res) => {
     /*환자 스키마를 빌려 해당 데이터를 입력하는 변수 할당*/
     let patient = new Patient({
-        Name : req.body.Name,
-        Age : req.body.Age,
-        DoctorID : req.body.DoctorID
+        Name : req.body.Name,                       // 환자 성함 변수 할당
+        Age : req.body.Age,                         // 환자 나이 변수 할당
+        DoctorID : req.body.DoctorID                // 담당의사 로그인 아이디
     })
     patient.save()      // 입력을 다하면 저장하는 함수
     /*저장 성공시 성공 여부 메세지 출력*/
