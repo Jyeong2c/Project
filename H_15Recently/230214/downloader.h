@@ -23,7 +23,6 @@ public:
 private slots:
     void onDownloadProgress(qint64, qint64);  // 프로그래스 정보를 받는 함수
     void onFinished(QNetworkReply *);          // 이미지의 다운로드가 마침을 알리는 함수
-    void onReadyRead();              // 다운받는 이미지를 대기하다가 완료되면 받는 함수
     void onReplyFinished();          // reply의 역할이 종료시 알리는 함수
 
 signals:

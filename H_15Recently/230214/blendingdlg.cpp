@@ -1,12 +1,15 @@
 #include "blendingdlg.h"
 #include "ui_blendingdlg.h"
 
+#define QT_IMPLICIT_QFILEINFO_CONSTRUCTION
+
 #include <QDir>
 #include <QFile>
 #include <QPixmap>
 #include <QMessageBox>
 #include <opencv2/opencv.hpp>
 #include <QFileDialog>
+#include <QFileInfo>
 #include <QFile>
 #include <QGraphicsPixmapItem>
 #include <QGraphicsItem>
@@ -47,8 +50,8 @@ BlendingDlg::BlendingDlg(QWidget *parent) :
 BlendingDlg::~BlendingDlg()
 {
     delete ui;
-    delete sceneImage;
-    delete image;
+    //delete sceneImage;
+    //delete image;
 }
 
 

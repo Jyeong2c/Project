@@ -57,7 +57,10 @@ void Downloader::setFile(QString fileURL)
             this, SLOT(onDownloadProgress(qint64,qint64)));                 // Qt의 downloadProgress signal 연결
     connect(manager, SIGNAL(finished(QNetworkReply*)),
             this, SLOT(onFinished(QNetworkReply*)));                        // Qt의 NetworkReply signal 연결
-    connect(reply, SIGNAL(readyRead()), this, SLOT(onReadyRead()));         // Qt의 readyRead signal 연결
+    connect(reply, &QNetworkReply::readyRead, [=]{          // 람다식
+        file->write(reply->readAll());                      // 파일 읽기
+    });
+    //connect(reply, SIGNAL(readyRead()), this, SLOT(onReadyRead()));         // Qt의 readyRead signal 연결
     connect(reply, SIGNAL(finished()), this, SLOT(onReplyFinished()));      // Qt의 finished signal 연결
 }
 
@@ -85,17 +88,6 @@ void Downloader::onFinished(QNetworkReply* reply)
     default:{
     };
     }
-}
-
-/*다운받는 이미지를 대기하다가 완료되면 받는 함수*/
-void Downloader::onReadyRead()
-{
-//    QNetworkRequest request;
-//    const QString address = "http://192.168.0.12:40000/api/image/";
-//    request.setUrl(address);
-//    reply = manager->get(request);      // url에 get으로 전달
-//    //reply = manager->get()
-    file->write(reply->readAll());      // 파일 읽기
 }
 
 /*reply의 역할이 종료시 알리는 함수*/

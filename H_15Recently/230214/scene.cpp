@@ -651,7 +651,7 @@ void Scene::reThirdAnglePoint(int _x, int _y)
 /*이미지의 width, height, pixel 정보를 얻고 할당된 변수에 저장*/
 void Scene::reImageWHP(int _width, int _height, double _pixels)
 {
-    qDebug() << "reImageWHP : " << _width << ", " << _height << ", " << _pixels;
+    /*한번 클릭했던 Scene의 이미지 정보만 받음*/
     imageWidth = _width, imageHeight = _height, imagePixel = _pixels;
 }
 
