@@ -3,8 +3,6 @@
 
 #include <QObject>
 #include <QEventLoop>
-//#include <QtTest/QtTest>
-//#include <QTest>
 
 /*환자 테이블 입력 시 이미지를 다운로드 할 클래스*/
 class Downloader;

@@ -50,8 +50,8 @@ BlendingDlg::BlendingDlg(QWidget *parent) :
 BlendingDlg::~BlendingDlg()
 {
     delete ui;
-    //delete sceneImage;
-    //delete image;
+    delete sceneImage;
+    delete image;
 }
 
 

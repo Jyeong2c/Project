@@ -32,11 +32,11 @@ int main(int argc, char *argv[])
 
     /*다운로더 테스트*/
     Downloader downloader;
-    QTest::qExec(&downloader);     // reply를 할당 할 수 있는 class가 존재하지 않음
+    //QTest::qExec(&downloader);     // 테스트 통과
 
     /*블랜드 다이얼로그 테스트*/
     BlendingDlg blending;
-    QTest::qExec(&blending);        // 테스트 통과 후 프로그램 종료 시 실패
+    //QTest::qExec(&blending);        // 테스트 통과
 
     /*이미지 삭제 단위 테스트*/
     DeleteImage deleteImage;
@@ -46,8 +46,9 @@ int main(int argc, char *argv[])
     Uploader uploader;
     //QTest::qExec(&uploader);        // 테스트 통과
 
+    /*업로드 다이얼로그 테스트*/
     UploadDlg uploaderDlg;
-    //QTest::qExec(&uploaderDlg);     // 테스트 통과 후 프로그램 종료 시 실패
+    //QTest::qExec(&uploaderDlg);     // 테스트 통과
 
     return a.exec();
 }

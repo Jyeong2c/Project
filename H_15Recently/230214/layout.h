@@ -22,28 +22,17 @@ class Layout : public QWidget
 public:
     explicit Layout(QWidget *parent = nullptr);
 
-//    QGraphicsView *grid1;
-//    QGraphicsView *grid2;
-//    QGraphicsView *grid3;
-//    QGraphicsView *grid4;
-
     View *grid1;
     View *grid2;
     View *grid3;
     View *grid4;
 
-//    QGraphicsScene *scene1;
-//    QGraphicsScene *scene2;
-//    QGraphicsScene *scene3;
-//    QGraphicsScene *scene4;
 
     Scene *scene1;
     Scene *scene2;
     Scene *scene3;
     Scene *scene4;
 
-//    QGraphicsView *grid;
-//    QGraphicsScene *scene;
 
     View *m_currentView;
     Scene *m_currentScene;
@@ -173,7 +162,7 @@ private slots:
 
 
 signals:
-    void sig_widgetbyDClick();          // 더블클릭 최대창
+    void sig_widgetbyDClick();
 
 
     void sig_point(QPointF);
@@ -181,8 +170,6 @@ signals:
 
     void sig_teethPoint(QPointF);
 
-/* EUN JI */
-//------------------------------------------
     void sig_cursorChange();
 };
 

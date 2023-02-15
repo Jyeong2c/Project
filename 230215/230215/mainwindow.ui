@@ -1,0 +1,1823 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1248</width>
+    <height>902</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <property name="toolTip">
+   <string>Patient List</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true"/>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QVBoxLayout" name="verticalLayout_10">
+    <item>
+     <widget class="QSplitter" name="splitter4">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <widget class="QSplitter" name="splitter3">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <widget class="QSplitter" name="splitter">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <widget class="QWidget" name="layoutWidget">
+         <layout class="QVBoxLayout" name="verticalLayout_9">
+          <property name="leftMargin">
+           <number>3</number>
+          </property>
+          <property name="rightMargin">
+           <number>5</number>
+          </property>
+          <item>
+           <layout class="QVBoxLayout" name="verticalLayout_7">
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_15">
+              <item>
+               <spacer name="horizontalSpacer_11">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeType">
+                 <enum>QSizePolicy::Maximum</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>50</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="doctorNameLineEdit">
+                <property name="minimumSize">
+                 <size>
+                  <width>135</width>
+                  <height>30</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>135</width>
+                  <height>30</height>
+                 </size>
+                </property>
+                <property name="sizeIncrement">
+                 <size>
+                  <width>0</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="font">
+                 <font>
+                  <family>Tmon몬소리 Black</family>
+                  <pointsize>12</pointsize>
+                  <bold>true</bold>
+                 </font>
+                </property>
+                <property name="toolTip">
+                 <string>Doctor ID</string>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">QLineEdit {
+	background-color: rgb(135, 230, 252);
+	color: rgb(255, 255, 255);
+	border-radius:5px;
+}
+
+QLineEdit {border: 1.5px solid rgb(255, 255, 255)};</string>
+                </property>
+                <property name="text">
+                 <string>Doctor.</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+                <property name="readOnly">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <spacer name="horizontalSpacer_12">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeType">
+                 <enum>QSizePolicy::Maximum</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>60</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item>
+               <widget class="QPushButton" name="logoutPushButton">
+                <property name="minimumSize">
+                 <size>
+                  <width>70</width>
+                  <height>25</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>70</width>
+                  <height>25</height>
+                 </size>
+                </property>
+                <property name="font">
+                 <font>
+                  <family>고도 M</family>
+                  <pointsize>10</pointsize>
+                 </font>
+                </property>
+                <property name="toolTip">
+                 <string>Logout</string>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">QPushButton {
+	background-color: rgb(231, 230, 230);
+	color: rgb(0, 0, 0);
+	border-radius:5px;
+}
+
+QPushButton {border: 1px solid rgb(0, 0, 0)};</string>
+                </property>
+                <property name="text">
+                 <string>Logout</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <spacer name="horizontalSpacer_2">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeType">
+                 <enum>QSizePolicy::Maximum</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>50</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <spacer name="verticalSpacer_4">
+              <property name="orientation">
+               <enum>Qt::Vertical</enum>
+              </property>
+              <property name="sizeType">
+               <enum>QSizePolicy::Fixed</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>20</width>
+                <height>30</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <widget class="QTabWidget" name="TabWidget">
+            <property name="font">
+             <font>
+              <family>고도 M</family>
+              <pointsize>9</pointsize>
+              <bold>false</bold>
+             </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QTabWidget {
+	color: rgb(255, 255, 255);
+	border-radius:7px;
+}</string>
+            </property>
+            <property name="currentIndex">
+             <number>1</number>
+            </property>
+            <widget class="QWidget" name="drawTab">
+             <property name="styleSheet">
+              <string notr="true">QWidget {
+	background-color: rgb(32, 56, 100);
+	border-radius:7px;
+}</string>
+             </property>
+             <attribute name="title">
+              <string>Draw</string>
+             </attribute>
+             <layout class="QVBoxLayout" name="verticalLayout_4">
+              <property name="leftMargin">
+               <number>7</number>
+              </property>
+              <property name="topMargin">
+               <number>15</number>
+              </property>
+              <property name="rightMargin">
+               <number>7</number>
+              </property>
+              <property name="bottomMargin">
+               <number>7</number>
+              </property>
+              <item>
+               <widget class="QGroupBox" name="drawGroupBox">
+                <property name="font">
+                 <font>
+                  <family>Tmon몬소리 Black</family>
+                  <pointsize>11</pointsize>
+                  <bold>true</bold>
+                 </font>
+                </property>
+                <property name="layoutDirection">
+                 <enum>Qt::LeftToRight</enum>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">QGroupBox {
+	color: rgb(153, 230, 252);
+	border-top: 1px dashed rgb(153, 230, 252);
+	padding-top: 15px;
+}
+
+QGroupBox::title {
+	subcontrol-origin: margin;
+	subcontrol-position: top left;
+	padding-right: 10px;
+}</string>
+                </property>
+                <property name="title">
+                 <string>Draw</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+                </property>
+                <layout class="QVBoxLayout" name="verticalLayout">
+                 <property name="leftMargin">
+                  <number>20</number>
+                 </property>
+                 <property name="topMargin">
+                  <number>15</number>
+                 </property>
+                 <property name="rightMargin">
+                  <number>9</number>
+                 </property>
+                 <property name="bottomMargin">
+                  <number>9</number>
+                 </property>
+                 <item>
+                  <layout class="QHBoxLayout" name="horizontalLayout_8">
+                   <property name="leftMargin">
+                    <number>0</number>
+                   </property>
+                   <item>
+                    <widget class="QToolButton" name="brushToolButton">
+                     <property name="minimumSize">
+                      <size>
+                       <width>40</width>
+                       <height>30</height>
+                      </size>
+                     </property>
+                     <property name="maximumSize">
+                      <size>
+                       <width>40</width>
+                       <height>30</height>
+                      </size>
+                     </property>
+                     <property name="toolTip">
+                      <string>Brush</string>
+                     </property>
+                     <property name="styleSheet">
+                      <string notr="true">QToolButton {
+	background-color: rgb(255, 255, 255);
+	border-radius:5px;
+}
+</string>
+                     </property>
+                     <property name="text">
+                      <string>Brush</string>
+                     </property>
+                     <property name="icon">
+                      <iconset resource="Image.qrc">
+                       <normaloff>:/iii/iii/brush4.png</normaloff>:/iii/iii/brush4.png</iconset>
+                     </property>
+                     <property name="iconSize">
+                      <size>
+                       <width>40</width>
+                       <height>30</height>
+                      </size>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QToolButton" name="shapeToolButton">
+                     <property name="minimumSize">
+                      <size>
+                       <width>40</width>
+                       <height>30</height>
+                      </size>
+                     </property>
+                     <property name="maximumSize">
+                      <size>
+                       <width>40</width>
+                       <height>30</height>
+                      </size>
+                     </property>
+                     <property name="toolTip">
+                      <string>Shape</string>
+                     </property>
+                     <property name="styleSheet">
+                      <string notr="true">QToolButton {
+	background-color: rgb(255, 255, 255);
+	border-radius:5px;
+}</string>
+                     </property>
+                     <property name="text">
+                      <string>도형</string>
+                     </property>
+                     <property name="icon">
+                      <iconset resource="Image.qrc">
+                       <normaloff>:/iii/iii/shape.png</normaloff>:/iii/iii/shape.png</iconset>
+                     </property>
+                     <property name="iconSize">
+                      <size>
+                       <width>35</width>
+                       <height>20</height>
+                      </size>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QToolButton" name="memoToolButton">
+                     <property name="minimumSize">
+                      <size>
+                       <width>40</width>
+                       <height>30</height>
+                      </size>
+                     </property>
+                     <property name="maximumSize">
+                      <size>
+                       <width>40</width>
+                       <height>30</height>
+                      </size>
+                     </property>
+                     <property name="toolTip">
+                      <string>Memo</string>
+                     </property>
+                     <property name="styleSheet">
+                      <string notr="true">QToolButton {
+	background-color: rgb(255, 255, 255);
+	border-radius:5px;
+}</string>
+                     </property>
+                     <property name="text">
+                      <string>메모</string>
+                     </property>
+                     <property name="icon">
+                      <iconset resource="Image.qrc">
+                       <normaloff>:/iii/iii/text.png</normaloff>:/iii/iii/text.png</iconset>
+                     </property>
+                     <property name="iconSize">
+                      <size>
+                       <width>30</width>
+                       <height>20</height>
+                      </size>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QToolButton" name="cursorToolButton">
+                     <property name="minimumSize">
+                      <size>
+                       <width>40</width>
+                       <height>30</height>
+                      </size>
+                     </property>
+                     <property name="maximumSize">
+                      <size>
+                       <width>40</width>
+                       <height>30</height>
+                      </size>
+                     </property>
+                     <property name="toolTip">
+                      <string>Cursor</string>
+                     </property>
+                     <property name="styleSheet">
+                      <string notr="true">QToolButton {
+	background-color: rgb(255, 255, 255);
+	border-radius:5px;
+}</string>
+                     </property>
+                     <property name="text">
+                      <string>커서</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item>
+               <widget class="QGroupBox" name="measureGroupBox_2">
+                <property name="font">
+                 <font>
+                  <family>Tmon몬소리 Black</family>
+                  <pointsize>11</pointsize>
+                  <bold>true</bold>
+                 </font>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">QGroupBox {
+	color: rgb(153, 230, 252);
+	border-top: 1px dashed rgb(153, 230, 252);
+	padding-top: 15px;
+}
+
+QGroupBox::title {
+	subcontrol-origin: margin;
+	subcontrol-position: top left;
+	padding-right: 10px;
+}
+
+</string>
+                </property>
+                <property name="title">
+                 <string>Measure</string>
+                </property>
+                <layout class="QVBoxLayout" name="verticalLayout_2">
+                 <property name="leftMargin">
+                  <number>20</number>
+                 </property>
+                 <property name="topMargin">
+                  <number>15</number>
+                 </property>
+                 <item>
+                  <layout class="QHBoxLayout" name="horizontalLayout_16">
+                   <item>
+                    <widget class="QToolButton" name="rulerToolButton">
+                     <property name="minimumSize">
+                      <size>
+                       <width>40</width>
+                       <height>40</height>
+                      </size>
+                     </property>
+                     <property name="maximumSize">
+                      <size>
+                       <width>40</width>
+                       <height>40</height>
+                      </size>
+                     </property>
+                     <property name="toolTip">
+                      <string>Length</string>
+                     </property>
+                     <property name="styleSheet">
+                      <string notr="true">QToolButton {
+	background-color: rgb(255, 255, 255);
+	border-radius:5px;
+}</string>
+                     </property>
+                     <property name="text">
+                      <string>길이
+측정</string>
+                     </property>
+                     <property name="icon">
+                      <iconset resource="Image.qrc">
+                       <normaloff>:/iii/iii/lengthico.png</normaloff>:/iii/iii/lengthico.png</iconset>
+                     </property>
+                     <property name="iconSize">
+                      <size>
+                       <width>30</width>
+                       <height>30</height>
+                      </size>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <spacer name="horizontalSpacer_6">
+                     <property name="orientation">
+                      <enum>Qt::Horizontal</enum>
+                     </property>
+                     <property name="sizeType">
+                      <enum>QSizePolicy::Fixed</enum>
+                     </property>
+                     <property name="sizeHint" stdset="0">
+                      <size>
+                       <width>10</width>
+                       <height>20</height>
+                      </size>
+                     </property>
+                    </spacer>
+                   </item>
+                   <item>
+                    <layout class="QVBoxLayout" name="verticalLayout_24">
+                     <item>
+                      <widget class="QLabel" name="lengthLabel">
+                       <property name="font">
+                        <font>
+                         <family>고도 B</family>
+                         <pointsize>10</pointsize>
+                        </font>
+                       </property>
+                       <property name="styleSheet">
+                        <string notr="true">QLabel {color: rgb(255, 255, 255)};
+</string>
+                       </property>
+                       <property name="text">
+                        <string>Length</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="QLineEdit" name="rulerLineEdit">
+                       <property name="minimumSize">
+                        <size>
+                         <width>135</width>
+                         <height>22</height>
+                        </size>
+                       </property>
+                       <property name="maximumSize">
+                        <size>
+                         <width>135</width>
+                         <height>22</height>
+                        </size>
+                       </property>
+                       <property name="styleSheet">
+                        <string notr="true">QLineEdit {
+	background-color: rgb(255, 255, 255);
+	border-radius:5px;
+}</string>
+                       </property>
+                      </widget>
+                     </item>
+                    </layout>
+                   </item>
+                  </layout>
+                 </item>
+                 <item>
+                  <layout class="QHBoxLayout" name="horizontalLayout_17">
+                   <item>
+                    <widget class="QToolButton" name="protractorToolButton">
+                     <property name="minimumSize">
+                      <size>
+                       <width>40</width>
+                       <height>40</height>
+                      </size>
+                     </property>
+                     <property name="maximumSize">
+                      <size>
+                       <width>40</width>
+                       <height>40</height>
+                      </size>
+                     </property>
+                     <property name="toolTip">
+                      <string>Angle</string>
+                     </property>
+                     <property name="styleSheet">
+                      <string notr="true">QToolButton {
+	background-color: rgb(255, 255, 255);
+	border-radius:5px;
+}</string>
+                     </property>
+                     <property name="text">
+                      <string>각도
+측정</string>
+                     </property>
+                     <property name="icon">
+                      <iconset resource="Image.qrc">
+                       <normaloff>:/iii/iii/angleico.png</normaloff>:/iii/iii/angleico.png</iconset>
+                     </property>
+                     <property name="iconSize">
+                      <size>
+                       <width>25</width>
+                       <height>30</height>
+                      </size>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <spacer name="horizontalSpacer_5">
+                     <property name="orientation">
+                      <enum>Qt::Horizontal</enum>
+                     </property>
+                     <property name="sizeType">
+                      <enum>QSizePolicy::Fixed</enum>
+                     </property>
+                     <property name="sizeHint" stdset="0">
+                      <size>
+                       <width>10</width>
+                       <height>20</height>
+                      </size>
+                     </property>
+                    </spacer>
+                   </item>
+                   <item>
+                    <layout class="QVBoxLayout" name="verticalLayout_25">
+                     <item>
+                      <widget class="QLabel" name="angleLabel">
+                       <property name="font">
+                        <font>
+                         <family>고도 B</family>
+                         <pointsize>10</pointsize>
+                        </font>
+                       </property>
+                       <property name="styleSheet">
+                        <string notr="true">QLabel {color: rgb(255, 255, 255)};
+</string>
+                       </property>
+                       <property name="text">
+                        <string>Angle</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="QLineEdit" name="angleLineEdit">
+                       <property name="minimumSize">
+                        <size>
+                         <width>135</width>
+                         <height>22</height>
+                        </size>
+                       </property>
+                       <property name="maximumSize">
+                        <size>
+                         <width>135</width>
+                         <height>22</height>
+                        </size>
+                       </property>
+                       <property name="styleSheet">
+                        <string notr="true">QLineEdit {
+	background-color: rgb(255, 255, 255);
+	border-radius:5px;
+}</string>
+                       </property>
+                      </widget>
+                     </item>
+                    </layout>
+                   </item>
+                  </layout>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item>
+               <widget class="QGroupBox" name="blendingGroupBox">
+                <property name="font">
+                 <font>
+                  <family>Tmon몬소리 Black</family>
+                  <pointsize>11</pointsize>
+                  <bold>true</bold>
+                 </font>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">QGroupBox {
+	color: rgb(153, 230, 252);
+	border-top: 1px dashed rgb(153, 230, 252);
+	padding-top: 15px;
+}
+
+QGroupBox::title {
+	subcontrol-origin: margin;
+	subcontrol-position: top left;
+	padding-right: 10px;
+}
+</string>
+                </property>
+                <property name="title">
+                 <string>Blending</string>
+                </property>
+                <layout class="QVBoxLayout" name="verticalLayout_33">
+                 <property name="leftMargin">
+                  <number>20</number>
+                 </property>
+                 <property name="topMargin">
+                  <number>15</number>
+                 </property>
+                 <item>
+                  <widget class="QPushButton" name="blendingPushButton">
+                   <property name="minimumSize">
+                    <size>
+                     <width>0</width>
+                     <height>25</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>16777215</width>
+                     <height>25</height>
+                    </size>
+                   </property>
+                   <property name="font">
+                    <font>
+                     <family>고도 M</family>
+                     <pointsize>10</pointsize>
+                    </font>
+                   </property>
+                   <property name="toolTip">
+                    <string>Blending</string>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">QPushButton {
+	background-color: rgb(255, 255, 255);
+	border-radius:5px;
+	border: 1.5px solid rgb(153, 230, 252);
+}
+</string>
+                   </property>
+                   <property name="text">
+                    <string> Blending</string>
+                   </property>
+                   <property name="icon">
+                    <iconset resource="Image.qrc">
+                     <normaloff>:/iii/iii/blendico.png</normaloff>:/iii/iii/blendico.png</iconset>
+                   </property>
+                   <property name="iconSize">
+                    <size>
+                     <width>20</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+            <widget class="QWidget" name="ImageProcessingTab">
+             <property name="styleSheet">
+              <string notr="true">QWidget {
+	background-color: rgb(32, 56, 100);
+	border-radius:7px;
+}</string>
+             </property>
+             <attribute name="title">
+              <string>Image Processing</string>
+             </attribute>
+             <layout class="QVBoxLayout" name="verticalLayout_26">
+              <property name="leftMargin">
+               <number>7</number>
+              </property>
+              <property name="topMargin">
+               <number>15</number>
+              </property>
+              <property name="rightMargin">
+               <number>7</number>
+              </property>
+              <property name="bottomMargin">
+               <number>7</number>
+              </property>
+              <item>
+               <layout class="QVBoxLayout" name="verticalLayout_28">
+                <item>
+                 <widget class="QGroupBox" name="imageProcessingGroupBox">
+                  <property name="font">
+                   <font>
+                    <family>Tmon몬소리 Black</family>
+                    <pointsize>11</pointsize>
+                    <bold>true</bold>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">QGroupBox {
+	color: rgb(153, 230, 252);
+	border-top: 1px dashed rgb(153, 230, 252);
+	padding-top: 15px;
+}
+
+QGroupBox::title {
+	subcontrol-origin: margin;
+	subcontrol-position: top left;
+	padding-right: 10px;
+}</string>
+                  </property>
+                  <property name="title">
+                   <string>Image Processing</string>
+                  </property>
+                  <layout class="QVBoxLayout" name="verticalLayout_29">
+                   <property name="leftMargin">
+                    <number>20</number>
+                   </property>
+                   <property name="topMargin">
+                    <number>15</number>
+                   </property>
+                   <item>
+                    <layout class="QVBoxLayout" name="verticalLayout_30">
+                     <item>
+                      <layout class="QGridLayout" name="gridLayout">
+                       <item row="0" column="0">
+                        <widget class="QToolButton" name="zoomInToolButton">
+                         <property name="minimumSize">
+                          <size>
+                           <width>40</width>
+                           <height>40</height>
+                          </size>
+                         </property>
+                         <property name="maximumSize">
+                          <size>
+                           <width>40</width>
+                           <height>40</height>
+                          </size>
+                         </property>
+                         <property name="toolTip">
+                          <string>Zoom In</string>
+                         </property>
+                         <property name="styleSheet">
+                          <string notr="true">QToolButton {
+	background-color: rgb(255, 255, 255);
+	border-radius:5px;
+}
+
+</string>
+                         </property>
+                         <property name="text">
+                          <string>확대</string>
+                         </property>
+                         <property name="icon">
+                          <iconset resource="Image.qrc">
+                           <normaloff>:/iii/iii/zoomIn.png</normaloff>:/iii/iii/zoomIn.png</iconset>
+                         </property>
+                         <property name="iconSize">
+                          <size>
+                           <width>30</width>
+                           <height>30</height>
+                          </size>
+                         </property>
+                        </widget>
+                       </item>
+                       <item row="0" column="1">
+                        <widget class="QToolButton" name="zoomOutToolButton">
+                         <property name="minimumSize">
+                          <size>
+                           <width>40</width>
+                           <height>40</height>
+                          </size>
+                         </property>
+                         <property name="maximumSize">
+                          <size>
+                           <width>40</width>
+                           <height>40</height>
+                          </size>
+                         </property>
+                         <property name="toolTip">
+                          <string>Zoom Out</string>
+                         </property>
+                         <property name="styleSheet">
+                          <string notr="true">QToolButton {
+	background-color: rgb(255, 255, 255);
+	border-radius:5px;
+}
+
+</string>
+                         </property>
+                         <property name="text">
+                          <string>축소</string>
+                         </property>
+                         <property name="icon">
+                          <iconset resource="Image.qrc">
+                           <normaloff>:/iii/iii/zoomOut.png</normaloff>:/iii/iii/zoomOut.png</iconset>
+                         </property>
+                         <property name="iconSize">
+                          <size>
+                           <width>30</width>
+                           <height>30</height>
+                          </size>
+                         </property>
+                        </widget>
+                       </item>
+                       <item row="0" column="2">
+                        <widget class="QToolButton" name="leftRotateToolButton">
+                         <property name="minimumSize">
+                          <size>
+                           <width>40</width>
+                           <height>40</height>
+                          </size>
+                         </property>
+                         <property name="maximumSize">
+                          <size>
+                           <width>40</width>
+                           <height>40</height>
+                          </size>
+                         </property>
+                         <property name="toolTip">
+                          <string>-90 Rotate</string>
+                         </property>
+                         <property name="styleSheet">
+                          <string notr="true">QToolButton {
+	background-color: rgb(255, 255, 255);
+	border-radius:5px;
+}
+</string>
+                         </property>
+                         <property name="text">
+                          <string>-90도
+회전</string>
+                         </property>
+                         <property name="icon">
+                          <iconset resource="Image.qrc">
+                           <normaloff>:/iii/iii/leftRotate.png</normaloff>:/iii/iii/leftRotate.png</iconset>
+                         </property>
+                         <property name="iconSize">
+                          <size>
+                           <width>35</width>
+                           <height>30</height>
+                          </size>
+                         </property>
+                        </widget>
+                       </item>
+                       <item row="0" column="3">
+                        <widget class="QToolButton" name="rightRotateToolButton">
+                         <property name="minimumSize">
+                          <size>
+                           <width>40</width>
+                           <height>40</height>
+                          </size>
+                         </property>
+                         <property name="maximumSize">
+                          <size>
+                           <width>40</width>
+                           <height>40</height>
+                          </size>
+                         </property>
+                         <property name="toolTip">
+                          <string>90 Rotate</string>
+                         </property>
+                         <property name="styleSheet">
+                          <string notr="true">QToolButton {
+	background-color: rgb(255, 255, 255);
+	border-radius:5px;
+}
+</string>
+                         </property>
+                         <property name="text">
+                          <string>90도
+회전</string>
+                         </property>
+                         <property name="icon">
+                          <iconset resource="Image.qrc">
+                           <normaloff>:/iii/iii/rightRotate.png</normaloff>:/iii/iii/rightRotate.png</iconset>
+                         </property>
+                         <property name="iconSize">
+                          <size>
+                           <width>35</width>
+                           <height>30</height>
+                          </size>
+                         </property>
+                        </widget>
+                       </item>
+                       <item row="1" column="0">
+                        <widget class="QToolButton" name="sharpenToolButton">
+                         <property name="minimumSize">
+                          <size>
+                           <width>40</width>
+                           <height>40</height>
+                          </size>
+                         </property>
+                         <property name="maximumSize">
+                          <size>
+                           <width>40</width>
+                           <height>40</height>
+                          </size>
+                         </property>
+                         <property name="toolTip">
+                          <string>Sharpen</string>
+                         </property>
+                         <property name="styleSheet">
+                          <string notr="true">QToolButton {
+	background-color: rgb(255, 255, 255);
+	border-radius:5px;
+}
+</string>
+                         </property>
+                         <property name="text">
+                          <string>선명화</string>
+                         </property>
+                         <property name="icon">
+                          <iconset resource="Image.qrc">
+                           <normaloff>:/iii/iii/sharpen.png</normaloff>:/iii/iii/sharpen.png</iconset>
+                         </property>
+                         <property name="iconSize">
+                          <size>
+                           <width>35</width>
+                           <height>30</height>
+                          </size>
+                         </property>
+                        </widget>
+                       </item>
+                       <item row="1" column="1">
+                        <widget class="QToolButton" name="inversionToolButton">
+                         <property name="minimumSize">
+                          <size>
+                           <width>40</width>
+                           <height>40</height>
+                          </size>
+                         </property>
+                         <property name="maximumSize">
+                          <size>
+                           <width>40</width>
+                           <height>40</height>
+                          </size>
+                         </property>
+                         <property name="toolTip">
+                          <string>Inversion</string>
+                         </property>
+                         <property name="styleSheet">
+                          <string notr="true">QToolButton {
+	background-color: rgb(255, 255, 255);
+	border-radius:5px;
+}
+
+</string>
+                         </property>
+                         <property name="text">
+                          <string>대비</string>
+                         </property>
+                         <property name="icon">
+                          <iconset resource="Image.qrc">
+                           <normaloff>:/iii/iii/inversion.png</normaloff>:/iii/iii/inversion.png</iconset>
+                         </property>
+                         <property name="iconSize">
+                          <size>
+                           <width>29</width>
+                           <height>30</height>
+                          </size>
+                         </property>
+                        </widget>
+                       </item>
+                       <item row="1" column="2">
+                        <widget class="QToolButton" name="horizontalFlipToolButton">
+                         <property name="minimumSize">
+                          <size>
+                           <width>40</width>
+                           <height>40</height>
+                          </size>
+                         </property>
+                         <property name="maximumSize">
+                          <size>
+                           <width>40</width>
+                           <height>40</height>
+                          </size>
+                         </property>
+                         <property name="toolTip">
+                          <string>Horizontal Flip</string>
+                         </property>
+                         <property name="styleSheet">
+                          <string notr="true">QToolButton {
+	background-color: rgb(255, 255, 255);
+	border-radius:5px;
+}
+</string>
+                         </property>
+                         <property name="text">
+                          <string>수평
+반전</string>
+                         </property>
+                         <property name="icon">
+                          <iconset resource="Image.qrc">
+                           <normaloff>:/iii/iii/hFlip.png</normaloff>:/iii/iii/hFlip.png</iconset>
+                         </property>
+                         <property name="iconSize">
+                          <size>
+                           <width>30</width>
+                           <height>30</height>
+                          </size>
+                         </property>
+                        </widget>
+                       </item>
+                       <item row="1" column="3">
+                        <widget class="QToolButton" name="verticalFlipToolButton">
+                         <property name="minimumSize">
+                          <size>
+                           <width>40</width>
+                           <height>40</height>
+                          </size>
+                         </property>
+                         <property name="maximumSize">
+                          <size>
+                           <width>40</width>
+                           <height>40</height>
+                          </size>
+                         </property>
+                         <property name="toolTip">
+                          <string>Vertical Flip</string>
+                         </property>
+                         <property name="styleSheet">
+                          <string notr="true">QToolButton {
+	background-color: rgb(255, 255, 255);
+	border-radius:5px;
+}
+</string>
+                         </property>
+                         <property name="text">
+                          <string>수직
+반전</string>
+                         </property>
+                         <property name="icon">
+                          <iconset resource="Image.qrc">
+                           <normaloff>:/iii/iii/vFlip.png</normaloff>:/iii/iii/vFlip.png</iconset>
+                         </property>
+                         <property name="iconSize">
+                          <size>
+                           <width>30</width>
+                           <height>30</height>
+                          </size>
+                         </property>
+                        </widget>
+                       </item>
+                      </layout>
+                     </item>
+                     <item>
+                      <spacer name="verticalSpacer_2">
+                       <property name="orientation">
+                        <enum>Qt::Vertical</enum>
+                       </property>
+                       <property name="sizeType">
+                        <enum>QSizePolicy::Maximum</enum>
+                       </property>
+                       <property name="sizeHint" stdset="0">
+                        <size>
+                         <width>20</width>
+                         <height>20</height>
+                        </size>
+                       </property>
+                      </spacer>
+                     </item>
+                     <item>
+                      <layout class="QHBoxLayout" name="horizontalLayout_18">
+                       <item>
+                        <widget class="QLabel" name="brightnessLabel">
+                         <property name="font">
+                          <font>
+                           <family>고도 B</family>
+                           <pointsize>10</pointsize>
+                          </font>
+                         </property>
+                         <property name="styleSheet">
+                          <string notr="true">QLabel {color: rgb(255, 255, 255)};
+</string>
+                         </property>
+                         <property name="text">
+                          <string>brightness</string>
+                         </property>
+                        </widget>
+                       </item>
+                       <item>
+                        <spacer name="horizontalSpacer_3">
+                         <property name="orientation">
+                          <enum>Qt::Horizontal</enum>
+                         </property>
+                         <property name="sizeType">
+                          <enum>QSizePolicy::Maximum</enum>
+                         </property>
+                         <property name="sizeHint" stdset="0">
+                          <size>
+                           <width>13</width>
+                           <height>20</height>
+                          </size>
+                         </property>
+                        </spacer>
+                       </item>
+                       <item>
+                        <widget class="QSlider" name="brightnessSlider">
+                         <property name="styleSheet">
+                          <string notr="true">QSlider {color: rgb(255, 255, 255)};
+</string>
+                         </property>
+                         <property name="orientation">
+                          <enum>Qt::Horizontal</enum>
+                         </property>
+                        </widget>
+                       </item>
+                      </layout>
+                     </item>
+                     <item>
+                      <layout class="QHBoxLayout" name="horizontalLayout_19">
+                       <item>
+                        <widget class="QLabel" name="contrastLabel">
+                         <property name="font">
+                          <font>
+                           <family>고도 B</family>
+                           <pointsize>10</pointsize>
+                          </font>
+                         </property>
+                         <property name="styleSheet">
+                          <string notr="true">QLabel {color: rgb(255, 255, 255)};
+</string>
+                         </property>
+                         <property name="text">
+                          <string>contrast</string>
+                         </property>
+                        </widget>
+                       </item>
+                       <item>
+                        <spacer name="horizontalSpacer_4">
+                         <property name="orientation">
+                          <enum>Qt::Horizontal</enum>
+                         </property>
+                         <property name="sizeType">
+                          <enum>QSizePolicy::Maximum</enum>
+                         </property>
+                         <property name="sizeHint" stdset="0">
+                          <size>
+                           <width>18</width>
+                           <height>20</height>
+                          </size>
+                         </property>
+                        </spacer>
+                       </item>
+                       <item>
+                        <widget class="QSlider" name="contrastSlider">
+                         <property name="styleSheet">
+                          <string notr="true">QSlider {color: rgb(255, 255, 255)};
+</string>
+                         </property>
+                         <property name="orientation">
+                          <enum>Qt::Horizontal</enum>
+                         </property>
+                        </widget>
+                       </item>
+                      </layout>
+                     </item>
+                    </layout>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <layout class="QHBoxLayout" name="horizontalLayout_20">
+                  <item>
+                   <widget class="QGroupBox" name="implantGroupBox">
+                    <property name="font">
+                     <font>
+                      <family>Tmon몬소리 Black</family>
+                      <pointsize>11</pointsize>
+                      <bold>true</bold>
+                     </font>
+                    </property>
+                    <property name="styleSheet">
+                     <string notr="true">QGroupBox {
+	color: rgb(153, 230, 252);
+	border-top: 1px dashed rgb(153, 230, 252);
+	padding-top: 15px;
+}
+
+QGroupBox::title {
+	subcontrol-origin: margin;
+	subcontrol-position: top left;
+	padding-right: 10px;
+}</string>
+                    </property>
+                    <property name="title">
+                     <string>Implant</string>
+                    </property>
+                    <layout class="QVBoxLayout" name="verticalLayout_31">
+                     <property name="leftMargin">
+                      <number>20</number>
+                     </property>
+                     <property name="topMargin">
+                      <number>15</number>
+                     </property>
+                     <item>
+                      <widget class="QPushButton" name="implantPushButton">
+                       <property name="minimumSize">
+                        <size>
+                         <width>0</width>
+                         <height>25</height>
+                        </size>
+                       </property>
+                       <property name="maximumSize">
+                        <size>
+                         <width>16777215</width>
+                         <height>25</height>
+                        </size>
+                       </property>
+                       <property name="font">
+                        <font>
+                         <family>고도 M</family>
+                         <pointsize>10</pointsize>
+                        </font>
+                       </property>
+                       <property name="toolTip">
+                        <string>Implant</string>
+                       </property>
+                       <property name="styleSheet">
+                        <string notr="true">QPushButton {
+	background-color: rgb(255, 255, 255);
+	border-radius:5px;
+	border: 1.5px solid rgb(153, 230, 252);
+}
+</string>
+                       </property>
+                       <property name="text">
+                        <string> Implant</string>
+                       </property>
+                       <property name="icon">
+                        <iconset resource="Image.qrc">
+                         <normaloff>:/iii/iii/implant.png</normaloff>:/iii/iii/implant.png</iconset>
+                       </property>
+                       <property name="iconSize">
+                        <size>
+                         <width>20</width>
+                         <height>20</height>
+                        </size>
+                       </property>
+                      </widget>
+                     </item>
+                    </layout>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+               </layout>
+              </item>
+             </layout>
+            </widget>
+           </widget>
+          </item>
+          <item>
+           <spacer name="verticalSpacer_5">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeType">
+             <enum>QSizePolicy::Fixed</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>15</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <layout class="QGridLayout" name="gridLayout_2">
+            <item row="0" column="0">
+             <layout class="QVBoxLayout" name="verticalLayout_6">
+              <item>
+               <layout class="QVBoxLayout" name="verticalLayout_3">
+                <item>
+                 <widget class="QLabel" name="label">
+                  <property name="font">
+                   <font>
+                    <family>Tmon몬소리 Black</family>
+                    <pointsize>9</pointsize>
+                    <bold>true</bold>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">QLabel {
+	color: rgb(0, 0, 0);
+}</string>
+                  </property>
+                  <property name="text">
+                   <string>Thickness</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QDoubleSpinBox" name="doubleSpinBox">
+                  <property name="minimumSize">
+                   <size>
+                    <width>120</width>
+                    <height>22</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>120</width>
+                    <height>22</height>
+                   </size>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">QDoubleSpinBox {
+	background-color: rgb(255, 255, 255);
+	border-radius:5px;
+	border: 0.5px solid rgb(0, 0, 0);
+}</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <layout class="QVBoxLayout" name="verticalLayout_5">
+                <item>
+                 <widget class="QLabel" name="label_2">
+                  <property name="font">
+                   <font>
+                    <family>Tmon몬소리 Black</family>
+                    <pointsize>9</pointsize>
+                    <bold>true</bold>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">QLabel {
+	color: rgb(0, 0, 0);
+}</string>
+                  </property>
+                  <property name="text">
+                   <string>Rotating Shape</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QDoubleSpinBox" name="rotateDoubleSpinBox">
+                  <property name="minimumSize">
+                   <size>
+                    <width>120</width>
+                    <height>22</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>120</width>
+                    <height>22</height>
+                   </size>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">QDoubleSpinBox {
+	background-color: rgb(255, 255, 255);
+	border-radius:5px;
+	border: 0.5px solid rgb(0, 0, 0);
+}</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+             </layout>
+            </item>
+            <item row="0" column="1">
+             <layout class="QVBoxLayout" name="verticalLayout_8">
+              <item>
+               <spacer name="verticalSpacer_3">
+                <property name="orientation">
+                 <enum>Qt::Vertical</enum>
+                </property>
+                <property name="sizeType">
+                 <enum>QSizePolicy::Fixed</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>20</width>
+                  <height>15</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item>
+               <widget class="QPushButton" name="colorPushButton">
+                <property name="minimumSize">
+                 <size>
+                  <width>60</width>
+                  <height>85</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>60</width>
+                  <height>85</height>
+                 </size>
+                </property>
+                <property name="font">
+                 <font>
+                  <family>고도 M</family>
+                  <pointsize>10</pointsize>
+                 </font>
+                </property>
+                <property name="toolTip">
+                 <string>Color</string>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">QPushButton {
+   background-color: rgb(255, 255, 255);
+	border-radius:5px;
+	border: 1.5px solid rgb(32, 56, 100);
+}</string>
+                </property>
+                <property name="text">
+                 <string/>
+                </property>
+                <property name="icon">
+                 <iconset resource="Image.qrc">
+                  <normaloff>:/iii/iii/c5.png</normaloff>:/iii/iii/c5.png</iconset>
+                </property>
+                <property name="iconSize">
+                 <size>
+                  <width>40</width>
+                  <height>40</height>
+                 </size>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <spacer name="verticalSpacer_6">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeType">
+             <enum>QSizePolicy::Fixed</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>15</width>
+              <height>50</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QWidget" name="horizontalLayoutWidget">
+         <layout class="QHBoxLayout" name="horizontalLayout">
+          <property name="leftMargin">
+           <number>3</number>
+          </property>
+          <property name="rightMargin">
+           <number>5</number>
+          </property>
+          <item>
+           <widget class="QTableView" name="patientTableView">
+            <property name="font">
+             <font>
+              <family>고도 M</family>
+             </font>
+            </property>
+            <property name="toolTip">
+             <string>Patio</string>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QTableView {
+	background-color: rgb(231, 230, 230);
+	border: 1.5px solid rgb(255, 255, 255);
+}</string>
+            </property>
+            <property name="editTriggers">
+             <set>QAbstractItemView::NoEditTriggers</set>
+            </property>
+            <property name="alternatingRowColors">
+             <bool>false</bool>
+            </property>
+            <property name="selectionBehavior">
+             <enum>QAbstractItemView::SelectRows</enum>
+            </property>
+            <property name="gridStyle">
+             <enum>Qt::SolidLine</enum>
+            </property>
+            <attribute name="verticalHeaderDefaultSectionSize">
+             <number>30</number>
+            </attribute>
+            <attribute name="verticalHeaderHighlightSections">
+             <bool>false</bool>
+            </attribute>
+            <attribute name="verticalHeaderStretchLastSection">
+             <bool>false</bool>
+            </attribute>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </widget>
+       <widget class="QSplitter" name="splitter2">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <widget class="QWidget" name="layoutWidget">
+         <layout class="QVBoxLayout" name="verticalLayout_11">
+          <item>
+           <widget class="QMdiArea" name="mdiArea">
+            <property name="styleSheet">
+             <string notr="true">QMdiArea {background-color: rgb(32, 56, 100)};
+</string>
+            </property>
+            <property name="viewMode">
+             <enum>QMdiArea::TabbedView</enum>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="verticalSpacer_7">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeType">
+             <enum>QSizePolicy::Fixed</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>7</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="Line" name="line">
+            <property name="styleSheet">
+             <string notr="true"/>
+            </property>
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="verticalSpacer">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeType">
+             <enum>QSizePolicy::Fixed</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>2</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QWidget" name="layoutWidget">
+         <layout class="QHBoxLayout" name="horizontalLayout_14">
+          <item>
+           <spacer name="horizontalSpacer_9">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QListWidget" name="listWidget">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>100</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>100</height>
+             </size>
+            </property>
+            <property name="toolTip">
+             <string>Image List</string>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QListWidget {
+	background-color: rgb(255, 255, 255);
+	border-radius:5px;
+	border: 1.5px solid rgb(32, 56, 100);
+}</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_10">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </widget>
+       </widget>
+      </widget>
+      <widget class="QFrame" name="frame">
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="toolTip">
+        <string>Key Features</string>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::StyledPanel</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Raised</enum>
+       </property>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <widget class="QToolBar" name="toolBar">
+   <property name="font">
+    <font>
+     <family>고도 M</family>
+     <pointsize>11</pointsize>
+    </font>
+   </property>
+   <property name="windowTitle">
+    <string>toolBar</string>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QToolBar {
+	background-color: rgb(32, 56, 100);
+    color: rgb(255, 255, 255);
+}</string>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionSave"/>
+   <addaction name="separator"/>
+   <addaction name="actionUpload"/>
+   <addaction name="separator"/>
+   <addaction name="actionSource_Size"/>
+   <addaction name="separator"/>
+   <addaction name="actionImage_Processing_Clear"/>
+   <addaction name="separator"/>
+   <addaction name="actionDraw_Clear"/>
+   <addaction name="separator"/>
+   <addaction name="actionImplant_Clear"/>
+   <addaction name="separator"/>
+   <addaction name="actionLayout_Clear"/>
+  </widget>
+  <action name="actionSave">
+   <property name="text">
+    <string>Save</string>
+   </property>
+  </action>
+  <action name="actionSource_Size">
+   <property name="text">
+    <string>Source Size</string>
+   </property>
+  </action>
+  <action name="actionImage_Processing_Clear">
+   <property name="text">
+    <string>Image Processing Clear</string>
+   </property>
+  </action>
+  <action name="actionDraw_Clear">
+   <property name="text">
+    <string>Draw Clear</string>
+   </property>
+  </action>
+  <action name="actionImplant_Clear">
+   <property name="text">
+    <string>Implant Clear</string>
+   </property>
+  </action>
+  <action name="actionLayout_Clear">
+   <property name="text">
+    <string>Layout Clear</string>
+   </property>
+  </action>
+  <action name="actionUpload">
+   <property name="text">
+    <string>Upload</string>
+   </property>
+  </action>
+ </widget>
+ <resources>
+  <include location="Image.qrc"/>
+ </resources>
+ <connections/>
+</ui>

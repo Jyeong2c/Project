@@ -2,8 +2,6 @@
 #define DOWNLOADER_H
 
 #include <QObject>
-#include <QtTest/QtTest>
-#include <QTest>
 
 /*서버와 파일 다루기 위한 Qclass*/
 class QNetworkAccessManager;

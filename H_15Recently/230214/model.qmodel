@@ -1,0 +1,1120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<qmt>
+ <project>
+  <uid>{19a0db28-ef39-4172-b27f-6230fa30e01b}</uid>
+  <root-package>
+   <instance>
+    <MPackage>
+     <base-MObject>
+      <MObject>
+       <base-MElement>
+        <MElement>
+         <uid>{20b36b4d-0f58-4bad-95a6-213e178f15b1}</uid>
+        </MElement>
+       </base-MElement>
+       <name>Model</name>
+       <children>
+        <handles>
+         <handles>
+          <qlist>
+           <item>
+            <handle>
+             <uid>{a67affb8-2b8a-4951-93d6-43b80300f87f}</uid>
+             <target>
+              <instance type="MCanvasDiagram">
+               <MCanvasDiagram>
+                <base-MDiagram>
+                 <MDiagram>
+                  <base-MObject>
+                   <MObject>
+                    <base-MElement>
+                     <MElement>
+                      <uid>{a67affb8-2b8a-4951-93d6-43b80300f87f}</uid>
+                     </MElement>
+                    </base-MElement>
+                    <name>Model</name>
+                   </MObject>
+                  </base-MObject>
+                  <elements>
+                   <qlist>
+                    <item>
+                     <instance type="DClass">
+                      <DClass>
+                       <base-DObject>
+                        <DObject>
+                         <base-DElement>
+                          <DElement>
+                           <uid>{2a600d57-7d6e-4a83-855c-fddc8670530e}</uid>
+                          </DElement>
+                         </base-DElement>
+                         <object>{4a5dd4b8-581e-4677-82e9-44746ebe15a3}</object>
+                         <name>MaxLayout Class</name>
+                         <pos>x:-595;y:90</pos>
+                         <rect>x:-180;y:-430;w:360;h:860</rect>
+                         <visual-role>0</visual-role>
+                        </DObject>
+                       </base-DObject>
+                       <show-all-members>true</show-all-members>
+                      </DClass>
+                     </instance>
+                    </item>
+                    <item>
+                     <instance type="DClass">
+                      <DClass>
+                       <base-DObject>
+                        <DObject>
+                         <base-DElement>
+                          <DElement>
+                           <uid>{4e7d7806-2bea-4c98-a460-e30ba1bbee83}</uid>
+                          </DElement>
+                         </base-DElement>
+                         <object>{2fa40c12-c55d-4092-b2a7-3a7c0a35b9b1}</object>
+                         <name>New Class</name>
+                         <pos>x:-200;y:105</pos>
+                         <rect>x:-180;y:-545;w:360;h:1090</rect>
+                         <visual-role>0</visual-role>
+                        </DObject>
+                       </base-DObject>
+                       <show-all-members>true</show-all-members>
+                      </DClass>
+                     </instance>
+                    </item>
+                   </qlist>
+                  </elements>
+                  <last-modified>1676446678260</last-modified>
+                  <toolbarid>General</toolbarid>
+                 </MDiagram>
+                </base-MDiagram>
+               </MCanvasDiagram>
+              </instance>
+             </target>
+            </handle>
+           </item>
+           <item>
+            <handle>
+             <uid>{4a5dd4b8-581e-4677-82e9-44746ebe15a3}</uid>
+             <target>
+              <instance type="MClass">
+               <MClass>
+                <base-MObject>
+                 <MObject>
+                  <base-MElement>
+                   <MElement>
+                    <uid>{4a5dd4b8-581e-4677-82e9-44746ebe15a3}</uid>
+                   </MElement>
+                  </base-MElement>
+                  <name>MaxLayout Class</name>
+                 </MObject>
+                </base-MObject>
+                <members>
+                 <qlist>
+                  <item>
+                   <MClassMember>
+                    <uid>{ef511184-ff8b-4682-9e72-8a0625d279b4}</uid>
+                    <type>1</type>
+                    <declaration>class QHBoxLayout</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{24aeaae5-9010-4e3a-b2ee-bf04877b95c5}</uid>
+                    <type>1</type>
+                    <declaration>class QGraphicsView</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{03d1bd7e-dc40-444a-afee-52fcbdec7045}</uid>
+                    <type>1</type>
+                    <declaration>class QGraphicsScene</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{38b60f14-22cf-4a6b-8c05-8ff8178c4107}</uid>
+                    <type>1</type>
+                    <declaration>class QPushButton</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{0b46491e-7ada-4c66-afa5-e88f0076803a}</uid>
+                    <type>1</type>
+                    <declaration>class View</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{07699acb-03a7-4560-90c4-ca4119478a66}</uid>
+                    <type>1</type>
+                    <declaration>class Scene</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{cb8ec8e3-d9b3-4362-aecf-3b4354c889ff}</uid>
+                    <type>1</type>
+                    <declaration>class Maxlayout : public QWidget</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{e84791da-a2ff-42ef-8797-2cdb19ce68b6}</uid>
+                    <type>2</type>
+                    <declaration>{     Q_OBJECT public:     explicit Maxlayout(QWidget *parent = nullptr)</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{5ca2d987-3f41-4c38-a807-ee269b5aa17e}</uid>
+                    <type>1</type>
+                    <declaration>View *maxNewGrid</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{0fadb5a7-a167-4abe-97d5-74876151f91e}</uid>
+                    <type>1</type>
+                    <declaration>Scene *maxNewSc</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{12350be9-0270-4517-957b-b98cd66f2c59}</uid>
+                    <type>1</type>
+                    <declaration>QPushButton *viewQuit</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{4f3e528a-e9b6-4363-bd76-7a4f11c28b28}</uid>
+                    <type>1</type>
+                    <declaration>QPoint DPointLeft</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{02a0eda9-bfa9-4620-8cbc-57fb6b1ba6c1}</uid>
+                    <type>1</type>
+                    <declaration>QPointF clickPoint</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{214c0c55-f000-4427-a454-4727928e01bc}</uid>
+                    <type>2</type>
+                    <declaration>void setNewSc(Scene*)</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{5515adb4-f4fb-4b1b-b9ac-6acfa0061ca9}</uid>
+                    <type>2</type>
+                    <declaration>void setNewGrid(View*)</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{2e52296a-ca88-43e4-a73a-a1ef98e37a02}</uid>
+                    <visibility>2</visibility>
+                    <type>2</type>
+                    <declaration>void a()</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{e61a8043-848f-4204-b687-2951575f4db7}</uid>
+                    <visibility>7</visibility>
+                    <type>2</type>
+                    <declaration>void slotD_11(QPixmap* teeth11)</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{6011f8a3-0169-409f-8e62-b31e14bffd67}</uid>
+                    <visibility>7</visibility>
+                    <type>2</type>
+                    <declaration>void slotD_12(QPixmap* teeth12)</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{d0be5d60-6578-4fce-baa4-fc2d2ecb4b49}</uid>
+                    <visibility>7</visibility>
+                    <type>2</type>
+                    <declaration>void slotD_13(QPixmap* teeth13)</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{640b6ac2-385c-44de-9cff-3df4f261ae2f}</uid>
+                    <visibility>7</visibility>
+                    <type>2</type>
+                    <declaration>void slotD_14(QPixmap* teeth14)</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{e3a52fab-8d1e-4d1b-b6c2-02d55e77ccd2}</uid>
+                    <visibility>7</visibility>
+                    <type>2</type>
+                    <declaration>void slotD_15(QPixmap* teeth15)</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{96074736-7d06-41fd-b51d-3ac32d7a6aa4}</uid>
+                    <visibility>7</visibility>
+                    <type>2</type>
+                    <declaration>void slotD_16(QPixmap* teeth16)</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{2001ffc1-93ae-4b51-a97a-6ebad4d7d613}</uid>
+                    <visibility>7</visibility>
+                    <type>2</type>
+                    <declaration>void slotD_17(QPixmap* teeth17)</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{af7d4165-c50e-47b7-b6c8-32cee09146f3}</uid>
+                    <visibility>7</visibility>
+                    <type>2</type>
+                    <declaration>void slotD_21(QPixmap* teeth21)</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{059afe20-1e5d-48be-a256-f9903778d193}</uid>
+                    <visibility>7</visibility>
+                    <type>2</type>
+                    <declaration>void slotD_22(QPixmap* teeth22)</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{9728e7a5-8d93-463f-8937-defa04642abd}</uid>
+                    <visibility>7</visibility>
+                    <type>2</type>
+                    <declaration>void slotD_23(QPixmap* teeth23)</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{64927437-5e30-45b7-914a-c8295a98eda1}</uid>
+                    <visibility>7</visibility>
+                    <type>2</type>
+                    <declaration>void slotD_24(QPixmap* teeth24)</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{7ffee378-0e54-4ef6-b133-3c4df1e5f702}</uid>
+                    <visibility>7</visibility>
+                    <type>2</type>
+                    <declaration>void slotD_25(QPixmap* teeth25)</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{0b097e45-4bb6-4c94-a40c-b4e507d7d810}</uid>
+                    <visibility>7</visibility>
+                    <type>2</type>
+                    <declaration>void slotD_26(QPixmap* teeth26)</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{6d445631-4483-4efe-8e04-9db0ba98e253}</uid>
+                    <visibility>7</visibility>
+                    <type>2</type>
+                    <declaration>void slotD_27(QPixmap* teeth27)</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{9be1810f-69fe-4254-b307-7aff8ad8716d}</uid>
+                    <visibility>7</visibility>
+                    <type>2</type>
+                    <declaration>void slotD_31(QPixmap* teeth31)</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{9ae05a52-5885-4802-ae7e-d5c6d5f7c500}</uid>
+                    <visibility>7</visibility>
+                    <type>2</type>
+                    <declaration>void slotD_32(QPixmap* teeth32)</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{4a125a07-6637-41f8-b05f-b6412d4598de}</uid>
+                    <visibility>7</visibility>
+                    <type>2</type>
+                    <declaration>void slotD_33(QPixmap* teeth33)</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{b7c1e8f8-d3d6-4e85-a601-3967920874c7}</uid>
+                    <visibility>7</visibility>
+                    <type>2</type>
+                    <declaration>void slotD_34(QPixmap* teeth34)</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{bcf53c14-706c-44b7-9402-68b0eb8bd5e4}</uid>
+                    <visibility>7</visibility>
+                    <type>2</type>
+                    <declaration>void slotD_35(QPixmap* teeth35)</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{f9d1f5a1-fae1-4782-be01-06861a741567}</uid>
+                    <visibility>7</visibility>
+                    <type>2</type>
+                    <declaration>void slotD_36(QPixmap* teeth36)</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{f075550d-480f-4042-82f2-55abb5abd753}</uid>
+                    <visibility>7</visibility>
+                    <type>2</type>
+                    <declaration>void slotD_37(QPixmap* teeth37)</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{606bc2e7-e9bb-4bea-a0a3-00125dd85de1}</uid>
+                    <visibility>7</visibility>
+                    <type>2</type>
+                    <declaration>void slotD_41(QPixmap* teeth41)</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{b9d33f03-9f92-45c8-a099-c660a4e7cb55}</uid>
+                    <visibility>7</visibility>
+                    <type>2</type>
+                    <declaration>void slotD_42(QPixmap* teeth42)</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{9683d22f-cc05-4b1d-a3a3-0988f8a0cd6e}</uid>
+                    <visibility>7</visibility>
+                    <type>2</type>
+                    <declaration>void slotD_43(QPixmap* teeth43)</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{19ed0fad-99ac-4e2a-996f-666079d596b5}</uid>
+                    <visibility>7</visibility>
+                    <type>2</type>
+                    <declaration>void slotD_44(QPixmap* teeth44)</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{0ee1b7c5-19ea-4a2e-ad9b-41e2ec9b3a52}</uid>
+                    <visibility>7</visibility>
+                    <type>2</type>
+                    <declaration>void slotD_45(QPixmap* teeth45)</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{5153ee12-9a5f-4068-aac5-1dc450031f40}</uid>
+                    <visibility>7</visibility>
+                    <type>2</type>
+                    <declaration>void slotD_46(QPixmap* teeth46)</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{aeb54a95-f528-4d4b-9b22-24ebec266a38}</uid>
+                    <visibility>7</visibility>
+                    <type>2</type>
+                    <declaration>void slotD_47(QPixmap* teeth47)</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{879430f8-1020-4d1d-9d38-d3d044de8483}</uid>
+                    <visibility>2</visibility>
+                    <type>2</type>
+                    <properties>8</properties>
+                    <declaration>void resizeEvent(QResizeEvent * event)</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{10c55cd3-cb01-4b80-829e-1c7e6481248b}</uid>
+                    <visibility>2</visibility>
+                    <type>2</type>
+                    <properties>8</properties>
+                    <declaration>void mousePressEvent(QMouseEvent *event)</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{26f57282-abb0-4780-babb-49d57f6ca8af}</uid>
+                    <visibility>4</visibility>
+                    <type>2</type>
+                    <declaration>void sig_clicked(QPointF)</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{291de75c-4264-4347-8282-381a6d74c522}</uid>
+                    <visibility>4</visibility>
+                    <type>2</type>
+                    <declaration>void sig_leftDClicked(QPointF)</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{0b2b03e8-fc8d-4ee6-8190-3b422ffd035f}</uid>
+                    <visibility>3</visibility>
+                    <type>1</type>
+                    <declaration>QWidget *maxWidget</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{c0295dc2-cd03-4cb5-8624-600c433f2d38}</uid>
+                    <visibility>3</visibility>
+                    <type>1</type>
+                    <declaration>QHBoxLayout *maxLayBox</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{f1188057-7f95-497c-a87f-53fac4d2d0e9}</uid>
+                    <visibility>3</visibility>
+                    <type>1</type>
+                    <declaration>QPixmap* showTeeth</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{e6e8a3dd-5e82-4011-a89f-aa461f264392}</uid>
+                    <visibility>3</visibility>
+                    <type>1</type>
+                    <declaration>}</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{f454fc83-99df-487d-863c-e72bfa49f6c7}</uid>
+                    <visibility>3</visibility>
+                    <type>1</type>
+                    <declaration>#endif</declaration>
+                   </MClassMember>
+                  </item>
+                 </qlist>
+                </members>
+               </MClass>
+              </instance>
+             </target>
+            </handle>
+           </item>
+           <item>
+            <handle>
+             <uid>{49d7464c-afcb-446b-93d2-f8c5fd3fd439}</uid>
+             <target>
+              <instance type="MClass">
+               <MClass>
+                <base-MObject>
+                 <MObject>
+                  <base-MElement>
+                   <MElement>
+                    <uid>{49d7464c-afcb-446b-93d2-f8c5fd3fd439}</uid>
+                   </MElement>
+                  </base-MElement>
+                  <name>New Class</name>
+                 </MObject>
+                </base-MObject>
+               </MClass>
+              </instance>
+             </target>
+            </handle>
+           </item>
+           <item>
+            <handle>
+             <uid>{2fa40c12-c55d-4092-b2a7-3a7c0a35b9b1}</uid>
+             <target>
+              <instance type="MClass">
+               <MClass>
+                <base-MObject>
+                 <MObject>
+                  <base-MElement>
+                   <MElement>
+                    <uid>{2fa40c12-c55d-4092-b2a7-3a7c0a35b9b1}</uid>
+                   </MElement>
+                  </base-MElement>
+                  <name>New Class</name>
+                 </MObject>
+                </base-MObject>
+                <members>
+                 <qlist>
+                  <item>
+                   <MClassMember>
+                    <uid>{63e4e5b2-ab1c-486f-a303-cec0f3cec78b}</uid>
+                    <type>1</type>
+                    <declaration>#ifndef TEETHFORM_H</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{1c98ab1a-47a5-4519-9e86-7d597e049ef0}</uid>
+                    <type>1</type>
+                    <declaration>#define TEETHFORM_H</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{b265a1d3-f6ab-4f60-883c-fcee76375097}</uid>
+                    <type>1</type>
+                    <declaration>#include &lt;QWidget&gt;</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{30e07c51-7a3e-4d5b-9b1c-ded4b7107eb0}</uid>
+                    <type>1</type>
+                    <declaration>#include &lt;QLabel&gt;</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{24c437a6-64b8-4981-892b-1d5d37b9b802}</uid>
+                    <type>1</type>
+                    <declaration>namespace Ui { class TeethForm</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{eb98e4a3-0387-4f8c-bfa5-f733e026598c}</uid>
+                    <type>1</type>
+                    <declaration>}</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{4b0e14b5-cf83-41b7-9bd4-68e7ec14889a}</uid>
+                    <type>1</type>
+                    <declaration>class TeethForm : public QWidget</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{7cccf5aa-e078-41c5-92f0-2a7a16662d73}</uid>
+                    <type>2</type>
+                    <declaration>{     Q_OBJECT  public:     explicit TeethForm(QWidget *parent = nullptr)</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{64ba99a4-2e50-465b-86db-6b718f69a74a}</uid>
+                    <type>2</type>
+                    <declaration>~TeethForm()</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{d050c39c-2ebc-40f5-9a29-811443e5ef6e}</uid>
+                    <visibility>5</visibility>
+                    <type>2</type>
+                    <declaration>void on_toolButton_11_clicked()</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{e1a103d6-f5db-4031-9eab-b67f02016220}</uid>
+                    <visibility>5</visibility>
+                    <type>2</type>
+                    <declaration>void on_toolButton_12_clicked()</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{2a65d171-dbbc-4068-bd00-dfc618653a79}</uid>
+                    <visibility>5</visibility>
+                    <type>2</type>
+                    <declaration>void on_toolButton_13_clicked()</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{1d271b46-e67c-4c50-b3f0-bede6d7b3d01}</uid>
+                    <visibility>5</visibility>
+                    <type>2</type>
+                    <declaration>void on_toolButton_14_clicked()</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{985c62bc-ecf5-4bc4-970e-b971ce3b5bae}</uid>
+                    <visibility>5</visibility>
+                    <type>2</type>
+                    <declaration>void on_toolButton_15_clicked()</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{12e46793-a0f6-4f0e-a4fa-3441f76ddf2f}</uid>
+                    <visibility>5</visibility>
+                    <type>2</type>
+                    <declaration>void on_toolButton_16_clicked()</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{28e79265-f83b-4a24-8a60-63d43b74a349}</uid>
+                    <visibility>5</visibility>
+                    <type>2</type>
+                    <declaration>void on_toolButton_17_clicked()</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{1d22ca85-d145-4ae2-be51-4bf2abd98aaf}</uid>
+                    <visibility>5</visibility>
+                    <type>2</type>
+                    <declaration>void on_toolButton_21_clicked()</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{6b0142e6-159f-4fc4-b444-9da48c6fa694}</uid>
+                    <visibility>5</visibility>
+                    <type>2</type>
+                    <declaration>void on_toolButton_22_clicked()</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{efde4f6b-2897-4a30-8cce-ac8baa8f6b13}</uid>
+                    <visibility>5</visibility>
+                    <type>2</type>
+                    <declaration>void on_toolButton_23_clicked()</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{1163a32c-29b4-4944-bb7c-ed2411414771}</uid>
+                    <visibility>5</visibility>
+                    <type>2</type>
+                    <declaration>void on_toolButton_24_clicked()</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{78b0fbde-e57b-4f48-a1b7-48077b1e2755}</uid>
+                    <visibility>5</visibility>
+                    <type>2</type>
+                    <declaration>void on_toolButton_25_clicked()</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{19e70a3e-05a8-4106-8344-880e47c12222}</uid>
+                    <visibility>5</visibility>
+                    <type>2</type>
+                    <declaration>void on_toolButton_26_clicked()</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{80888eeb-fa76-498a-92e8-c2446c1ec68f}</uid>
+                    <visibility>5</visibility>
+                    <type>2</type>
+                    <declaration>void on_toolButton_27_clicked()</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{21f675e3-3a9e-4209-84e6-e29cd3ca7d24}</uid>
+                    <visibility>5</visibility>
+                    <type>2</type>
+                    <declaration>void on_toolButton_31_clicked()</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{306210eb-b8cb-4325-921e-0556255a2668}</uid>
+                    <visibility>5</visibility>
+                    <type>2</type>
+                    <declaration>void on_toolButton_32_clicked()</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{712441be-99d0-4cc5-ba20-3bd86ac3cc86}</uid>
+                    <visibility>5</visibility>
+                    <type>2</type>
+                    <declaration>void on_toolButton_33_clicked()</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{be5c7848-96ae-4b29-a16f-b8b1845c3dbd}</uid>
+                    <visibility>5</visibility>
+                    <type>2</type>
+                    <declaration>void on_toolButton_34_clicked()</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{04cd0b34-5a60-4137-ae85-f3b1215bd4a9}</uid>
+                    <visibility>5</visibility>
+                    <type>2</type>
+                    <declaration>void on_toolButton_35_clicked()</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{60b21ab8-409e-4045-be60-f95a9e798167}</uid>
+                    <visibility>5</visibility>
+                    <type>2</type>
+                    <declaration>void on_toolButton_36_clicked()</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{929bb048-a88d-42eb-a67b-09747c7fe47f}</uid>
+                    <visibility>5</visibility>
+                    <type>2</type>
+                    <declaration>void on_toolButton_37_clicked()</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{4720e763-f541-46a6-a845-1347e82fd1d6}</uid>
+                    <visibility>5</visibility>
+                    <type>2</type>
+                    <declaration>void on_toolButton_41_clicked()</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{bb274ae7-ed80-48fa-bec2-e90582e6f280}</uid>
+                    <visibility>5</visibility>
+                    <type>2</type>
+                    <declaration>void on_toolButton_42_clicked()</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{a12a6a70-a54d-45cb-a882-3996d8fafbd0}</uid>
+                    <visibility>5</visibility>
+                    <type>2</type>
+                    <declaration>void on_toolButton_43_clicked()</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{8275c0ee-1d07-464b-9b23-1333792ef0ea}</uid>
+                    <visibility>5</visibility>
+                    <type>2</type>
+                    <declaration>void on_toolButton_44_clicked()</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{9b4eee97-6672-4d9b-baf1-e44911f55edd}</uid>
+                    <visibility>5</visibility>
+                    <type>2</type>
+                    <declaration>void on_toolButton_45_clicked()</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{85541a70-01c5-416f-8cc4-ffef53d5d01d}</uid>
+                    <visibility>5</visibility>
+                    <type>2</type>
+                    <declaration>void on_toolButton_46_clicked()</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{8b3485a4-6adc-43cc-9be2-7922fe597c23}</uid>
+                    <visibility>5</visibility>
+                    <type>2</type>
+                    <declaration>void on_toolButton_47_clicked()</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{b6dbb39e-eed9-467a-8deb-ef16723c729b}</uid>
+                    <visibility>3</visibility>
+                    <type>1</type>
+                    <declaration>Ui::TeethForm *ui</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{a8ad7003-d035-4292-8632-70b2263fa4a7}</uid>
+                    <visibility>4</visibility>
+                    <type>2</type>
+                    <declaration>void sig_11(QPixmap*)</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{8752146f-7064-4f7a-92f9-29d085bd3671}</uid>
+                    <visibility>4</visibility>
+                    <type>2</type>
+                    <declaration>void sig_12(QPixmap*)</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{9219c769-5300-4f38-8e00-7430768f7575}</uid>
+                    <visibility>4</visibility>
+                    <type>2</type>
+                    <declaration>void sig_13(QPixmap*)</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{e6446053-506e-489e-8c97-630294deb53a}</uid>
+                    <visibility>4</visibility>
+                    <type>2</type>
+                    <declaration>void sig_14(QPixmap*)</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{23082ad9-4058-40a7-88b9-8f32ec50565d}</uid>
+                    <visibility>4</visibility>
+                    <type>2</type>
+                    <declaration>void sig_15(QPixmap*)</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{0381781e-4421-443d-8a99-46573e0c68b4}</uid>
+                    <visibility>4</visibility>
+                    <type>2</type>
+                    <declaration>void sig_16(QPixmap*)</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{d38685a6-b32a-4cbd-aa5a-a4a9d235b3b4}</uid>
+                    <visibility>4</visibility>
+                    <type>2</type>
+                    <declaration>void sig_17(QPixmap*)</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{16885244-9e40-491c-a194-deb081041b79}</uid>
+                    <visibility>4</visibility>
+                    <type>2</type>
+                    <declaration>void sig_21(QPixmap*)</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{ca8e5fae-92b8-4111-85a3-e63e1a4398fd}</uid>
+                    <visibility>4</visibility>
+                    <type>2</type>
+                    <declaration>void sig_22(QPixmap*)</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{26d7596a-3269-46e8-a14b-e470cd92f975}</uid>
+                    <visibility>4</visibility>
+                    <type>2</type>
+                    <declaration>void sig_23(QPixmap*)</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{91f510f4-f66b-4300-82f6-1c569ca5ba6a}</uid>
+                    <visibility>4</visibility>
+                    <type>2</type>
+                    <declaration>void sig_24(QPixmap*)</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{04743f29-efe2-49ef-85bd-3b270ac3703d}</uid>
+                    <visibility>4</visibility>
+                    <type>2</type>
+                    <declaration>void sig_25(QPixmap*)</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{4759ab81-6e10-4bb7-bfe6-76321534a190}</uid>
+                    <visibility>4</visibility>
+                    <type>2</type>
+                    <declaration>void sig_26(QPixmap*)</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{7e3903aa-d864-45d2-b8cc-b1a9112041cc}</uid>
+                    <visibility>4</visibility>
+                    <type>2</type>
+                    <declaration>void sig_27(QPixmap*)</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{3b5712cb-434c-427e-a175-3324aeee7b2e}</uid>
+                    <visibility>4</visibility>
+                    <type>2</type>
+                    <declaration>void sig_31(QPixmap*)</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{d5a23dc9-5ee3-4637-9dbc-828a114b9709}</uid>
+                    <visibility>4</visibility>
+                    <type>2</type>
+                    <declaration>void sig_32(QPixmap*)</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{9a4c57ad-8ec2-4d74-96a7-725488577754}</uid>
+                    <visibility>4</visibility>
+                    <type>2</type>
+                    <declaration>void sig_33(QPixmap*)</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{e2ce5a5a-9b0e-43d1-ae0c-d8acbdd792fd}</uid>
+                    <visibility>4</visibility>
+                    <type>2</type>
+                    <declaration>void sig_34(QPixmap*)</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{9aec8307-5efb-463f-8471-3d1ee0094201}</uid>
+                    <visibility>4</visibility>
+                    <type>2</type>
+                    <declaration>void sig_35(QPixmap*)</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{2f0541a8-5dcf-48bb-b8cf-a4d2cf4e6ec8}</uid>
+                    <visibility>4</visibility>
+                    <type>2</type>
+                    <declaration>void sig_36(QPixmap*)</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{ed03c50a-3a7a-4750-8cc8-3294877637ab}</uid>
+                    <visibility>4</visibility>
+                    <type>2</type>
+                    <declaration>void sig_37(QPixmap*)</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{76dcd16a-b88e-4d5a-8de4-dd20b9a8a48a}</uid>
+                    <visibility>4</visibility>
+                    <type>2</type>
+                    <declaration>void sig_41(QPixmap*)</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{eea58ef9-e22d-4ace-a27c-49201cee96cb}</uid>
+                    <visibility>4</visibility>
+                    <type>2</type>
+                    <declaration>void sig_42(QPixmap*)</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{6167063b-bb3c-423e-b514-ff79aa1ee26f}</uid>
+                    <visibility>4</visibility>
+                    <type>2</type>
+                    <declaration>void sig_43(QPixmap*)</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{f5e7bd0f-0f49-4ca7-a706-f742bf022f6a}</uid>
+                    <visibility>4</visibility>
+                    <type>2</type>
+                    <declaration>void sig_44(QPixmap*)</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{3fe7b850-9f3a-4449-bcc6-95fec729d336}</uid>
+                    <visibility>4</visibility>
+                    <type>2</type>
+                    <declaration>void sig_45(QPixmap*)</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{3cfcddab-c8da-4137-a336-d6a1ca48027e}</uid>
+                    <visibility>4</visibility>
+                    <type>2</type>
+                    <declaration>void sig_46(QPixmap*)</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{426555ab-5836-4400-8442-b917e5a1e003}</uid>
+                    <visibility>4</visibility>
+                    <type>2</type>
+                    <declaration>void sig_47(QPixmap*)</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{6d6dd575-e5ab-404b-8a4f-9fb75394593d}</uid>
+                    <visibility>4</visibility>
+                    <type>1</type>
+                    <declaration>}</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{03df7498-02e2-4052-afb3-ae881ef04f85}</uid>
+                    <visibility>4</visibility>
+                    <type>1</type>
+                    <declaration>#endif</declaration>
+                   </MClassMember>
+                  </item>
+                 </qlist>
+                </members>
+               </MClass>
+              </instance>
+             </target>
+            </handle>
+           </item>
+          </qlist>
+         </handles>
+        </handles>
+       </children>
+      </MObject>
+     </base-MObject>
+    </MPackage>
+   </instance>
+  </root-package>
+ </project>
+</qmt>

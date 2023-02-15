@@ -76,7 +76,14 @@ MainWindow::MainWindow(QWidget *parent)
 
     /* WindowTitle 지정 */
     stackWidget = new QStackedWidget(this);
-    stackWidget->setWindowTitle(tr("2 X 2 Grid"));
+    //여기서 글꼴과 색상을 변경
+    //stackWidget->setWindowTitle(tr("2 X 2 Grid"));
+    //QString("<span style=\" color:#ff0000;\">%1</span>").arg(">>>");
+    //QString titleName = QString("<span style=\" color:#ff0000;\">%1</span>").arg(tr("2 x 2 Grid"));
+    QFont f("Bold", 50);
+    QString redPart = "2 x 2 Grid";
+    stackWidget->setWindowTitle(redPart);
+    stackWidget->setStyleSheet("font-weight : bold; color : red");
     connect(stackWidget, SIGNAL(destroyed()), stackWidget, SLOT(deleteLater()));
 
 
@@ -604,12 +611,12 @@ void MainWindow::on_layoutClearPushButton_clicked()                    // scene 
 
     cnt = 0;
 
+    customLayout->g = false;
+
     customLayout->grid1->setStyleSheet("border: 0.5px solid rgb(129, 134, 143)");
     customLayout->grid1->setStyleSheet("border: 0.5px solid rgb(129, 134, 143)");
     customLayout->grid3->setStyleSheet("border: 0.5px solid rgb(129, 134, 143)");
     customLayout->grid4->setStyleSheet("border: 0.5px solid rgb(129, 134, 143)");
-
-    customLayout->g = false;
 }
 
 

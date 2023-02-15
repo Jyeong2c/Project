@@ -79,3 +79,6 @@ RESOURCES += \
     DEPENDPATH += C:/opencv/build/x64/vc15
 
     INCLUDEPATH += C:/opencv/build/include
+
+DISTFILES += \
+    model.qmodel
